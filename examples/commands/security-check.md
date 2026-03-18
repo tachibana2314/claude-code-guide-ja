@@ -1,7 +1,11 @@
 ---
-name: security-check
-description: "既知の脅威データベースに対するクイックな設定セキュリティチェック"
+layout: default
+title: "セキュリティチェック"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 25
 ---
+
 
 # セキュリティチェック
 

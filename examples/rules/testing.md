@@ -1,6 +1,10 @@
 ---
-paths: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"]
+layout: default
+title: "テストルール"
+parent: テンプレート
+nav_order: 4
 ---
+
 
 # テスト規約
 

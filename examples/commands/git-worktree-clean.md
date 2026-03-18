@@ -1,7 +1,11 @@
 ---
-name: git-worktree-clean
-description: "マージ済みブランチ検出とディスク使用レポートを含む古い git worktree の一括クリーンアップ"
+layout: default
+title: "Git Worktree クリーン"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 8
 ---
+
 
 # Git Worktree クリーン
 

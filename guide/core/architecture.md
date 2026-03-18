@@ -1,8 +1,11 @@
 ---
-title: "Claude Codeの仕組み: アーキテクチャと内部構造"
-description: "Claude Codeの内部メカニズムとアーキテクチャの技術的な詳細解説"
-tags: [architecture, guide, performance]
+layout: default
+title: "アーキテクチャ"
+parent: コア概念
+grand_parent: ガイド
+nav_order: 1
 ---
+
 
 # Claude Codeの仕組み: アーキテクチャと内部構造
 
@@ -14,7 +17,6 @@ tags: [architecture, guide, performance]
 
 **最終検証**: 2026年2月（Claude Code v2.1.34）
 
----
 
 ## ソースの透明性
 
@@ -28,7 +30,6 @@ tags: [architecture, guide, performance]
 
 各主張にはその確信度レベルが記載されています。利用可能な場合は**常に公式ドキュメントを優先**してください。
 
----
 
 ## TL;DR — 5つの要点
 
@@ -46,7 +47,6 @@ tags: [architecture, guide, performance]
 
 5. **哲学**: 「足場を減らして、モデルをもっと活用する」— 周囲に複雑なオーケストレーションシステムを構築するよりもClaudeの推論を信頼する。
 
----
 
 ## ビジュアル概要
 
@@ -58,7 +58,6 @@ tags: [architecture, guide, performance]
 
 **重要なインサイト**: Claude Codeは新しいAIモデルではありません — ファイル編集、コマンド実行、リポジトリナビゲーションを通じてClaude（Opus/Sonnet/Haiku）を開発環境に接続するオーケストレーション層です。
 
----
 
 ## 目次
 
@@ -77,7 +76,6 @@ tags: [architecture, guide, performance]
 11. [ソースと参考文献](#11-ソースと参考文献)
 12. [付録: わからないこと](#12-付録-わからないこと)
 
----
 
 ## 1. マスターループ
 
@@ -216,7 +214,6 @@ return claude_response.text
 
 **ソース**: [Gur Sannikov分析](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)から統合
 
----
 
 ## 2. ツール武器庫
 
@@ -310,7 +307,6 @@ Claude Codeはコードを検索するための複数の方法を提供し、そ
 
 > **📖 深掘り**: すべての検索ツールを組み合わせた包括的なワークフローについては [Search Tools Mastery](../workflows/search-tools-mastery.md) を参照してください。
 
----
 
 ## 3. コンテキスト管理の内部
 
@@ -388,7 +384,6 @@ Claudeのシステムプロンプト（約5〜15Kトークン）は、透明性�
 
 **注意**: Claude CodeのシステムプロンプトはClaude.ai/モバイルバージョンとは異なる場合があります。上記のソースはClaudeファミリーをカバーしており、Code固有のプロンプトはCLIツールの動作に統合されています。
 
----
 
 ### 自動コンパクション
 
@@ -486,7 +481,6 @@ fi
 
 ソース: [Nick Tune — Workflow DSL: Domain-Driven Claude Code Workflows](https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/)（2026-03-01）
 
----
 
 ## 4. サブエージェントアーキテクチャ
 
@@ -556,7 +550,6 @@ Claude Codeは `subagent_type` パラメーターを介して特化したサブ�
 | リスクのある探索 | エラーがメインコンテキストを汚染しない |
 | 特化した分析 | 異なるタスクに対して異なる「思考方法」 |
 
----
 
 ## 5. パーミッションとセキュリティモデル
 
@@ -765,7 +758,6 @@ Claude Codeにはプロセスレベルの分離のためにOS レベルのプリ
 
 → **クロスリファレンス**: 完全な例については、メインガイドの [セクション7 - フック](./ultimate-guide.md#7-hooks) を参照してください。
 
----
 
 ## 6. MCP統合
 
@@ -1046,7 +1038,6 @@ MCP Appsが標準化するパターンは以下によって先駆けられまし
 - **ブログ記事（Claude）**: [Claudeのインタラクティブツール](https://claude.com/blog/interactive-tools-in-claude)
 - **VS Code**: [MCP Appsサポートの発表](https://code.visualstudio.com/blogs/2026/01/26/mcp-apps-support)
 
----
 
 ### MCPツール検索（レイジーローディング）
 
@@ -1114,7 +1105,6 @@ ENABLE_TOOL_SEARCH=false     # 無効（積極的なローディング）
 
 → Simon Willisonが述べているように: 「コンテキスト汚染がMCPをめったに使わなかった理由です。それが解決された今、Claude Codeに数十または数百のMCPをフックアップしない理由はありません。」 — [X/Twitter、2026年1月14日](https://twitter.com/simonw)
 
----
 
 ## 7. Editツール: 実際の動作
 
@@ -1187,7 +1177,6 @@ Editツールは見た目よりも洗練されています。
 | 「複数一致」 | old_stringが一意でない | より多くのコンテキスト行を使用 |
 | 「ファイルが見つからない」 | 間違ったパス | 正しいパスを検索 |
 
----
 
 ## 8. セッションの永続化
 
@@ -1224,7 +1213,6 @@ Editツールは見た目よりも洗練されています。
 
 外部ツール向けに**セッションファイル形式に依存しないでください**。
 
----
 
 ## 9. 哲学: 足場を減らして、モデルをもっと活用する
 
@@ -1270,7 +1258,6 @@ Claude Codeの背後にある哲学:
 
 この収束は、「足場を減らして、モデルをもっと活用する」アプローチが、組み込みシステム開発などの複雑なエンジニアリングドメインでさえも、当初の予想を超えてスケールすることを示しています。
 
----
 
 ## 10. Claude Code vs 代替ツール
 
@@ -1299,7 +1286,6 @@ Claude Codeの背後にある哲学:
 | IDE統合 | 制限あり（VS Code拡張） | Cursor/Copilotが優れている |
 | エンタープライズコンプライアンス | Anthropicエンタープライズ経由 | 様々 |
 
----
 
 ## 11. ソースと参考文献
 
@@ -1332,7 +1318,6 @@ Claude Codeの背後にある哲学:
 | Reddit r/ClaudeAI | ユーザー体験、回避策 |
 | YouTubeチュートリアル | ビジュアルウォークスルー |
 
----
 
 ## 12. 付録: わからないこと
 
@@ -1366,7 +1351,6 @@ Anthropicが意図的にドキュメント化していないもの:
 3. **コミュニティDiscord**: 様々なClaude中心のサーバー
 4. **このガイド**: 検証済み情報に基づいて定期的に更新
 
----
 
 ## 貢献
 
@@ -1376,7 +1360,6 @@ Anthropicが意図的にドキュメント化していないもの:
 2. **観察について**: 動作をどのように検証したかを説明する
 3. **訂正について**: 何が間違っているかとその理由を説明する
 
----
 
 **最終更新**: 2026年2月
 **Claude Codeバージョン**: v2.1.34

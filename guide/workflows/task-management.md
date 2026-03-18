@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "タスク管理ワークフロー"
-description: "Tasks APIとTodoWriteを使用した複雑なプロジェクトのマルチセッションタスク調整"
-tags: [workflow, guide, agents]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 21
 ---
+
 
 # タスク管理ワークフロー
 
@@ -25,7 +28,6 @@ Claude Codeにおけるタスク管理は、v2.1.16での**Tasks API**導入に�
 - 素早い修正や探索的なコーディング
 - 10分以内に終わるタスク
 
----
 
 ## システム比較クイックリファレンス
 
@@ -47,7 +49,6 @@ CLAUDE_CODE_ENABLE_TASKS=false claude
 claude
 ```
 
----
 
 ## ワークフローフェーズ1：タスク計画
 
@@ -132,7 +133,6 @@ claude
 }
 ```
 
----
 
 ## ワークフローフェーズ2：タスク実行
 
@@ -210,7 +210,6 @@ claude
 > "task-refreshをin_progressに更新し、エラー詳細をメタデータに追加して問題を修正してください"
 ```
 
----
 
 ## ワークフローフェーズ3：セッション管理
 
@@ -307,7 +306,6 @@ export CLAUDE_CODE_TASK_LIST_ID="my-project"
 export CLAUDE_CODE_TASK_LIST_ID="mycompany-api-auth-refactor"
 ```
 
----
 
 ## 統合：TDDとタスク管理
 
@@ -362,7 +360,6 @@ TaskCreate: {
 
 **全ワークフローのリファレンス**: [TDD with Claude](tdd-with-claude.md#task-management-integration) を参照
 
----
 
 ## 統合：プラン駆動開発とタスク管理
 
@@ -434,7 +431,6 @@ TaskCreate: {
 
 **全ワークフローのリファレンス**: [プラン駆動開発](plan-driven.md#task-hierarchy-design) を参照
 
----
 
 ## TodoWrite移行ガイド
 
@@ -520,7 +516,6 @@ claude
 # 期待する結果: 正しいステータスで全3タスクが表示される
 ```
 
----
 
 ## パターンとアンチパターン
 
@@ -662,7 +657,6 @@ TaskUpdate: {id: "login-feature", status: "completed", metadata: {test_results: 
 TaskUpdate: {id: "login-feature", status: "in_progress", metadata: {test_results: "3件の失敗", error_log: "..."}}
 ```
 
----
 
 ## トラブルシューティング
 
@@ -736,7 +730,6 @@ TaskGet task-b-id
 # 表示されるべき: "blockedBy": ["task-a-id"]
 ```
 
----
 
 ## 上級：カスタムタスクメタデータ
 
@@ -793,7 +786,6 @@ TaskList | jq '.tasks[] | select(.metadata.type == "security")'
 TaskList | jq '.tasks[] | select(.metadata.priority == "high" and .status == "pending")'
 ```
 
----
 
 ## 関連ワークフロー
 
@@ -802,7 +794,6 @@ TaskList | jq '.tasks[] | select(.metadata.priority == "high" and .status == "pe
 - **[反復的改善](iterative-refinement.md)** — タスクによるインクリメンタルな改善
 - **[探索ワークフロー](exploration-workflow.md)** — タスク作成前のディスカバリーフェーズ
 
----
 
 ## リファレンス
 

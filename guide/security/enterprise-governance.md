@@ -1,8 +1,11 @@
 ---
-title: "Claude CodeのエンタープライズAIガバナンス"
-description: "大規模にClaude Codeを展開するチームのための組織レベルのガバナンス: 使用チャーター、MCP承認ワークフロー、ガードレールティア、コンプライアンス"
-tags: [security, enterprise, governance, compliance]
+layout: default
+title: "エンタープライズガバナンス"
+parent: セキュリティ
+grand_parent: ガイド
+nav_order: 3
 ---
+
 
 # Claude CodeのエンタープライズAIガバナンス
 
@@ -10,7 +13,6 @@ tags: [security, enterprise, governance, compliance]
 >
 > **スコープ**: 組織レベルのガバナンス（ポリシー、承認ワークフロー、ティア、コンプライアンス）。個人開発者のセキュリティ（インジェクション防御、MCPの審査、CVE）については[security-hardening.md](./security-hardening.md)を参照。6つの交渉不可能な本番ルールについては[production-safety.md](./production-safety.md)を参照。
 
----
 
 ## TL;DR
 
@@ -27,7 +29,6 @@ tags: [security, enterprise, governance, compliance]
 | [大規模ポリシー](#5-policy-enforcement-at-scale) | 展開、オンボーディング、CI/CDゲート |
 | [監査とコンプライアンス](#6-audit-compliance--governance-structure) | SOC2/ISO27001の監査人が実際に尋ねること |
 
----
 
 ## 1. ローカル対共有: ガバナンスの分割
 
@@ -81,7 +82,6 @@ tags: [security, enterprise, governance, compliance]
     └─ 規制対応: 上記すべて + コンプライアンス監査証跡
 ```
 
----
 
 ## 2. AI使用チャーター
 
@@ -101,7 +101,6 @@ tags: [security, enterprise, governance, compliance]
 **オーナー**: エンジニアリングリード / CTO
 **レビューサイクル**: 四半期
 
----
 
 ## 承認済みツール
 
@@ -111,7 +110,6 @@ tags: [security, enterprise, governance, compliance]
 | Claude Code（個人アカウント） | 個人開発のみ | PUBLIC/INTERNALのみ |
 | [その他の承認済みツール] | [スコープ] | [分類] |
 
----
 
 ## データ分類ルール
 
@@ -124,7 +122,6 @@ tags: [security, enterprise, governance, compliance]
 
 **ハードルール**: RESTRICTEDデータはAIコンテキストウィンドウに絶対に入れない。プロンプトにも、Claudeが読み込むファイルにも、例としてもダメだ。制限されたファイルへのアクセスをブロックするために`permissions.deny`を設定すること。
 
----
 
 ## 承認されたユースケース
 
@@ -135,7 +132,6 @@ tags: [security, enterprise, governance, compliance]
 - アーキテクチャ分析（内部システムのみ）
 - CLIスクリプティングと自動化
 
----
 
 ## 禁止されたユースケース
 
@@ -145,7 +141,6 @@ tags: [security, enterprise, governance, compliance]
 - CONFIDENTIAL以上のデータへの個人AIアカウントの使用
 - 例としてプロンプトに顧客データを共有する
 
----
 
 ## 誰が何を承認するか
 
@@ -156,7 +151,6 @@ tags: [security, enterprise, governance, compliance]
 | エンタープライズ機能の使用（Zero Trust、SSO） | IT/セキュリティチーム |
 | チャータールールの例外 | エンジニアリングディレクター |
 
----
 
 ## コンプライアンス義務
 
@@ -166,7 +160,6 @@ tags: [security, enterprise, governance, compliance]
 3. ガバナンス制御（フック、permission denyルール）を回避しない
 4. 四半期ごとのアクセスレビューに参加する
 
----
 
 **チャーター違反**: 標準的な懲戒プロセスに従う。初回: コーチング。繰り返しまたは重大な違反: エスカレーション。
 ```
@@ -206,7 +199,6 @@ tags: [security, enterprise, governance, compliance]
 そのコンテンツをスキップするよう明示的に指示されるまで続行しないこと。
 ```
 
----
 
 ## 3. MCPガバナンスワークフロー
 
@@ -363,7 +355,6 @@ exit 0
 
 **注**: このフックは警告するだけでブロックしない。セッション開始時のブロックは摩擦が大きすぎる。代わりに定期的なコンプライアンスチェックを使用する（§5.3参照）。
 
----
 
 ## 4. ガードレールティア
 
@@ -663,7 +654,6 @@ AIが生成したテストには`// AI-generated test`コメントを含める�
 
 **規制環境のための追加ツール**: 承認ゲート付きの完全なセッション監査証跡にはEntire CLIを検討する。詳細と評価チェックリストについては[AIトレーサビリティ§5.1](../ops/ai-traceability.md#51-entire-cli)を参照。
 
----
 
 ## 5. 大規模なポリシーの強制
 
@@ -932,7 +922,6 @@ jobs:
             }
 ```
 
----
 
 ## 6. 監査、コンプライアンス、ガバナンス構造
 
@@ -1053,7 +1042,6 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
     .input.command' 2>/dev/null | sort
 ```
 
----
 
 ## クイックリファレンス
 
@@ -1087,7 +1075,6 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 | CLAUDE.mdが長すぎる → Claudeがルールを無視する | 8KB以下に保ち、重要なルールを優先する |
 | 監査人がAIログを求める → 何も保存されていない | セッションログのS3同期をセットアップする |
 
----
 
 ## 関連情報
 
@@ -1101,7 +1088,6 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 - [ガバナンスフック](../../examples/hooks/bash/governance-enforcement-hook.sh) — ポリシーに対して設定を検証するフック
 - [AI使用チャーターテンプレート](../../examples/scripts/ai-usage-charter-template.md) — 適応可能なチャーターテンプレート
 
----
 
 ## 参考文献
 
@@ -1113,6 +1099,5 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 - [NIST AI RMF](https://airc.nist.gov/RMF/Overview) — リスク管理フレームワーク
 - [SOC2トラストサービス基準](https://www.aicpa.org/resources/article/soc-2-trust-services-criteria) — CC6.1、CC7.1、CC9.2
 
----
 
 *バージョン 1.0.0 | 2026年3月 | [Claude Code アルティメットガイド](../README.md)の一部*

@@ -1,8 +1,11 @@
 ---
-title: "reMarkable 2 + AI：ハック、ツール、ワークフロー"
-description: "reMarkable 2 の AI 統合完全マップ — MCP サーバー、OCR、Obsidian/Notion パイプライン、自動化"
-tags: [mcp, integration, hardware, workflow, remarkable]
+layout: default
+title: "Remarkable AI"
+parent: エコシステム
+grand_parent: ガイド
+nav_order: 5
 ---
+
 
 # reMarkable 2 + AI：ハック、ツール、ワークフロー完全マップ
 
@@ -28,7 +31,6 @@ reMarkable 2 はフルルートアクセス可能な Linux e-ink タブレット
 14. [構築すべき AI 拡張ワークフロー](#14-構築すべき-ai-拡張ワークフロー)
 15. [どこから始めるか](#15-どこから始めるか)
 
----
 
 ## 1. remarkable-mcp：ゲームチェンジャー
 
@@ -93,7 +95,6 @@ cd remarkable-mcp && pip install -e .
 }
 ```
 
----
 
 ## 2. Ghostwriter：Vision-LLM インターフェース
 
@@ -133,7 +134,6 @@ chmod +x ghostwriter && ./ghostwriter
 
 **正直な限界**：reMarkable のネイティブ描画アプリは最小限です（返答にテキストを自由に配置できない）。
 
----
 
 ## 3. reMarkable → Obsidian 同期
 
@@ -165,7 +165,6 @@ chmod +x ghostwriter && ./ghostwriter
 - `rm/` フォルダ内の PDF → Obsidian ノートに埋め込み
 - タブレットで変更すると自動的に再取得
 
----
 
 ## 4. カスタム OCR + AI パイプライン
 
@@ -201,7 +200,6 @@ reMarkable → SSH/USB
 | **rmc** | .rm → SVG/PNG に変換 | https://github.com/ricklupton/rmc |
 | **rmapi** | Go 製のクラウド API インターフェース | https://github.com/juruen/rmapi |
 
----
 
 ## 5. SSH アクセスとコミュニティツール
 
@@ -246,7 +244,6 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 **生成ツール**：ReCalendar.me、Remarkable Grid Generator、Remarkably Planner Builder
 
----
 
 ## 6. 活用しきれていないネイティブ機能
 
@@ -263,7 +260,6 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 **ヒント**：手書き → テキスト変換は孤立した単語には良く機能しますが、密な筆記体の文章には劣ります。変換には印刷体を優先してください。
 
----
 
 ## 7. API と公式デベロッパーポータル
 
@@ -278,7 +274,6 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 **rmfakecloud**：reMarkable クラウドのオープンソース代替で、同期をセルフホストして Connect サブスクリプションを不要にします。
 
----
 
 ## 8. Zapier 自動化
 
@@ -306,7 +301,6 @@ Google Drive、Asana、ClickUp、Trello、Slack、WordPress、Evernote、Notion
 
 **ソース**：https://myremarkable.substack.com/p/integrating-remarkable
 
----
 
 ## 9. Read-it-later：Web → reMarkable
 
@@ -321,7 +315,6 @@ Google Drive、Asana、ClickUp、Trello、Slack、WordPress、Evernote、Notion
 
 **PDF オプション**：拡張機能を右クリック → "Read on reMarkable as PDF"（アノテーション用に余白調整可能）。
 
----
 
 ## 10. 会議メモ → AI サマリー
 
@@ -351,7 +344,6 @@ Claude、今日の会議のメモを要約して
 
 Paper Pro Move Meeting Notebook：60 回の会議分、会議ごとに5ページがリンク（概要 + メモ + アクションアイテム + フォローアップ）。
 
----
 
 ## 11. Zotero → reMarkable（研究）
 
@@ -365,7 +357,6 @@ Paper Pro Move Meeting Notebook：60 回の会議分、会議ごとに5ページ
 
 **正直な限界**：reMarkable はクローズドシステムです。Zotero 統合には回避策が必要です。ネイティブ Zotero を持つ Android e-reader ほどスムーズではありません。機能しますが、摩擦があります。
 
----
 
 ## 12. AI アシストホワイトボードとしてのスクリーン共有
 
@@ -377,7 +368,6 @@ Paper Pro Move Meeting Notebook：60 回の会議分、会議ごとに5ページ
 
 **価格**：Connect に含まれる（米国 約年30ドル、EU 約月6ユーロ）。
 
----
 
 ## 13. カスタムアプリと楽しいハック
 
@@ -397,7 +387,6 @@ Paper Pro Move Meeting Notebook：60 回の会議分、会議ごとに5ページ
 
 **完全なカタログ**：https://github.com/reHackable/awesome-reMarkable
 
----
 
 ## 14. 構築すべき AI 拡張ワークフロー
 
@@ -450,7 +439,6 @@ reMarkable での講義/読書メモ
 → 構造化マインドマップを生成（Mermaid/Markmap）
 ```
 
----
 
 ## 15. どこから始めるか
 
@@ -470,7 +458,6 @@ reMarkable での講義/読書メモ
 6. Claude Vision API でカスタム OCR パイプラインを構築
 7. Connect サブスクリプション不要のために rmfakecloud を探る
 
----
 
 ## ソース
 

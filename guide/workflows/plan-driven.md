@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "プラン駆動開発"
-description: "非自明なタスクには/planモードを使い、実装プランを探索・提案する"
-tags: [workflow, guide, architecture]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 14
 ---
+
 
 # プラン駆動開発
 
@@ -10,7 +13,6 @@ tags: [workflow, guide, architecture]
 
 非自明なものには `/plan` モードを使います。Claudeはコードベースを探索（読み取り専用）し、承認のための実装プランを提案します。
 
----
 
 ## 目次
 
@@ -23,7 +25,6 @@ tags: [workflow, guide, architecture]
 7. [発展: カスタムMarkdownプラン（Boris Taneパターン）](#発展-カスタムmarkdownプランboris-taneパターン)
 8. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -35,7 +36,6 @@ tags: [workflow, guide, architecture]
 5. Claudeが実行
 ```
 
----
 
 ## /planワークフロー
 
@@ -109,7 +109,6 @@ Looks good. Proceed with the plan.
 Modify the plan: also add support for GitHub OAuth, not just Google.
 ```
 
----
 
 ## 使う場面
 
@@ -132,7 +131,6 @@ Modify the plan: also add support for GitHub OAuth, not just Google.
 | シンプルな質問 | 実装ではなく探索 |
 | コメントの追加 | 些細な変更 |
 
----
 
 ## プランファイル構造
 
@@ -171,7 +169,6 @@ Modify the plan: also add support for GitHub OAuth, not just Google.
 [進む前に明確にすべきこと]
 ```
 
----
 
 ## 他のワークフローとの統合
 
@@ -203,7 +200,6 @@ Create an implementation plan that satisfies all acceptance criteria.
 Approved. Create tasks from this plan and start implementing.
 ```
 
----
 
 ## ヒント
 
@@ -246,7 +242,6 @@ Explore the codebase and recommend which fits better.
 - 変更される予定だったファイル
 - 実装順序の根拠
 
----
 
 ## 発展: カスタムMarkdownプラン（Boris Taneパターン）
 
@@ -267,7 +262,6 @@ Explore the codebase and recommend which fits better.
 
 **判断ルール**: スコープが明確な場合はプランモード（Shift+Tabを2回）を使用。誤解が予想される場合や、1行のコードの前に明示的なサインオフを求めたい場合はカスタム `.md` プランを使用。
 
----
 
 ### 3フェーズのワークフロー
 
@@ -285,7 +279,6 @@ Explore the codebase and recommend which fits better.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
----
 
 ### フェーズ1: 強調リサーチ
 
@@ -307,7 +300,6 @@ Write your findings to research.md — do not implement anything.
 - 非自明な依存関係
 - 特定された制約とリスク
 
----
 
 ### フェーズ2: アノテーションサイクル
 
@@ -384,7 +376,6 @@ Use JWT tokens stored in httpOnly cookies.
 
 > 「Markdownファイルはあなたとエージェントの間の共有可変状態として機能します。」— Boris Tane
 
----
 
 ### フェーズ3: 機械的な実装
 
@@ -404,7 +395,6 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 **マインドセットの転換**: フェーズ3は機械的です。すべての思考はフェーズ2で行われました。
 
----
 
 ### 補完テクニック
 
@@ -415,7 +405,6 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 | **参照ベースのガイダンス** | 既存のコードを指す: 「auth.tsのようにやる」 | 一貫性の強制 |
 | **元に戻してリスコープ** | `git revert` + より狭いプランで再開始 | プランが間違っていた、きれいにリセット |
 
----
 
 ## 関連情報
 

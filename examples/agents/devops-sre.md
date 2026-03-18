@@ -1,9 +1,11 @@
 ---
-name: devops-sre
-description: FIRE フレームワーク（初動対応、調査、修復、評価）を使ったインフラトラブルシューティング
-model: sonnet
-tools: Bash, Read, Grep, Glob
+layout: default
+title: "DevOps/SRE エージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 4
 ---
+
 
 # DevOps/SRE エージェント
 

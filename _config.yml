@@ -1,0 +1,31 @@
+title: Claude Code 完全ガイド
+description: Claude Code CLIツールの包括的な日本語リファレンスガイド
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+url: https://tachibana2314.github.io
+baseurl: /claude-code-guide-ja
+color_scheme: light
+
+plugins:
+  - jekyll-remote-theme
+
+aux_links:
+  "GitHub":
+    - "https://github.com/tachibana2314/claude-code-guide-ja"
+  "インタラクティブ版":
+    - "https://tachibana2314.github.io/claude-code-guide-ja/site/"
+
+search_enabled: true
+search.heading_level: 3
+
+nav_enabled: true
+
+exclude:
+  - node_modules
+  - vendor
+  - .git
+  - "*.json"
+  - "*.sh"
+  - quiz/questions/
+  - assets/
+  - site/
+  - CLAUDE.md

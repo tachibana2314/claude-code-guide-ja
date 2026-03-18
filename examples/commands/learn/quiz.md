@@ -1,7 +1,10 @@
 ---
-name: learn-quiz
-description: "最近書いたまたは承認したコードの理解度をテストする"
+layout: default
+title: "クイズ"
+parent: コマンド
+grand_parent: テンプレート
 ---
+
 
 # クイズ
 
@@ -92,7 +95,6 @@ description: "最近書いたまたは承認したコードの理解度をテス
 
 What's your answer?
 
----
 （ユーザーが回答した後）
 
 ### Feedback

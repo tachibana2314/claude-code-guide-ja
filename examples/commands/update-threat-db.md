@@ -1,7 +1,11 @@
 ---
-name: update-threat-db
-description: "AI エージェントセキュリティ脅威インテリジェンスデータベースを調査・更新する"
+layout: default
+title: "脅威データベースの更新"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 29
 ---
+
 
 # 脅威データベースの更新
 
@@ -15,7 +19,6 @@ AI エージェントセキュリティ脅威インテリジェンスデータ�
 
 あなたは AI コーディングエージェントセキュリティを専門とする脅威インテリジェンスアナリストです。最新の脅威を調査して脅威データベースを更新してください。
 
----
 
 ### フェーズ 1: 現在の状態の評価
 
@@ -30,7 +33,6 @@ Read examples/commands/resources/threat-db.yaml
 - 悪意あるオーサー、スキル、CVE、キャンペーンの数
 - 重複を避けるための最新エントリ
 
----
 
 ### フェーズ 2: 新しい脅威の調査
 
@@ -62,7 +64,6 @@ Focus: 新しいスキャンツール、ブロックリスト、防御フレー�
 
 Perplexity MCP が利用できない場合は、各クエリに WebSearch を使用します。
 
----
 
 ### フェーズ 3: 分析と重複排除
 
@@ -88,7 +89,6 @@ Perplexity MCP が利用できない場合は、各クエリに WebSearch を使
    - `medium` — 理論的リスク、既知の悪用なし
    - `low` — 情報提供のみ
 
----
 
 ### フェーズ 4: threat-db.yaml の更新
 
@@ -106,7 +106,6 @@ Perplexity MCP が利用できない場合は、各クエリに WebSearch を使
 python3 -c "import yaml; yaml.safe_load(open('examples/commands/resources/threat-db.yaml')); print('YAML valid')"
 ```
 
----
 
 ### フェーズ 5: 依存するファイルの更新（必要な場合）
 
@@ -122,7 +121,6 @@ grep -c "CVE-" guide/security-hardening.md
 - `guide/security-hardening.md` の CVE テーブルへの追加を検討
 - 新しいパッチがリリースされた場合は `minimum_safe_versions` を更新
 
----
 
 ### フェーズ 6: サマリーレポート
 

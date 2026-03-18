@@ -1,8 +1,11 @@
 ---
-title: "コードレビュー（Claude Code機能）"
-description: "TeamsおよびEnterprise向けの自動化されたマルチエージェントPRレビュー — セットアップ、トリガー、REVIEW.mdの設定、コスト管理"
-tags: [feature, teams, enterprise, github, code-review]
+layout: default
+title: "コードレビュー"
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 4
 ---
+
 
 # コードレビュー
 
@@ -13,7 +16,6 @@ Claude CodeのCode Review機能は、すべてのGitHubプルリクエストに�
 
 調査結果は問題が見つかった特定の行にインラインのPRコメントとして投稿され、重大度でタグ付けされます。レビューはPRを承認またはブロックしないため、既存のレビューワークフローはそのまま維持されます。
 
----
 
 ## 仕組み
 
@@ -36,7 +38,6 @@ Claude CodeのCode Review機能は、すべてのGitHubプルリクエストに�
 
 各調査結果には、Claudeがその問題にフラグを立てた理由と問題を確認した方法を説明する折りたたみ可能な詳細推論セクションが含まれます。
 
----
 
 ## セットアップ
 
@@ -78,7 +79,6 @@ Code Reviewはコンテンツへの読み取りアクセスとプルリクエス
 
 **手動モード**は、特定のPRを選んでレビューに追加したい高トラフィックのリポジトリや、PRがレビューの準備ができたときだけレビューを開始したい場合に便利です。
 
----
 
 ## 手動トリガー
 
@@ -90,7 +90,6 @@ Code Reviewはコンテンツへの読み取りアクセスとプルリクエス
 
 レビューがすでに実行中の場合、リクエストは進行中のレビューが完了するまでキューに入れられます。
 
----
 
 ## レビューの設定
 
@@ -126,7 +125,6 @@ Claudeはディレクトリ階層内のすべての`CLAUDE.md`ファイルを読
 
 `CLAUDE.md`で一般セッションに対して煩雑になるルール（リンター規約、スキップリスト、チーム固有のパターン）に`REVIEW.md`を使用してください。
 
----
 
 ## 価格
 
@@ -137,7 +135,6 @@ Code Reviewはトークン使用量で請求されます。**プランの含ま�
 - 月ごとの支出上限を設定するには: [claude.ai/admin-settings/usage](https://claude.ai/admin-settings/usage) → 「Claude Code Review」サービスの制限を設定
 - 支出を監視: [claude.ai/analytics/code-review](https://claude.ai/analytics/code-review)（日次PRカウント、週次支出、リポジトリ別内訳）
 
----
 
 ## 相互参照
 
@@ -147,7 +144,6 @@ Code Reviewはトークン使用量で請求されます。**プランの含ま�
 - [GitLab CI/CD](/en/gitlab-ci-cd) — GitLabパイプライン向けのセルフホストClaudeインテグレーション
 - Code Reviewプラグイン — プッシュ前のオンデマンドローカルレビュー（プラグインマーケットプレイスで利用可能）
 
----
 
 ## 既知の制限（リサーチプレビュー）
 

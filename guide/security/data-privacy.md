@@ -1,8 +1,11 @@
 ---
-title: "データプライバシーと保持ガイド"
-description: "Claude CodeがAnthropicサーバーに送信するデータと機密情報の保護方法"
-tags: [privacy, security, guide]
+layout: default
+title: "データプライバシー"
+parent: セキュリティ
+grand_parent: ガイド
+nav_order: 6
 ---
+
 
 # データプライバシーと保持ガイド
 
@@ -19,7 +22,6 @@ tags: [privacy, security, guide]
 
 **即座に取るべき行動**: [トレーニングデータ使用を無効化](https://claude.ai/settings/data-privacy-controls)して、保持期間を5年から30日に削減する。
 
----
 
 ## 1. データフローの理解
 
@@ -63,7 +65,6 @@ Claude Codeを使用すると、以下のデータがAnthropicに送信される
 | Claudeが`.env`ファイルを読む | APIキー、パスワード、機密情報 |
 | コードでエラーが発生する | パスを含む完全なスタックトレース |
 
----
 
 ## 2. Anthropicの保持ポリシー
 
@@ -98,7 +99,6 @@ Claude Codeを使用すると、以下のデータがAnthropicに送信される
 
 > **重要**: データはTLS経由で転送中は暗号化されるが、Anthropicのサーバー上では**保存時に暗号化されない**。セキュリティ評価にこの点を考慮すること。
 
----
 
 ## 3. 既知のリスク
 
@@ -165,7 +165,6 @@ export DISABLE_BUG_COMMAND=1
 | 環境変数経由で露出した認証情報 | GitHubのissue |
 | 悪意あるMCPサーバー経由のプロンプトインジェクション | r/programming |
 
----
 
 ## 4. 保護措置
 
@@ -265,7 +264,6 @@ export DISABLE_BUG_COMMAND=1
 | **ステージング** | 実データを扱う場合はEnterprise APIを検討 |
 | **本番** | Claude Codeを直接接続しない |
 
----
 
 ## 5. 他のツールとの比較
 
@@ -278,7 +276,6 @@ export DISABLE_BUG_COMMAND=1
 
 **主な違い**: MCPはMCPサーバーが独立したネットワーク/ファイルシステムアクセスを持つ別プロセスであるため、独自の攻撃対象領域を生み出す。
 
----
 
 ## 6. エンタープライズの考慮事項
 
@@ -298,7 +295,6 @@ export DISABLE_BUG_COMMAND=1
 - [ ] 潜在的なデータ露出のインシデント対応計画がある
 - [ ] 法務/コンプライアンスのレビューが完了している
 
----
 
 ## 7. クイックリファレンス
 
@@ -332,7 +328,6 @@ claude /status
 - [ ] 機密ファイルアクセスのセキュリティフックをインストール済み
 - [ ] チームがAnthropicへのデータフローを認識している
 
----
 
 ## 8. 知的財産の考慮事項
 
@@ -349,7 +344,6 @@ AIコード生成ツールを使用する場合、法務チームとこれらの
 
 このガイドはClaude Codeの使用に焦点を当てており、法的戦略ではない。IPガイダンスについては、専門の法的リソースまたは組織の法務顧問に相談すること。
 
----
 
 ## 9. Claudeのガバナンスと価値観
 
@@ -386,7 +380,6 @@ Anthropicは2026年1月にClaudeの構成（CC0ライセンス - パブリック
 - アナウンスメント: https://www.anthropic.com/news/claude-new-constitution
 - アライメント研究: https://alignment.anthropic.com/
 
----
 
 ## 変更ログ
 

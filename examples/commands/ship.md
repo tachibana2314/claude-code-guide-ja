@@ -1,7 +1,11 @@
 ---
-name: ship
-description: "リリース準備を確認するための包括的なデプロイ前検証"
+layout: default
+title: "Ship コマンド — デプロイ前チェックリスト"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 27
 ---
+
 
 # Ship コマンド — デプロイ前チェックリスト
 
@@ -68,7 +72,6 @@ cat package.json | jq -r '.version' 2>/dev/null || echo "Check version manually"
 
 ## 出力フォーマット
 
----
 
 ### 🚀 出荷準備レポート
 
@@ -120,7 +123,6 @@ Overall:        [READY TO SHIP / NOT READY]
 2. [2番目の優先度]
 3. [3番目の優先度]
 
----
 
 ## 環境固有のチェック
 

@@ -1,7 +1,11 @@
 ---
-name: review-plan
-description: "コードを書く前に4つの軸で構造化されたプランレビューを行う（Garry Tan のワークフローに着想を得た）"
+layout: default
+title: "実装前のプランレビュー"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 21
 ---
+
 
 # 実装前のプランレビュー
 

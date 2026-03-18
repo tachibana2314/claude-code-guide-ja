@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "Figma MCPを使ったデザインからコードへのワークフロー"
-description: "Figma MCPサーバーを使って1:1のデザインとコードの一致を実現する自動デザインシステム実装"
-tags: [workflow, mcp, integration]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 5
 ---
+
 
 # Figma MCPを使ったデザインからコードへのワークフロー
 
@@ -10,7 +13,6 @@ tags: [workflow, mcp, integration]
 
 Figma MCPサーバーを使った自動デザインシステム実装により、プロダクトデザイナーが本番対応の仕様をClaude Codeに引き渡すことができ、1:1のデザインとコードの一致を維持したコンポーネントを実装します。
 
----
 
 ## 目次
 
@@ -27,7 +29,6 @@ Figma MCPサーバーを使った自動デザインシステム実装により�
 11. [実装ロードマップ](#実装ロードマップ)
 12. [リソース](#リソース)
 
----
 
 ## 要約
 
@@ -39,7 +40,6 @@ ClaudeはFigmaからトークン/コンポーネントを直接消費する
 実装はデザインの一致を自動的に維持する
 ```
 
----
 
 ## ドキュメント化されたインパクト
 
@@ -60,7 +60,6 @@ ClaudeはFigmaからトークン/コンポーネントを直接消費する
 
 *出典: builder.io/blog/claude-code-figma-mcp-server、parallelhq.com/blog/automating-design-systems-with-ai、composio.dev/blog/how-to-use-figma-mcp-with-claude-code*
 
----
 
 ## アーキテクチャ概要
 
@@ -110,7 +109,6 @@ Figmaファイル（Dev Modeデータ）
 - リアルタイムコラボレーションデータ
 - バージョン履歴（現在の状態のみ）
 
----
 
 ## 3層トークン階層
 
@@ -145,7 +143,6 @@ Semantic:
 3. トークン規約からセマンティックな命名を適用する
 4. この階層に一致するコードを生成する
 
----
 
 ## 前提条件
 
@@ -196,7 +193,6 @@ Claude CodeのMCP設定（`.claude/mcp.json`または設定UI）に追加:
 
 シェルでエクスポートします: `export FIGMA_TOKEN="figd_..."`
 
----
 
 ## コアワークフロー
 
@@ -258,7 +254,6 @@ export function PrimaryButton({ size = 'md', disabled, children }: ButtonProps) 
 }
 ```
 
----
 
 ### ワークフローB: デザインシステムのドリフト監査
 
@@ -303,7 +298,6 @@ https://www.figma.com/design/FILE_KEY
 ...
 ```
 
----
 
 ### ワークフローC: トークン自動化パイプライン
 
@@ -359,7 +353,6 @@ CSS / Tailwind / プラットフォーム固有トークン
 [Claudeがコードmodまたはfind/replaceスクリプトを生成]
 ```
 
----
 
 ### ワークフローD: ビジュアルイテレーションループ（Figma + Playwright）
 
@@ -412,7 +405,6 @@ https://www.figma.com/design/FILE_KEY → "Button Tests"ページ
 - **ファイル**: `src/components/Button.tsx:18`
 ```
 
----
 
 ## Code Connectのセットアップ
 
@@ -448,7 +440,6 @@ https://www.figma.com/design/FILE_KEY → "Button Tests"ページ
 
 **参考**: parallelhq.com/blog（Code Connect UIの記事）
 
----
 
 ## 代替: Pencil（IDE ネイティブキャンバス）
 
@@ -565,7 +556,6 @@ design/homepage.penから「Hero Section」を読み取ってください。
 
 **モニター**: 価格発表、公開GitHubリポジトリ、成熟したドキュメントは2026年Q2を予定。
 
----
 
 ## サンプルプロンプト
 
@@ -649,7 +639,6 @@ Figmaの仕様に対して「Modal」コンポーネントの実装をレビュ�
 各レベルが下位のレベルからのみインポートすることを確認してください。
 ```
 
----
 
 ## チームへの導入パターン
 
@@ -719,7 +708,6 @@ Claudeの出力:
 - 合計: 1.5〜2週間
 ```
 
----
 
 ## アンチパターン
 
@@ -736,7 +724,6 @@ Claudeの出力:
 | **レスポンシブ仕様の欠如** | 開発者がブレークポイントを推測する | Figmaにはレスポンシブフレームがある → Claudeが正確な仕様を読む |
 | **単一層トークン** | 柔軟性なし、テーマが難しい | 3層階層を使用する（base/composite/semantic） |
 
----
 
 ## 実装ロードマップ
 
@@ -756,7 +743,6 @@ Claudeの出力:
 - 出力がデザインと視覚的に一致する
 - 開発チームがワークフローを理解する
 
----
 
 ### フェーズ2: スケーリング（第3〜4週）
 
@@ -774,7 +760,6 @@ Claudeの出力:
 - トークンの更新が自動的に伝播する
 - デザイナーが引き渡しプロセスに自信を持つ
 
----
 
 ### フェーズ3: オーケストレーション（第5週以降）
 
@@ -792,7 +777,6 @@ Claudeの出力:
 - 手動デザイン転記ゼロ
 - チームの速度向上が測定可能
 
----
 
 ## リソース
 
@@ -833,7 +817,6 @@ Claudeの出力:
 - [ASCIIアートとワイヤーフレーム](../ultimate-guide.md#wireframing-tools) — 低忠実度のデザインイテレーション
 - [Playwright MCP](../ultimate-guide.md#playwright-mcp) — ビジュアルリグレッションテスト
 
----
 
 ## 関連情報
 

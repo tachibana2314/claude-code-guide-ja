@@ -1,8 +1,10 @@
 ---
-title: "Claude Cowork: ナレッジワークのためのエージェント型デスクトップ"
-description: "非技術系ナレッジワーカー向けClaudeエージェント型デスクトップ機能の概要"
-tags: [guide, agents, workflows]
+layout: default
+title: "Cowork"
+parent: ガイド
+nav_order: 6
 ---
+
 
 # Claude Cowork: ナレッジワークのためのエージェント型デスクトップ
 
@@ -10,7 +12,6 @@ tags: [guide, agents, workflows]
 > このファイルは概要です。完全なドキュメントは以下をご覧ください:
 > **https://github.com/FlorianBruniaux/claude-cowork-guide**
 
----
 
 ## クイック概要
 
@@ -25,7 +26,6 @@ tags: [guide, agents, workflows]
 | **特徴** | ファイル操作、ドキュメント生成、整理整頓 |
 | **Codeとの違い** | コード実行なし — ファイルのみ |
 
----
 
 ## 3つのClaudeツール：どれを使うべきか
 
@@ -52,7 +52,6 @@ tags: [guide, agents, workflows]
 - **コーディング：リファクタリング、デバッグ、テスト？** → Claude Code（今まさにいる場所）
 - **ファイルの整理、PDFの抽出、コード不要？** → Cowork
 
----
 
 ## ユースケース
 
@@ -63,7 +62,6 @@ tags: [guide, agents, workflows]
 
 → [詳細なワークフロー](https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows)
 
----
 
 ## セキュリティの概要
 
@@ -76,7 +74,6 @@ tags: [guide, agents, workflows]
 
 → [完全なセキュリティガイド](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/guide/03-security.md)
 
----
 
 ## ドキュメント
 
@@ -89,6 +86,5 @@ tags: [guide, agents, workflows]
 | **[チートシート](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/cheatsheet.md)** | 1ページのクイックリファレンス |
 | **[FAQ](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/faq.md)** | よくある質問 |
 
----
 
 *[AIエコシステムガイド](./ai-ecosystem.md) | [アルティメットガイド](./ultimate-guide.md) | [メインREADME](../README.md) に戻る*

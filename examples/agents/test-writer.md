@@ -1,9 +1,11 @@
 ---
-name: test-writer
-description: TDD/BDD 原則に従った包括的なテスト生成に使用します
-model: sonnet
-tools: Read, Write, Edit, Grep, Glob, Bash
+layout: default
+title: "テストライターエージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 14
 ---
+
 
 # テストライターエージェント
 

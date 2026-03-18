@@ -1,9 +1,11 @@
 ---
-name: planner
-description: 戦略的計画エージェント — 実装前の読み取り専用の探索。タスクを分解し、コードベースを分析し、詳細な計画を作成するために使用します。ファイルは変更しません。
-model: opus
-tools: Read, Grep, Glob
+layout: default
+title: "プランナーエージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 9
 ---
+
 
 # プランナーエージェント
 
@@ -57,7 +59,6 @@ tools: Read, Grep, Glob
 
 計画時の推論の深さのために Opus を使用しています。計画のエラーは複合的に増大します — 計画内の誤ったアーキテクチャ上の決定はすべての実装ステップに伝播します。Sonnet または Haiku は計画が検証された後の実行を担当します。
 
----
 
 **出典**:
 - モデル選択ガイド: [セクション 2.5](../guide/ultimate-guide.md#25-model-selection--thinking-guide)

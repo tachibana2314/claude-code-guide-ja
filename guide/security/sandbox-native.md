@@ -1,8 +1,11 @@
 ---
-title: "Claude Codeのネイティブサンドボックス"
-description: "Claude Codeのネイティブなプロセスレベルサンドボックスの理解と設定"
-tags: [security, sandbox, guide]
+layout: default
+title: "ネイティブサンドボックス"
+parent: セキュリティ
+grand_parent: ガイド
+nav_order: 5
 ---
+
 
 # Claude Codeのネイティブサンドボックス
 
@@ -11,7 +14,6 @@ tags: [security, sandbox, guide]
 > **スコープ**: Claude Codeのネイティブなプロセスレベルサンドボックスの理解と設定
 > **最終更新**: 2026-02-02
 
----
 
 ## TL;DR
 
@@ -48,7 +50,6 @@ flowchart TD
     B -->|マルチエージェント、並列| E[クラウドサンドボックス<br/>E2B、Fly.io]
 ```
 
----
 
 ## 1. なぜネイティブサンドボックスか？
 
@@ -69,7 +70,6 @@ Claude Codeの権限システムは根本的なトレードオフを生み出す
 4. **依存関係の安全性** — 侵害されたnpmパッケージがワークスペース内に封じ込められる
 5. **透過的な操作** — サンドボックスの違反が即座に通知をトリガーする
 
----
 
 ## 2. OSプリミティブ
 
@@ -173,7 +173,6 @@ sudo pacman -S bubblewrap socat
 
 **マイグレーションが必要**: WSL1を使用している場合、ネイティブサンドボックスを使用するために[WSL2にアップグレード](https://learn.microsoft.com/en-us/windows/wsl/install)すること。
 
----
 
 ## 3. ファイルシステム分離
 
@@ -216,7 +215,6 @@ sudo pacman -S bubblewrap socat
 - ❌ **絶対に書き込みを許可しないこと**: `$PATH`ディレクトリ（`/usr/local/bin`）、シェル設定（`~/.bashrc`、`~/.zshrc`）、システムディレクトリ（`/etc`）
 - ✅ **安全に許可できること**: プロジェクトディレクトリ、一時ディレクトリ（`/tmp`）、ビルド出力ディレクトリ
 
----
 
 ## 4. ネットワーク分離
 
@@ -296,7 +294,6 @@ sudo pacman -S bubblewrap socat
 }
 ```
 
----
 
 ## 5. サンドボックスモード
 
@@ -338,7 +335,6 @@ sudo pacman -S bubblewrap socat
 }
 ```
 
----
 
 ## 6. エスケープハッチ
 
@@ -393,7 +389,6 @@ sudo pacman -S bubblewrap socat
 
 除外されたコマンドは常にサンドボックスの外側で実行される（通常の権限プロンプト付き）。
 
----
 
 ## 7. セキュリティの制限事項
 
@@ -478,7 +473,6 @@ sudo pacman -S bubblewrap socat
 - ✅ **信頼できないコードを持つベアホストでは絶対に使用しない**
 - ✅ **可能な場合はDockerの外側でClaude Codeを実行することを優先する**
 
----
 
 ## 8. オープンソースランタイム
 
@@ -502,7 +496,6 @@ npx @anthropic-ai/sandbox-runtime node mcp-server.js
 
 **ライセンス**: オープンソース（特定のライセンスはリポジトリで確認）
 
----
 
 ## 9. プラットフォームサポート
 
@@ -514,7 +507,6 @@ npx @anthropic-ai/sandbox-runtime node mcp-server.js
 | **WSL1** | ❌ 未サポート | bubblewrapにはWSL1で利用不可のカーネル機能が必要 |
 | **Windows（ネイティブ）** | ⏳ 計画中 | まだ利用不可、それまでは[WSL2にアップグレード](https://learn.microsoft.com/en-us/windows/wsl/install) |
 
----
 
 ## 10. 決定ツリー: ネイティブ対Docker Sandboxes
 
@@ -561,7 +553,6 @@ flowchart TD
 - **信頼できないコード、AI生成スクリプトの実行** → Docker Sandboxes（最大分離）
 - **マルチエージェントオーケストレーション** → クラウドサンドボックス（並列、スケーラブル）
 
----
 
 ## 11. 設定例
 
@@ -634,7 +625,6 @@ flowchart TD
 }
 ```
 
----
 
 ## 12. ベストプラクティス
 
@@ -647,7 +637,6 @@ flowchart TD
 7. **設定をテストする** — チームにデプロイする前にサンドボックスが正当なワークフローをブロックしないことを確認する
 8. **許可されたドメインを文書化する** — 各ドメインがなぜ許可リストに入っているかをコメントする（`github.com # Git操作のため`）
 
----
 
 ## 13. トラブルシューティング
 
@@ -719,7 +708,6 @@ which bubblewrap socat
 
 **解決策**: `jest --no-watchman`を使用する
 
----
 
 ## 14. 関連情報
 
@@ -730,6 +718,5 @@ which bubblewrap socat
 - [公式ドキュメント: IAM](https://code.claude.com/docs/en/iam) - 権限設定
 - [オープンソースランタイム](https://github.com/anthropic-experimental/sandbox-runtime) - サンドボックスの実装を確認/貢献する
 
----
 
 **質問や問題は？** [github.com/anthropics/claude-code/issues](https://github.com/anthropics/claude-code/issues)で報告してください

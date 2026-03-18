@@ -1,7 +1,11 @@
 ---
-name: security
-description: "OWASP Top 10 脆弱性に焦点を当てた迅速なセキュリティ評価"
+layout: default
+title: "セキュリティクイック監査"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 26
 ---
+
 
 # セキュリティクイック監査
 
@@ -87,7 +91,6 @@ grep -rn --include="*.{js,ts,py}" \
 
 ## 出力フォーマット
 
----
 
 ### 🛡️ セキュリティ監査レポート
 
@@ -125,7 +128,6 @@ grep -rn --include="*.{js,ts,py}" \
 2. [2番目の優先度]
 3. [3番目の優先度]
 
----
 
 ## 重大度レベル
 

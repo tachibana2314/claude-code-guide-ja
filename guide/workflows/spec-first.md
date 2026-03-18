@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "Claudeとの仕様ファースト開発"
-description: "構造化された開発のために、実装の前にCLAUDE.mdで仕様を定義する"
-tags: [workflow, architecture, config]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 19
 ---
+
 
 # Claudeとの仕様ファースト開発
 
@@ -10,7 +13,6 @@ tags: [workflow, architecture, config]
 
 Claudeに構築を依頼する**前に**CLAUDE.mdに何を望むかを定義します。一度の構造化されたイテレーションは8回の非構造化イテレーションに相当します。
 
----
 
 ## 目次
 
@@ -24,7 +26,6 @@ Claudeに構築を依頼する**前に**CLAUDE.mdに何を望むかを定義し�
 8. [アンチパターン](#アンチパターン)
 9. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -37,7 +38,6 @@ Claudeに構築を依頼する**前に**CLAUDE.mdに何を望むかを定義し�
 
 CLAUDE.mdはあなたの仕様ファイルです。コントラクトとして扱います。
 
----
 
 ## パターン
 
@@ -57,7 +57,6 @@ CLAUDE.mdはあなたの仕様ファイルです。コントラクトとして�
 - チームの決定を文書化する
 - 完全性の検証を可能にする
 
----
 
 ## タスクの粒度: エージェントに合わせた作業のサイジング
 
@@ -92,7 +91,6 @@ CLAUDE.mdはあなたの仕様ファイルです。コントラクトとして�
 - スコープ外: OAuth、パスワードリセット、記憶する機能」
 ```
 
----
 
 ## CLAUDE.md仕様テンプレート
 
@@ -196,7 +194,6 @@ Bearerトークン必須。スコープ: `read:resource`、`write:resource`
 | 404 | リソースが見つからない | `{ "message": "..." }` |
 ```
 
----
 
 ## ステップバイステップのワークフロー
 
@@ -254,7 +251,6 @@ Update the User Authentication spec to include:
 Then implement the rate limiting.
 ```
 
----
 
 ## ツールとの統合
 
@@ -293,7 +289,6 @@ I need to implement the Payment Processing feature.
 Review the spec in CLAUDE.md and create an implementation plan.
 ```
 
----
 
 ## 使う場面
 
@@ -316,7 +311,6 @@ Review the spec in CLAUDE.md and create an implementation plan.
 | プロトタイピング | 要件が変わる |
 | 1行の変更 | 意図が明白 |
 
----
 
 ## アンチパターン
 
@@ -358,7 +352,6 @@ Review the spec in CLAUDE.md and create an implementation plan.
              ↑ これらの制約はドリフトを防ぐ
 ```
 
----
 
 ## モジュラー仕様デザイン
 
@@ -456,7 +449,6 @@ CLAUDE-security.md     # セキュリティ要件
 
 **出典**: Addy Osmani、["How to write a good spec for AI agents"](https://addyosmani.com/blog/good-spec/)（2026年1月）
 
----
 
 ## オペレーショナル境界
 
@@ -569,7 +561,6 @@ fi
 
 **出典**: Addy Osmani、["How to write a good spec for AI agents"](https://addyosmani.com/blog/good-spec/)（2026年1月）
 
----
 
 ## コマンド仕様テンプレート
 
@@ -594,7 +585,6 @@ fi
 **Error Handling**: [失敗時の対処]
 **Flags**: [重要なオプション]
 
----
 ```
 
 ### 例: テストコマンド
@@ -684,7 +674,6 @@ fi
 
 **出典**: Addy Osmani、["How to write a good spec for AI agents"](https://addyosmani.com/blog/good-spec/)（2026年1月）
 
----
 
 ## アンチパターン: モノリシックなCLAUDE.md
 
@@ -828,7 +817,6 @@ Claude: CLAUDE.md + @CLAUDE-api.md を読む（関連するコンテキストの
 
 **出典**: Addy Osmani、["How to write a good spec for AI agents"](https://addyosmani.com/blog/good-spec/)（2026年1月）
 
----
 
 ## 関連情報
 

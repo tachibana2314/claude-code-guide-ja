@@ -1,8 +1,11 @@
 ---
-title: "既知の問題とクリティカルなバグ"
-description: "コミュニティレポートと公式コミュニケーションに基づく、Claude Codeユーザーに影響を与えることが確認されたクリティカルな問題"
-tags: [reference, security, debugging]
+layout: default
+title: "既知の問題"
+parent: コア概念
+grand_parent: ガイド
+nav_order: 5
 ---
+
 
 # 既知の問題とクリティカルなバグ
 
@@ -11,7 +14,6 @@ tags: [reference, security, debugging]
 > **最終更新**: 2026年1月28日
 > **ソース**: [GitHub Issues](https://github.com/anthropics/claude-code/issues) + [Anthropic公式コミュニケーション](https://www.anthropic.com/engineering)
 
----
 
 ## 🚨 アクティブなクリティカル問題
 
@@ -100,7 +102,6 @@ Claude Codeが以下を混同している可能性:
 
 **追跡**: [イシュー #13797](https://github.com/anthropics/claude-code/issues/13797) (2025年12月12日からオープン)
 
----
 
 ### 2. 過剰なトークン消費（2026年1月〜現在）
 
@@ -190,7 +191,6 @@ Anthropicが調査中の間:
 3. **パターンをドキュメント化する**: どの操作が高い使用量をトリガーするか？
 4. **データを含めて報告する**: イシューレポートにバージョン、操作タイプ、トークン数を含める
 
----
 
 ## ✅ 解決済みの過去の問題
 
@@ -232,7 +232,6 @@ Anthropicは**3つのインフラバグ**を特定（モデルの劣化ではな
 
 **解決策**: すべてのバグが2025年9月中旬までに修正されました。
 
----
 
 ## 🔄 LLMの日々のパフォーマンス変動
 
@@ -287,7 +286,6 @@ Claudeの出力品質は、同一のプロンプトとクリーンなコンテ�
 
 **タスクタイプ別に期待を調整する**: 決定論的タスク（正規表現、単純な変換、明確に定義されたアルゴリズム）は、創造的またはジャッジメントが重いタスクより変動が少ない傾向にあります。高い信頼性で前者にClaude Codeを使用し、後者についてはワークフローにレビューステップを組み込みます。
 
----
 
 ## 📊 イシュー統計（2026年1月28日時点）
 
@@ -299,7 +297,6 @@ Claudeの出力品質は、同一のプロンプトとクリーンなコンテ�
 | **トークン消費レポート（12月〜1月）** | 20件以上 | イシュー検索 |
 | **アクティブリリース** | 80件以上 | GitHub Releases |
 
----
 
 ## 🔍 イシューの追跡方法
 
@@ -326,7 +323,6 @@ gh search issues --repo anthropics/claude-code "bug" "critical" --sort created -
 - **エンジニアリングブログ**: https://www.anthropic.com/engineering
 - **Discord**: https://discord.gg/anthropic (招待制、ウェブサイトで確認)
 
----
 
 ## 📝 このドキュメントへの貢献
 
@@ -341,6 +337,5 @@ gh search issues --repo anthropics/claude-code "bug" "critical" --sort created -
 - 影響の証拠（複数のレポート、公式対応）
 - 利用可能な場合は推奨される回避策
 
----
 
 **免責事項**: このドキュメントはコミュニティによって維持されており、Anthropicとは関係ありません。情報は現状のまま提供されています。意思決定の前に必ず公式チャンネルで現在のステータスを確認してください。

@@ -1,8 +1,11 @@
 ---
-title: "Claude Code のサードパーティツール"
-description: "トークン追跡、セッション管理、設定、フックユーティリティ、代替 UI のコミュニティツール"
-tags: [reference, integration, plugin]
+layout: default
+title: "サードパーティツール"
+parent: エコシステム
+grand_parent: ガイド
+nav_order: 3
 ---
+
 
 # Claude Code のサードパーティツール
 
@@ -24,7 +27,6 @@ tags: [reference, integration, plugin]
 10. [既知のギャップ](#既知のギャップ)
 11. [ペルソナ別推奨事項](#ペルソナ別推奨事項)
 
----
 
 ## このページについて
 
@@ -35,7 +37,6 @@ tags: [reference, integration, plugin]
 - DIY 監視スクリプト（[可観測性](../ops/observability.md)を参照）
 - MCP サーバーの推奨（[MCP サーバーエコシステム](./mcp-servers-ecosystem.md)を参照）
 
----
 
 ## トークン & コスト追跡
 
@@ -66,7 +67,6 @@ Claude Code 向けの最も成熟したコスト追跡ツール。ローカル�
 > **相互参照**: メインガイドでは [ultimate-guide.md セクション 2.4](./ultimate-guide.md)（コスト監視）で基本的な ccusage コマンドを扱っています。
 > フックを使った DIY コスト追跡については、[可観測性](../ops/observability.md)を参照。
 
----
 
 ### ccburn
 
@@ -89,7 +89,6 @@ Claude Code 向けの最も成熟したコスト追跡ツール。ローカル�
 
 **ccusage より ccburn を選ぶとき**: 表形式レポートより視覚的なバーンレートグラフを好む場合、またはツールチェーンが Python ベースの場合。
 
----
 
 ### Straude
 
@@ -132,7 +131,6 @@ Straude はこのリストの中で唯一**ソーシャル**なツールです �
 
 > **セキュリティリマインダー**: `npx` でコミュニティ CLI ツールを実行する前に、その npm ページとソースのレッドフラグを確認してください。Straude については、コンパイル済みソースが読み取り可能で、述べられた目的と一致しています。完全な分析は [リソース評価](../docs/resource-evaluations/straude-evaluation.md) を参照してください。
 
----
 
 ### RTK（Rust Token Killer）
 
@@ -170,7 +168,6 @@ Straude はこのリストの中で唯一**ソーシャル**なツールです �
 
 > **相互参照**: 完全なドキュメントは [ultimate-guide.md セクション9](./ultimate-guide.md#command-output-optimization-with-rtk)
 
----
 
 ## セッション管理
 
@@ -197,7 +194,6 @@ Claude Code の会話履歴（JSONL ファイル）をブラウズ・閲覧す�
 
 > **相互参照**: CLI からのセッション検索については、[可観測性](../ops/observability.md)の [session-search.sh](../examples/scripts/session-search.sh) を参照。
 
----
 
 ### Entire CLI
 
@@ -282,7 +278,6 @@ ls .git/hooks/                    # 既存フックとの競合がないか確�
 
 > **相互参照**: 例を含む完全な Entire ワークフローは [AI トレーサビリティガイド](../ops/ai-traceability.md#51-entire-cli)。コンプライアンスユースケースは [セキュリティ強化](../security/security-hardening.md)を参照。
 
----
 
 ## 設定管理
 
@@ -304,7 +299,6 @@ ls .git/hooks/                    # 既存フックとの競合がないか確�
 
 **制限**: `~/.claude.json` スコープに限定。`.claude/settings.json`、フック、スラッシュコマンドは管理できません。
 
----
 
 ### AIBlueprint
 
@@ -327,7 +321,6 @@ ls .git/hooks/                    # 既存フックとの競合がないか確�
 
 > **相互参照**: Claude Code の手動設定については、[ultimate-guide.md セクション4](./ultimate-guide.md)（CLAUDE.md、設定、フック、コマンド）を参照。
 
----
 
 ## エンジニアリング標準の配布
 
@@ -360,7 +353,6 @@ ls .git/hooks/                    # 既存フックとの競合がないか確�
 
 > **相互参照**: プロジェクト規模での CLAUDE.md 作成については、[セクション 3.5 — チーム設定のスケール](../ultimate-guide.md#35-team-configuration-at-scale)を参照。Packmind MCP サーバーについては、[mcp-servers-ecosystem.md — オーケストレーション](./mcp-servers-ecosystem.md#orchestration)を参照。
 
----
 
 ## フックユーティリティ
 
@@ -439,7 +431,6 @@ Claude が制御を返す前に品質ゲートを強制する Stop フックユ�
 
 > **相互参照**: Stop フックのメカニクスは [ultimate-guide.md フックセクション](../ultimate-guide.md)を参照。PostToolUse ビルドチェック（ハンドオフ時ではなくファイル編集のたびに起動）については、フックセクションの例（約8262行目）を参照。
 
----
 
 ## 代替 UI
 
@@ -465,7 +456,6 @@ Anthropic の claude-agent-sdk 上に構築された Claude Code のスタイリ
 
 **制限**: アルファステータス — 破壊的変更を想定。Python 依存チェーン。claude-agent-sdk が必要。macOS/Linux のみ。
 
----
 
 ### Toad
 
@@ -489,7 +479,6 @@ AI コーディングエージェント向けのユニバーサルターミナ�
 
 **制限**: macOS/Linux のみ（Windows は WSL 経由）。エージェントサポートは ACP 互換性によって異なる。組み込みのセッション永続性はまだない（ロードマップに追加済み）。
 
----
 
 ### Conductor
 
@@ -544,7 +533,6 @@ git ワークツリーを使って複数の Claude Code（および Codex）イ�
 
 **制限**: 2026年3月時点で macOS のみ。独自仕様（オープンソースではない）。下記のマルチエージェントオーケストレーションツールと重複。
 
----
 
 ### Claude Code GUI（VS Code 拡張機能）
 
@@ -559,7 +547,6 @@ Claude Code の上にグラフィカルレイヤーを追加するサードパ�
 
 **制限**: サードパーティ、Anthropic のメンテナンスなし。機能セットは公式拡張機能と重複または遅れがある可能性。
 
----
 
 ## マルチエージェントオーケストレーション
 
@@ -577,7 +564,6 @@ Claude Code の上にグラフィカルレイヤーを追加するサードパ�
 | [agent-chat](https://github.com/justinabrahms/agent-chat) | 監視 UI | Gas Town/multiclaude のリアルタイム SSE 監視 |
 | [Conductor](#conductor) | デスクトップアプリ | macOS 並列エージェント（上記にも掲載） |
 
----
 
 ## 外部オーケストレーションフレームワーク
 
@@ -609,7 +595,6 @@ npx ruflo@latest init --wizard
 
 **使うとき**: Claude Code のネイティブ Task ツールとサブエージェントがユースケースに不十分な場合 — 通常は多くのセッションにわたる永続状態が必要な複雑なマルチステップパイプライン、または `--dangerously-skip-permissions` + tmux で達成できる以上の真の並列エージェントコーディネーションが必要なワークフロー。
 
----
 
 ### Athena Flow
 
@@ -626,7 +611,6 @@ Claude Code → hook-forwarder → Unix Domain Socket → Athena Flow ランタ�
 
 **まだ推奨しません** — ソース監査が保留中、プロジェクトが新しすぎて安定性を評価できません。4〜6週後に再確認。
 
----
 
 ### Pipelex + MTHDS
 
@@ -659,7 +643,6 @@ npm install -g mthds
 
 **ステータス**：監視中 — 8ヶ月の存在、MTHDS 標準はまだ大規模に検証されていません。2026年 Q3 までのトラクションを監視。
 
----
 
 ## プラグインエコシステム
 
@@ -673,7 +656,6 @@ Claude Code のプラグインシステムはコミュニティ製拡張機能�
 **注目のスキルパック**:
 - **[gstack](https://github.com/garrytan/gstack)** — フルシップサイクルをカバーする6スキルワークフロースイート：戦略的製品ゲート（`/plan-ceo-review`）、アーキテクチャレビュー（`/plan-eng-review`）、徹底的なコードレビュー（`/review`）、自動リリース（`/ship`）、ネイティブブラウザ QA（`/browse`）、振り返り（`/retro`）。Garry Tan（Y Combinator CEO）作。ワークフローパターンと採用ガイドについては [認知モード切り替え](../workflows/gstack-workflow.md)を参照。
 
----
 
 ## 既知のギャップ
 
@@ -689,7 +671,6 @@ Claude Code のプラグインシステムはコミュニティ製拡張機能�
 | **MCP サーバーごとのプロファイラー** | 各 MCP サーバーに帰属するトークンコストを個別に測定する方法なし |
 | **クロスプラットフォーム設定同期** | マシン間で Claude Code 設定を同期するツールなし（`~/.claude/` を手動でコピーする必要あり） |
 
----
 
 ## ペルソナ別推奨事項
 
@@ -702,7 +683,6 @@ Claude Code のプラグインシステムはコミュニティ製拡張機能�
 | **マルチエージェントユーザー** | Toad または Conductor | 統合エージェント管理 |
 | **設定が多いセットアップ** | claude-code-config + AIBlueprint | TUI 設定管理 + スキャフォールディング |
 
----
 
 ## 関連リソース
 

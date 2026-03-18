@@ -1,3 +1,10 @@
+---
+layout: default
+title: "CLAUDE.mdテンプレート"
+parent: テンプレート
+nav_order: 3
+---
+
 # CLAUDE.md - プロジェクトテンプレート
 
 ## プロジェクト概要

@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "検索ツールマスタリー: rg、grepai、Serena & ast-grepの組み合わせ"
-description: "適切なツールを組み合わせて最大の効率でコード検索をマスターする"
-tags: [workflow, search, guide, mcp]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 17
 ---
+
 
 # 検索ツールマスタリー: rg、grepai、Serena & ast-grepの組み合わせ
 
@@ -12,7 +15,6 @@ tags: [workflow, search, guide, mcp]
 **読了時間**: 約20分
 **最終更新**: 2026年1月
 
----
 
 ## 目次
 
@@ -24,7 +26,6 @@ tags: [workflow, search, guide, mcp]
 6. [パフォーマンス最適化](#パフォーマンス最適化)
 7. [よくある落とし穴](#よくある落とし穴)
 
----
 
 ## クイックリファレンスマトリクス
 
@@ -39,7 +40,6 @@ tags: [workflow, search, guide, mcp]
 | ファイルをまたいでリファクタリング | `Serena + ast-grep` | 組み合わせワークフロー |
 | 未知のコードベースを探索する | `grepai → Serena` | 発見パターン |
 
----
 
 ## ツール比較
 
@@ -72,7 +72,6 @@ tags: [workflow, search, guide, mcp]
 
 **重要な洞察**: rgは4倍トークン効率が良いが、セマンティックツールより10倍インテリジェントではない。
 
----
 
 ## デシジョンツリー
 
@@ -122,7 +121,6 @@ tags: [workflow, search, guide, mcp]
 └─ ast-grep → パターンに制約を追加
 ```
 
----
 
 ## 組み合わせワークフロー
 
@@ -160,7 +158,6 @@ rg "validateSession" --type ts -A 5
 
 **結果**: 4つのコマンドで完全な理解（30以上のファイル読み込みの代わりに）
 
----
 
 ### ワークフロー2: 大規模リファクタリング
 
@@ -199,7 +196,6 @@ rg "createSession" --type ts
 
 **結果**: 完全な依存関係認識による安全なリファクタリング
 
----
 
 ### ワークフロー3: セキュリティ監査
 
@@ -240,7 +236,6 @@ rg "password" --type ts | rg -v "hashed"
 
 **結果**: 数分での包括的なセキュリティ監査
 
----
 
 ## 実世界のベンチマーク
 
@@ -266,7 +261,6 @@ rg "password" --type ts | rg -v "hashed"
 
 > **注記**: このベンチマークは2026年1月の状態を反映しています。Claude CodeとgrepaiのアップデートによりパフォーマンスはChange may occur.
 
----
 
 ### ワークフロー4: フレームワークマイグレーション
 
@@ -311,7 +305,6 @@ grepai search "component lifecycle methods"  # 見逃したものを見つける
 
 **結果**: 最小限の破損による体系的な移行
 
----
 
 ### ワークフロー5: パフォーマンス最適化
 
@@ -354,7 +347,6 @@ rg "useMemo|useCallback" --type tsx
 
 **結果**: データ駆動のパフォーマンス改善
 
----
 
 ## 実世界のシナリオ
 
@@ -377,7 +369,6 @@ serena get_symbols_overview --file user-profile.service.ts
 rg "updateProfile" --type ts -C 3
 ```
 
----
 
 ### シナリオ2: 「この関数はあちこちから呼ばれている」
 
@@ -403,7 +394,6 @@ ast-grep 'calculateTotal($ARGS)' --json
 # すべての影響ポイントを把握した上で
 ```
 
----
 
 ### シナリオ3: 「Xをするすべてのコードを見つける」
 
@@ -426,7 +416,6 @@ rg "catch\s*\(" --type ts | wc -l
 # ast-grepのカウントと比較して異常を見つける
 ```
 
----
 
 ### シナリオ4: 「このモジュールを理解する必要がある」
 
@@ -454,7 +443,6 @@ ast-grep 'async $METHOD($$$)' --file payment.module.ts
 rg "processPayment" --type ts -A 20
 ```
 
----
 
 ## パフォーマンス最適化
 
@@ -505,7 +493,6 @@ jq -s '.[0] + .[1] + .[2]' \
   /tmp/ast-results.json
 ```
 
----
 
 ## よくある落とし穴
 
@@ -523,7 +510,6 @@ rg "createSession" --type ts  # 速い、正確
 
 **ルール**: 正確なテキストを知っている場合、セマンティック検索は使わない。
 
----
 
 ### 落とし穴2: 概念検索にrgを使用する
 
@@ -539,7 +525,6 @@ grepai search "authentication and session management"
 
 **ルール**: 正規表現は意味を理解しない。セマンティックツールを使用する。
 
----
 
 ### 落とし穴3: リファクタリング前にコールグラフを無視する
 
@@ -559,7 +544,6 @@ grepai trace callers "oldFunction"
 
 **ルール**: 共有コードを変更する前に常に依存関係をトレースする。
 
----
 
 ### 落とし穴4: ツールを組み合わせない
 
@@ -582,7 +566,6 @@ done
 
 **ルール**: 複雑なタスクには複数の視点が必要。
 
----
 
 ### 落とし穴5: シンプルな検索を過剰設計する
 
@@ -599,7 +582,6 @@ rg "TODO" --type ts
 
 **ルール**: 機能する最もシンプルなツールを使用する。
 
----
 
 ## ツール選択チートシート
 
@@ -616,7 +598,6 @@ rg "TODO" --type ts
 | 「Reactクラスを移行する」 | ast-grep | rg + 手動 |
 | 「TODOを見つける」 | rg "TODO" | その他のツール |
 
----
 
 ## セットアップの優先順位
 
@@ -629,7 +610,6 @@ rg "TODO" --type ts
 
 **根拠**: 検索の90%はrg + Serenaで機能します。セマンティックニーズにはgrepaiを追加。大規模なリファクタリング/移行をする場合のみast-grepを追加。
 
----
 
 ## まとめ: 4ツールのシンフォニー
 
@@ -662,7 +642,6 @@ rg "TODO" --type ts
 └─────────────────────────────────────────────────────────┘
 ```
 
----
 
 ## 参考資料
 
@@ -671,7 +650,6 @@ rg "TODO" --type ts
 - [ast-grepパターンスキル](../../examples/skills/ast-grep-patterns.md)
 - [アーキテクチャ: Grep対RAGの歴史](../core/architecture.md#search-strategy-evolution)
 
----
 
 **最終更新**: 2026年1月
 **互換性**: Claude Code 2.1.7+

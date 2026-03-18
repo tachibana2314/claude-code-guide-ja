@@ -1,8 +1,11 @@
 ---
-title: "MCP サーバーエコシステム"
-description: "本番対応とセキュリティの観点から評価された、検証済みコミュニティ MCP サーバー"
-tags: [mcp, reference, integration]
+layout: default
+title: "MCPサーバー"
+parent: エコシステム
+grand_parent: ガイド
+nav_order: 2
 ---
+
 
 # MCP サーバーエコシステム
 
@@ -29,7 +32,6 @@ tags: [mcp, reference, integration]
 - [月次監視方法論](#月次監視方法論)
 - [除外されたサーバー](#除外されたサーバー)
 
----
 
 ## 公式サーバー vs コミュニティサーバー
 
@@ -40,7 +42,6 @@ tags: [mcp, reference, integration]
 
 **主な違い**: 公式サーバーは Anthropic の SLA 保証があり、コミュニティサーバーは個別の評価が必要です。
 
----
 
 ## 評価フレームワーク
 
@@ -64,7 +65,6 @@ tags: [mcp, reference, integration]
 
 **合計スコア**: `/50` → 最終評価 `/10` に正規化。
 
----
 
 ## エコシステムの進化
 
@@ -106,7 +106,6 @@ Claude は MCP アプリ仕様経由でインタラクティブツールをサ�
 
 - **発表**: [Microsoft DevBlogs](https://devblogs.microsoft.com/visualstudio/azure-mcp-server-now-built-in-with-visual-studio-2026-a-new-era-for-agentic-workflows/)
 
----
 
 ## バージョン管理（公式サーバー）
 
@@ -278,7 +277,6 @@ GitHub 固有の操作（PR、Issues、Actions）ですか？
 - **MCP インスペクター**: ライブテスト用のデバッグツールサポート
 - **Docker Hub**: `ghcr.io/modelcontextprotocol/mcp-server-git`
 
----
 
 ## 検証済みコミュニティサーバー
 
@@ -364,7 +362,6 @@ Claude: [playwright_navigate → playwright_type → playwright_click → playwr
 - **リリース**: https://github.com/microsoft/playwright-mcp/releases
 - **Playwright Live デモ**: https://youtu.be/CNzg1aPwrKI
 
----
 
 #### Browserbase MCP
 
@@ -422,7 +419,6 @@ npm install @browserbasehq/mcp-server-browserbase
 - **GitHub**: https://github.com/browserbase/mcp-server-browserbase
 - **公式ドキュメント**: https://www.browserbase.com
 
----
 
 #### Chrome DevTools MCP
 
@@ -479,7 +475,6 @@ npm install @modelcontextprotocol/server-chrome-devtools
 - **npm**: https://www.npmjs.com/package/@modelcontextprotocol/server-chrome-devtools
 - **Chrome DevTools Protocol**: https://chromedevtools.github.io/devtools-protocol/
 
----
 
 ### DevOps & インフラ
 
@@ -562,7 +557,6 @@ Claude: [patch_resource を使用]
 - **GitHub**: https://github.com/containers/kubernetes-mcp-server
 - **Red Hat ドキュメント**: https://developers.redhat.com/articles/2025/09/25/kubernetes-mcp-server-ai-powered-cluster-management
 
----
 
 #### Vercel MCP
 
@@ -614,7 +608,6 @@ npm install
 - **Vercel ドキュメント**: https://vercel.com/docs/mcp/deploy-mcp-servers-to-vercel
 - **Vercel 公式 MCP**: https://vercel.com/docs/mcp/vercel-mcp
 
----
 
 ### セキュリティ & コード分析
 
@@ -707,7 +700,6 @@ Claude: [security_check ツールを使用]
 - **ルールレジストリ**: https://semgrep.dev/r
 - **価格**: https://semgrep.dev/pricing（MCP は無料ティアあり）
 
----
 
 ### コード検索 & 分析
 
@@ -837,7 +829,6 @@ Claude: [grepai_trace_callers symbol="validateToken" を使用]
 - **Ollama**: https://ollama.com
 - **エンベディングモデル**: nomic-embed-text（nomic-ai）
 
----
 
 ### ドキュメント & ナレッジ
 
@@ -912,7 +903,6 @@ Claude: [context7 検索を使用]
 
 **ctx7 CLI コンパニオン**: Context7 はターミナルからのスキル発見と MCP セットアップを処理する CLI（`npx ctx7`）も同梱しています。`ctx7 skills suggest` はプロジェクトの依存関係を自動検出して一致するスキルを推奨。`ctx7 setup --claude` は MCP または CLI+スキルモードを自動設定するウィザードを実行します。フルワークフローについては Ultimate Guide の §5.5 を参照。
 
----
 
 ### プロジェクト管理
 
@@ -989,7 +979,6 @@ Claude: [linear.issues.update を使用]
 - **Linear API**: https://developers.linear.app
 - **ドキュメント**: https://jan.ai/docs/desktop/mcp-examples/productivity/linear
 
----
 
 ### オーケストレーション
 
@@ -1079,7 +1068,6 @@ proxy:
 - **Docker Compose ドキュメント**: https://docs.docker.com/compose/
 - **MCP プロトコル仕様**: https://modelcontextprotocol.io
 
----
 
 #### Packmind
 
@@ -1102,7 +1090,6 @@ proxy:
 
 > **相互参照**: 完全なツール評価は [third-party-tools.md — エンジニアリング標準の配布](./third-party-tools.md#エンジニアリング標準の配布) を参照。
 
----
 
 ## 本番デプロイ
 
@@ -1160,7 +1147,6 @@ npm install mcp-linear
 | **トークンオーバーヘッド** | ~200〜500トークン | 構造化出力に最小限 | アクセシビリティツリー vs スクリーンショット |
 | **セットアップ時間** | ~5分 | 2〜10分 | Cargo ビルド（MCP-Compose）= 10分 |
 
----
 
 ## 月次監視方法論
 
@@ -1243,7 +1229,6 @@ npm install mcp-linear
 3. MVP 関連の場合は [クイックスタートスタック](#クイックスタートスタック) を更新
 4. セキュリティ重要な場合は [本番デプロイ](#本番デプロイ) チェックリストを更新
 
----
 
 ## 除外されたサーバー
 
@@ -1256,7 +1241,6 @@ npm install mcp-linear
 | **GitHub MCP** | アーカイブ済み、公式 Go SDK に移行 | [GitHub Changelog](https://github.blog/changelog/2025-12-10-the-github-mcp-server-adds-support-for-tool-specific-configuration-and-more/) | 2026年1月 |
 | **Jira MCP（sooperset）** | 最近のリリースなし（最終: 2025年6月）、Linear より安定性が低い | [GitHub リリース](https://github.com/sooperset/mcp-atlassian/releases) | 2026年1月 |
 
----
 
 ## 統計 & インサイト
 
@@ -1277,12 +1261,10 @@ npm install mcp-linear
 - **公式サーバー**（6）: Playwright（Microsoft）、Browserbase、Semgrep、Context7、Kubernetes（Red Hat）、Chrome DevTools（Anthropic）
 - **コミュニティサーバー**（4）: Linear、Vercel、MCP-Compose、Grepai（適切に設計され、積極的にメンテナンスされている）
 
----
 
 **最終更新**: 2026年2月
 **次回レビュー**: 2026年3月
 **メンテナー**: Claude Code Ultimate Guide チーム
 
----
 
 *[メインガイド](./ultimate-guide.md) | [README](./README.md)に戻る*

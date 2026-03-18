@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "TTSセットアップワークフロー - Agent Vibesのインストール"
-description: "macOSでClaude Codeにテキスト読み上げナレーションを追加する"
-tags: [workflow, tts, tutorial]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 24
 ---
+
 
 # TTSセットアップワークフロー - Agent Vibesのインストール
 
@@ -11,7 +14,6 @@ tags: [workflow, tts, tutorial]
 **難易度**: 中級
 **システム**: macOS（Homebrewが必要）
 
----
 
 ## 判断ポイント: TTSをインストールすべきか
 
@@ -32,7 +34,6 @@ tags: [workflow, tts, tutorial]
 - **0〜2**: 任意（試してみて、アンインストール可能）
 - **0未満**: TTSをスキップ（適合しない）
 
----
 
 ## ワークフロー概要
 
@@ -48,7 +49,6 @@ tags: [workflow, tts, tutorial]
 フェーズ5: 確認（1分）
 ```
 
----
 
 ## フェーズ1: 前提条件（5分）
 
@@ -95,7 +95,6 @@ command -v sox && command -v ffmpeg && command -v espeak-ng && echo "✅ 依存�
 
 **フェーズ1の合計時間**: 約5分
 
----
 
 ## フェーズ2: Agent Vibesのインストール（5分）
 
@@ -146,7 +145,6 @@ cat .claude/tts-provider.txt
 
 **フェーズ2の合計時間**: 約5分
 
----
 
 ## フェーズ3: Piper TTS + フランス語ボイス（5分）
 
@@ -187,7 +185,6 @@ curl -L -o fr_FR-siwis-medium.onnx.json \
 
 **フェーズ3の合計時間**: 約5分
 
----
 
 ## フェーズ4: 設定とテスト（3分）
 
@@ -225,7 +222,6 @@ echo "Bonjour, je suis Claude et je parle français" | \
 
 **フェーズ4の合計時間**: 約3分
 
----
 
 ## フェーズ5: Claude Codeでの検証（1分）
 
@@ -260,11 +256,9 @@ claude
 
 **フェーズ5の合計時間**: 約1分
 
----
 
 ## 合計時間: 約18分 ✅
 
----
 
 ## セットアップ後の推奨事項
 
@@ -299,7 +293,6 @@ echo "*.wav" >> .gitignore
 echo "*.onnx" >> .gitignore
 ```
 
----
 
 ## トラブルシューティングクイックリファレンス
 
@@ -312,7 +305,6 @@ echo "*.onnx" >> .gitignore
 
 **完全なトラブルシューティング**: [Agent Vibesトラブルシューティング](../../examples/integrations/agent-vibes/troubleshooting.md)
 
----
 
 ## 次のステップ
 
@@ -320,7 +312,6 @@ echo "*.onnx" >> .gitignore
 - **[インテグレーションガイド](../../examples/integrations/agent-vibes/README.md)** - コマンドを学ぶ
 - **[インストール詳細](../../examples/integrations/agent-vibes/installation.md)** - 詳細解説
 
----
 
 ## アンインストール手順
 
@@ -338,7 +329,6 @@ rm -rf ~/.claude/piper-voices/
 pipx uninstall piper-tts
 ```
 
----
 
 *ワークフローガイドは[Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)によって管理されています*
 *最終更新: 2026-01-22 | Agent Vibes v3.0.0*

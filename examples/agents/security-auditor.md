@@ -1,9 +1,11 @@
 ---
-name: security-auditor
-description: セキュリティ脆弱性の検出と OWASP コンプライアンスチェックに使用します
-model: sonnet
-tools: Read, Grep, Glob
+layout: default
+title: "セキュリティ監査エージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 12
 ---
+
 
 # セキュリティ監査エージェント
 

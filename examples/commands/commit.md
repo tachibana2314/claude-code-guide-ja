@@ -1,7 +1,11 @@
 ---
-name: commit
-description: "ステージされた変更に対して Conventional Commit メッセージを生成する"
+layout: default
+title: "Conventional Commit"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 4
 ---
+
 
 # Conventional Commit
 

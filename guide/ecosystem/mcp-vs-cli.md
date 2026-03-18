@@ -1,8 +1,11 @@
 ---
-title: "MCP vs CLI — 意思決定ガイド"
-description: "Claude Code ワークフローで MCP サーバーと CLI ツールをいつ使うべきか。トレードオフ、判断軸、状況別のガイダンス。"
-tags: [mcp, cli, tokens, architecture, decision]
+layout: default
+title: "MCP vs CLI"
+parent: エコシステム
+grand_parent: ガイド
+nav_order: 4
 ---
+
 
 # MCP vs CLI — 意思決定ガイド
 
@@ -12,7 +15,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 
 このページでは、Claude Code が外部ツールやサービスにアクセスするための2つの統合パターン、MCP サーバーと CLI ツールを比較します。どちらが一律に優れているわけではありません。正しい選択はコンテキストによって異なり、実際の本番ワークフローのほとんどは両方を使っています。
 
----
 
 ## 各アプローチの概要
 
@@ -20,7 +22,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 
 **CLI ツール**は、Claude が Bash 経由で呼び出すシェルコマンドです。Claude は開発者と同じ方法でドライブします。コマンド文字列を組み立て、テキスト出力をパースする形です。起動時のスキーマ注入はなく、シェルがインターフェースになります。
 
----
 
 ## トレードオフ
 
@@ -68,7 +69,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 | **マルチエージェント構造なし** | CLI 出力はパースが必要。構造化された MCP レスポンスはエージェント間ハンドオフでより信頼性が高い |
 | **非技術ユーザーの障壁** | 設定済み CLI 環境を持つことを非技術ユーザーに期待できない |
 
----
 
 ## 4つの判断軸
 
@@ -96,7 +96,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 - **安定した API**（成熟したツール、バージョン管理されたインターフェース）→ MCP への投資は時間をかけて報われる。
 - **急速に変化**または**薄いラッパー** → CLI の方がメンテナンスコストが低い。実際に使う5つのコマンドだけを公開する手製の glab ラッパーは、完全な API サーフェスを複製する GitLab MCP よりも耐久性がある。
 
----
 
 ## 状況別ガイダンス
 
@@ -120,7 +119,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 | GitLab / GitHub アクセス | **CLI**（glab、gh） | 公式 CLI はほとんどの MCP ラッパーより機能が豊富 |
 | ドキュメント検索（Context7） | **MCP** | CLI 相当なし。構造化ドキュメント取得のシェル代替手段なし |
 
----
 
 ## ハイブリッドがデフォルト
 
@@ -134,7 +132,6 @@ tags: [mcp, cli, tokens, architecture, decision]
 
 1つの答えを両方のレイヤーに適用することが間違いです。自分のために Claude Code ワークフローを構築するソロ開発者は、ほとんど CLI を使うべきです。非技術の同僚に AI アシスタントをデプロイするチームは、ほとんど MCP を使うべきです。
 
----
 
 ## MCP スキーマのトークンコスト — 数字で見ると
 
@@ -151,7 +148,6 @@ MCP サーバーは、セッション開始時にフルのツールリストを�
 - セッションごとのトークン使用量を監視して、ロードされているが未使用の MCP スキーマを特定
 - タイトなループで頻繁に使うツールには CLI ラッパーを検討（コンパイル → テスト → 修正サイクル）
 
----
 
 ## この分野のツール
 
@@ -163,7 +159,6 @@ MCP サーバーは、セッション開始時にフルのツールリストを�
 
 mcp2cli についての注記: コアの主張（MCP を CLI に変換してスキーマ注入を排除）は、アーキテクチャ的に有効です。しかし Claude Code は MCP 接続を内部で管理するため、トークン節約は標準的な Claude Code ワークフローには直接適用されません。Claude Code スキル統合（`npx skills add knowsuchagency/mcp2cli --skill mcp2cli`）が実際の入り口です。
 
----
 
 ## 実践者の声
 
@@ -179,6 +174,5 @@ mcp2cli についての注記: コアの主張（MCP を CLI に変換してス�
 
 > 「フロンティアモデルは CLI を直接ドライブできる十分な能力があります。能力の低いローカルモデルは苦戦します。そこで MCP スキーマがオーバーヘッドに見合う価値を発揮します。」— 実践者
 
----
 
 *[MCP サーバーエコシステム](./mcp-servers-ecosystem.md) | [サードパーティツール](./third-party-tools.md) | [メインガイド](../ultimate-guide.md)に戻る*

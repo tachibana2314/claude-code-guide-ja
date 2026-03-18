@@ -1,8 +1,11 @@
 ---
-name: audit-agents-skills
-description: Claude Code プロジェクト内のエージェント、スキル、コマンドの品質を監査します
-argument-hint: "[path] [--fix] [--verbose]"
+layout: default
+title: "エージェント/スキル/コマンドの品質監査"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 1
 ---
+
 
 # エージェント/スキル/コマンドの品質監査
 
@@ -23,7 +26,6 @@ Claude Code のエージェント、スキル、コマンドの包括的な品�
 /audit-agents-skills --verbose    # すべての基準の詳細
 ```
 
----
 
 ## フェーズ 1: 発見
 
@@ -51,7 +53,6 @@ Claude Code のエージェント、スキル、コマンドの包括的な品�
    Found: X agents, Y skills, Z commands
    ```
 
----
 
 ## フェーズ 2: 個別ファイルの監査
 
@@ -106,7 +107,6 @@ Claude Code のエージェント、スキル、コマンドの包括的な品�
 
 **根拠**: 設計パターンはエージェントアーキテクチャの**保守性**と**スケーラビリティ**を決定します。
 
----
 
 ### スキル（32 ポイント満点）
 
@@ -154,7 +154,6 @@ Claude Code のエージェント、スキル、コマンドの包括的な品�
 
 **根拠**: 設計はプロジェクト間での**発見可能性**と**保守性**を決定します。
 
----
 
 ### コマンド（20 ポイント満点）
 
@@ -180,7 +179,6 @@ Claude Code のエージェント、スキル、コマンドの包括的な品�
 
 **根拠**: 品質は**信頼性**と**プロダクション準備状況**を決定します。
 
----
 
 ## フェーズ 3: スコアリング
 
@@ -211,7 +209,6 @@ Score = (Points Obtained / Max Points) × 100
 Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ Command Scores × Command Count) / Total Files
 ```
 
----
 
 ## フェーズ 4: レポート生成
 
@@ -226,7 +223,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
 **監査済みファイル**: {total} ({n} エージェント, {n} スキル, {n} コマンド)
 **プロダクション準備完了**: {count} ファイル ({percentage}%)
 
----
 
 ## サマリー
 
@@ -236,7 +232,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
 | スキル | X | Y% | Z | N/X (%) |
 | コマンド | X | Y% | Z | N/X (%) |
 
----
 
 ## 個別スコア
 
@@ -246,7 +241,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
 | skill-name/ | スキル | 72% | C | ハードコードされたパス、エラーハンドリングなし |
 | command.md | コマンド | 95% | A | なし |
 
----
 
 ## 上位の問題（すべてのファイル）
 
@@ -262,7 +256,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
    - 影響: 学習容易性が低い、呼び出し方が不明
    - 修正: 3 つ以上のシナリオがある「Examples」セクションを追加する
 
----
 
 ## 詳細ブレークダウン
 
@@ -292,7 +285,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
 
 </details>
 
----
 
 ## 推奨事項（優先度順）
 
@@ -322,7 +314,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
    - ファイル: [リスト]
    - アクション: 合成用の互換性のあるエージェント/スキルをリストアップする
 
----
 
 ## 次のステップ
 
@@ -332,7 +323,6 @@ Overall = (Σ Agent Scores × Agent Count + Σ Skill Scores × Skill Count + Σ 
 4. すべてのファイルでプロダクション準備完了のために 80% 以上（グレード B）を目指す
 ```
 
----
 
 ## フェーズ 5: 修正モード（オプション）
 
@@ -375,7 +365,6 @@ curl https://api.example.com || {   # ✅ エラー処理済み
 }
 ```
 
----
 
 ## 詳細モード（オプション）
 
@@ -395,7 +384,6 @@ curl https://api.example.com || {   # ✅ エラー処理済み
 | ... | ... | ... | ... |
 ```
 
----
 
 ## 業界コンテキスト
 
@@ -410,7 +398,6 @@ curl https://api.example.com || {   # ✅ エラー処理済み
 
 **比較**: ガイドのエージェントバリデーションチェックリスト（行 4921）のような手動チェックリストは包括的ですが、エラーが起きやすいです。自動スコアリングにより人的エラーが減り、時間の経過に伴う改善を追跡するための定量的なメトリクスが提供されます。
 
----
 
 ## 関連項目
 
@@ -419,7 +406,6 @@ curl https://api.example.com || {   # ✅ エラー処理済み
 - **例**: `examples/agents/`、`examples/skills/`、`examples/commands/`
 - **高度な監査**: テンプレートとの比較分析に `audit-agents-skills` スキルを使用（`examples/skills/` を参照）
 
----
 
 ## 実装メモ
 
@@ -470,6 +456,5 @@ COLORS = {
 }
 ```
 
----
 
 **コマンドは使用可能**: `/audit-agents-skills`

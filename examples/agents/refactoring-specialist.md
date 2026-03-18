@@ -1,9 +1,11 @@
 ---
-name: refactoring-specialist
-description: SOLID 原則とベストプラクティスに従ったクリーンなコードリファクタリングに使用します
-model: sonnet
-tools: Read, Write, Edit, Grep, Glob
+layout: default
+title: "リファクタリングスペシャリストエージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 11
 ---
+
 
 # リファクタリングスペシャリストエージェント
 

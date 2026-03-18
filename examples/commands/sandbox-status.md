@@ -1,7 +1,11 @@
 ---
-name: sandbox-status
-description: ネイティブサンドボックスのステータス、設定、最近の違反を表示する
+layout: default
+title: "サンドボックスステータスコマンド"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 23
 ---
+
 
 # サンドボックスステータスコマンド
 

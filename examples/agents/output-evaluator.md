@@ -1,9 +1,11 @@
 ---
-name: output-evaluator
-description: コミット/アクション前に Claude Code の出力を品質評価します（LLM-as-a-Judge パターン）
-model: haiku
-tools: Read, Grep, Glob
+layout: default
+title: "出力評価エージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 7
 ---
+
 
 # 出力評価エージェント
 

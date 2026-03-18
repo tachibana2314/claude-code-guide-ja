@@ -1,7 +1,11 @@
 ---
-name: catchup
-description: "/clear 後にコンテキストを復元し、最近の作業とプロジェクトの状態をまとめる"
+layout: default
+title: "コンテキストの復元"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 3
 ---
+
 
 # コンテキストの復元
 
@@ -67,7 +71,6 @@ echo "🌿 Branch: $BRANCH"
 
 構造化されたサマリーを表示します:
 
----
 
 ### 📍 コンテキスト復元完了
 
@@ -96,7 +99,6 @@ echo "🌿 Branch: $BRANCH"
 1. [パターンから推測される最も可能性の高い次のアクション]
 2. [代替フォーカスエリア]
 
----
 
 ## 使用例
 

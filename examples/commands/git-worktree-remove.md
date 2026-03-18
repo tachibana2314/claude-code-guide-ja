@@ -1,7 +1,11 @@
 ---
-name: git-worktree-remove
-description: "ブランチクリーンアップと安全チェック付きで git worktree を安全に削除する"
+layout: default
+title: "Git Worktree 削除"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 9
 ---
+
 
 # Git Worktree 削除
 

@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "RPI: リサーチ → プラン → 実装"
-description: "フェーズ間に明示的なバリデーションゲートを持つ3フェーズの機能開発パターン"
-tags: [workflow, architecture, design-patterns, validation]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 16
 ---
+
 
 # RPI: リサーチ → プラン → 実装
 
@@ -10,7 +13,6 @@ tags: [workflow, architecture, design-patterns, validation]
 
 3つのロックされたフェーズで機能を構築します: 最初に実現可能性をリサーチし、次に実装をプランし、3番目にコードを書きます。各フェーズは具体的なアーティファクトを生成します。各ゲートは次のフェーズが開始する前に明示的なGOが必要です。
 
----
 
 ## 目次
 
@@ -26,7 +28,6 @@ tags: [workflow, architecture, design-patterns, validation]
 10. [ヒントとトラブルシューティング](#ヒントとトラブルシューティング)
 11. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -49,7 +50,6 @@ tags: [workflow, architecture, design-patterns, validation]
 
 **最適な用途**: 実現可能性が不明な機能、1日以上の作業、未知の技術領域、または後で誤った仮定を発見するとコストがかかる場合。
 
----
 
 ## RPIを使う場面
 
@@ -76,7 +76,6 @@ tags: [workflow, architecture, design-patterns, validation]
 
 「はい」なら、RPIを実行します。リサーチフェーズは通常30-60分かかり、多くの時間を節約できます。
 
----
 
 ## ゲートの仕組み
 
@@ -112,7 +111,6 @@ RPIには2つの人間ゲートと実装ステップごとに1つの自動ゲー
 
 **ステップゲート（実装中）**: 各実装ステップはClaudeが次のステップに進む前にテストに通る必要があります。自動化されており、ステップが失敗しない限り人間のアクションは不要です。
 
----
 
 ## フェーズ1: リサーチ
 
@@ -160,7 +158,6 @@ Use Plan Mode to explore without modifying code.
 **Requested**: [機能の一文説明]
 **Status**: PENDING DECISION
 
----
 
 ## What Exists Today
 
@@ -174,7 +171,6 @@ Use Plan Mode to explore without modifying code.
 ### Prior Attempts or Related Work
 - [既存の部分的な実装、関連PR、コードベース内のメモ]
 
----
 
 ## What Needs to Be Built
 
@@ -188,7 +184,6 @@ Use Plan Mode to explore without modifying code.
 ### External Dependencies
 - [依存関係]: [必要な理由、バージョン制約（あれば）]
 
----
 
 ## Risks
 
@@ -196,7 +191,6 @@ Use Plan Mode to explore without modifying code.
 |------|-----------|--------|-------|
 | [リスクの説明] | Low/Med/High | Low/Med/High | [緩和策またはブロッカー] |
 
----
 
 ## Architecture Decision Points
 
@@ -205,7 +199,6 @@ Use Plan Mode to explore without modifying code.
 1. **[決定]**: オプションA（長所: X、短所: Y）対オプションB（長所: X、短所: Y）
 2. **[決定]**: [オプションとトレードオフ]
 
----
 
 ## Effort Estimate
 
@@ -217,7 +210,6 @@ Use Plan Mode to explore without modifying code.
 **見積もりの信頼度**: 低 / 中 / 高
 **理由**: [信頼度レベルの理由]
 
----
 
 ## Recommendation
 
@@ -225,7 +217,6 @@ Use Plan Mode to explore without modifying code.
 
 [推奨の説明1-3文]
 
----
 
 **Decision**: [ ] GO  [ ] NO-GO  [ ] NEEDS CLARIFICATION
 **Notes**: [人間がここを記入]
@@ -242,7 +233,6 @@ Use Plan Mode to explore without modifying code.
 
 NO-GOのリサーチドキュメントをアーカイブします — それらは行われた決定とその理由の貴重な記録です。
 
----
 
 ## フェーズ2: プラン
 
@@ -276,13 +266,11 @@ Do not write any code yet. Plan only.
 **Estimated effort**: [リサーチからの見積もり]
 **Risk level**: Low / Medium / High
 
----
 
 ## Summary
 
 [2-4文: 何を実装するか、主要な設計決定、含まれないもの]
 
----
 
 ## Architecture Decisions
 
@@ -291,7 +279,6 @@ Do not write any code yet. Plan only.
 1. **[決定]**: [Xの理由で][オプション]を選択
 2. **[決定]**: [Xの理由で][オプション]を選択
 
----
 
 ## Implementation Steps
 
@@ -311,7 +298,6 @@ Do not write any code yet. Plan only.
 
 [...すべてのステップまで続ける]
 
----
 
 ## Success Criteria
 
@@ -319,7 +305,6 @@ Do not write any code yet. Plan only.
 - [ ] [テスト可能な基準]
 - [ ] すべてのステップのテストゲートが通る
 
----
 
 ## Out of Scope
 
@@ -327,13 +312,11 @@ Do not write any code yet. Plan only.
 - [除外されたもの]
 - [除外されたもの]
 
----
 
 ## Risks Accepted
 
 [RESEARCH.mdのリスクから、どれが受け入れられどのように緩和されるか]
 
----
 
 ## Rollback Plan
 
@@ -341,7 +324,6 @@ Do not write any code yet. Plan only.
 - [取り消すもの]
 - [前の状態に戻す方法]
 
----
 
 **Plan approved?** [ ] YES — 実装に進む
 **Revision notes**: [変更が必要な場合は人間がここを記入]
@@ -358,7 +340,6 @@ Do not write any code yet. Plan only.
 
 プランに変更が必要な場合は、承認前にClaudeに修正するよう頼んでください。これは無料です — 承認後の修正は実装時間がかかります。
 
----
 
 ## フェーズ3: 実装
 
@@ -417,7 +398,6 @@ Which should I do?
 
 あなたが決定します。Claudeは自動修正して続行しません — それがプランから実装がドリフトする原因です。
 
----
 
 ## スラッシュコマンドテンプレート
 
@@ -528,7 +508,6 @@ Which should I do?
 - 通過した各ステップの後にコミット — 最後ではない
 ```
 
----
 
 ## ワークドエグザンプル
 
@@ -620,7 +599,6 @@ Which should I do?
 
 Claudeはステップ1を実装し、ゲートを実行（`npm install` + インポートチェック）し、`feat(rate-limit): step 1 — dependencies and config` をコミットします。その後ステップ2、3、4を順番に。各コミットはクリーン。各ゲートは続行前に通る必要があります。
 
----
 
 ## 他のワークフローとの比較
 
@@ -644,7 +622,6 @@ Claudeはステップ1を実装し、ゲートを実行（`npm install` + イン
 
 明確なスコープで2時間未満のものには、ClaudeにそのままやるよくGoすれよう依頼します。RPIは正当化されない小さなタスクへのオーバーヘッドを追加します。リサーチフェーズだけで30-60分かかります。そのオーバーヘッドは、後で誤った仮定を発見する方がはるかにコストがかかるマルチデイ機能に対して報われます。
 
----
 
 ## ヒントとトラブルシューティング
 
@@ -729,7 +706,6 @@ Review the plan — is the test gate achievable given the Step 1 output?
 Do we need to revise the plan before continuing?
 ```
 
----
 
 ## ファイル構造のまとめ
 
@@ -755,7 +731,6 @@ mv .claude/features/payment-processing .claude/features/_archive/
 
 アーカイブは学習リソースです: 完了したRESEARCH.mdとPLAN.mdファイルは、以前の機能がどのように推論されたかを示します。
 
----
 
 ## 関連情報
 

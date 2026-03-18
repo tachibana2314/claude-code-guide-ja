@@ -1,7 +1,11 @@
 ---
-name: plan-validate
-description: "2層のプラン検証: 即時の構造チェック + トリガーベースの専門エージェント。ADR とファーストプリンシプルを使って問題を自動修正。実行前にすべての問題を解決する必要あり。"
+layout: default
+title: "Plan Validate — 2層の検証"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 17
 ---
+
 
 # Plan Validate — 2層の検証
 
@@ -9,13 +13,11 @@ description: "2層のプラン検証: 即時の構造チェック + トリガー
 
 検証は計画から分離されています: プランを書いていない検証者はその前提に縛られていません。
 
----
 
 ## 前提条件
 
 コミット済みのプランファイルが `docs/plans/plan-{name}.md` に存在している必要があります。複数のプランが存在する場合、どれを検証するかユーザーに確認します。
 
----
 
 ## 第1層: 構造的検証
 
@@ -48,7 +50,6 @@ description: "2層のプラン検証: 即時の構造チェック + トリガー
 
 第2層に進む前に、すべての第1層の問題を重大度（BLOCKER / WARNING / INFO）と共に記録します。
 
----
 
 ## 第2層: 専門家レビュー
 
@@ -80,7 +81,6 @@ Risk: [what breaks if this isn't addressed]
 Suggestion: [specific fix or alternative]
 ```
 
----
 
 ## 自動修正フェーズ
 
@@ -102,7 +102,6 @@ Suggestion: [specific fix or alternative]
 
 **すべての問題がトリアージされたら一括で修正を適用**します。プランファイルを更新します。更新されたプランをコミット。
 
----
 
 ## 問題の永続化
 
@@ -124,7 +123,6 @@ Suggestion: [specific fix or alternative]
 
 このデータは `/plan-metrics` が時間の経過によるパターン分析に使用します。
 
----
 
 ## 自動遷移
 
@@ -132,7 +130,6 @@ Suggestion: [specific fix or alternative]
 
 人間の入力が必要だった場合（バケット B）: 先に進む前に「すべての問題が解決されました。実行しますか？」と確認。
 
----
 
 ## 使用法
 

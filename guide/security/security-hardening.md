@@ -1,8 +1,11 @@
 ---
-title: "セキュリティ強化ガイド"
-description: "Claude Codeにおける現実の脅威、インジェクション防御、CVEベースのセキュリティ強化"
-tags: [security, guide, hooks]
+layout: default
+title: "セキュリティ強化"
+parent: セキュリティ
+grand_parent: ガイド
+nav_order: 1
 ---
+
 
 # セキュリティ強化ガイド
 
@@ -10,7 +13,6 @@ tags: [security, guide, hooks]
 >
 > **スコープ**: 現実の脅威（攻撃、インジェクション、CVE）。データ保持とプライバシーについては [data-privacy.md](./data-privacy.md) を参照
 
----
 
 ## TL;DR - 判断マトリックス
 
@@ -25,7 +27,6 @@ tags: [security, guide, hooks]
 > **絶対にしてはいけないこと**: バージョン固定なしで未知のソースからMCPを承認する。
 > **絶対にしてはいけないこと**: 読み取り専用の認証情報なしで本番環境のデータベースMCPを実行する。
 
----
 
 ## パート1: 予防（作業開始前）
 
@@ -321,7 +322,6 @@ grep -r "permissions.allow" .claude/ 2>/dev/null
 
 **原則**: 未知のリポジトリの`.claude/`は、`package.json`スクリプトや`.github/workflows/`に適用するのと同じ厳密さで確認すること。
 
----
 
 ## パート2: 検出（作業中）
 
@@ -461,7 +461,6 @@ cp examples/hooks/bash/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
 ```
 
----
 
 ## パート3: 対応（問題が発生したとき）
 
@@ -723,7 +722,6 @@ exit 0
 - **CoSAI AIインシデント対応フレームワークV1.0**（2025年11月）: AIに特有のインシデント（データポイズニング、プロンプトインジェクション、モデル盗難）に対処する最初のフレームワーク。インシデント対応手順を構築するチームの参考資料。（[OASIS](https://www.oasis-open.org/2025/11/18/coalition-for-secure-ai-releases-two-actionable-frameworks-for-ai-model-signing-and-incident-response/)）
 - **ガバナンスとコンテインメントのギャップ**: 業界データによれば、組織の約59%がAIエージェントを監視しているが、実際のキルスイッチ機能を持つのは約38%のみ（[CDOTrends、2026年1月](https://www.cdotrends.com/story/4854/your-fsi-ai-needs-kill-switch-should-terrify-you)）。介入なしの監視 = 安全性なしの認識。
 
----
 
 ## 付録: クイックリファレンス
 
@@ -751,7 +749,6 @@ ls -la ~/.claude/hooks/
 echo -e "test\u200Bhidden" | grep -P '[\x{200B}-\x{200D}]'
 ```
 
----
 
 ## パート4: 統合（日常のワークフローで）
 
@@ -821,7 +818,6 @@ fi
 exit 0
 ```
 
----
 
 ## セキュリティスキャナーとしてのClaude Code（研究プレビュー）
 
@@ -851,7 +847,6 @@ Claude Code自体を保護することを超えて、Anthropicは専用の脆弱
 - **今すぐ** → 書き込み時に脆弱なパターンをブロックするために[Security Gate Hook](../examples/hooks/bash/security-gate.sh)を使用する
 - **ウェイトリスト** → チームが必要と判断したら、より深いセマンティック分析のためにプレビューに参加する
 
----
 
 ## 関連情報
 
@@ -879,7 +874,6 @@ Claude Code自体を保護することを超えて、Anthropicは専用の脆弱
 - **Prompt Injection Research**: [Arxiv 2509.22040](https://arxiv.org/abs/2509.22040)
 - **MCP Security Best Practices**: [modelcontextprotocol.io](https://modelcontextprotocol.io/specification/draft/basic/security_best_practices)
 
----
 
 ## パート7: リモートコントロールセキュリティ {#remote-control-security}
 
@@ -949,6 +943,5 @@ Claude Code自体を保護することを超えて、Anthropicは専用の脆弱
 
 最高のセキュリティのためには: 特に機密性の高い環境では、リモートコントロールよりもVPN経由のSSHを優先すること。
 
----
 
 *バージョン 1.2.0 | 2026年2月 | [Claude Code アルティメットガイド](../README.md)の一部*

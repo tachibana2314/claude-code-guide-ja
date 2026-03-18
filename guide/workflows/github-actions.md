@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "Claude CodeのGitHub Actionsワークフロー"
-description: "claude-code-actionを使ったPRレビュー、イシューのトリアージ、品質ゲートの自動化のための本番対応パターン"
-tags: [workflow, ci-cd, github-actions, automation]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 9
 ---
+
 
 # Claude CodeのGitHub Actionsワークフロー
 
@@ -10,7 +13,6 @@ tags: [workflow, ci-cd, github-actions, automation]
 
 `@claude`メンションと、スケジュール/イベント自動化（完全自律）の2つのトリガーモデルで、コードレビュー、イシューのトリアージ、品質ゲートを自動化します。
 
----
 
 ## 目次
 
@@ -27,7 +29,6 @@ tags: [workflow, ci-cd, github-actions, automation]
 11. [セキュリティチェックリスト](#セキュリティチェックリスト)
 12. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -54,7 +55,6 @@ jobs:
 
 任意のPRで`@claude review this PR`とコメントする → ClaudeがdiffをreadしてレビューをPostする。
 
----
 
 ## 2つのモデル
 
@@ -65,7 +65,6 @@ jobs:
 
 どちらも同じアクションを使います — 違いは`on:`ブロックと`if:`条件を含めるかどうかです。
 
----
 
 ## セットアップ
 
@@ -85,7 +84,6 @@ GitHub Appの作成、リポジトリシークレットへの`ANTHROPIC_API_KEY`
 2. `.github/workflows/claude.yml`を作成（以下のパターンを参照）
 3. ワークフローに権限を付与: `contents: write`、`pull-requests: write`、`issues: write`
 
----
 
 ## パターン1: @claudeメンションによるPRコードレビュー
 
@@ -123,7 +121,6 @@ jobs:
 - `@claude is this change backwards compatible?` — ターゲットを絞った質問
 - `@claude fix the failing test in src/auth.test.ts` — Claudeが修正を含むフォローアップPRを開く
 
----
 
 ## パターン2: プッシュ時の自動PRレビュー
 
@@ -172,7 +169,6 @@ jobs:
 
 **ヒント**: `paths:`を追加してドキュメントのみのPRでのトリガーを回避するか、`if: github.event.pull_request.draft == false`を追加してドラフトをスキップしてください。
 
----
 
 ## パターン3: イシューのトリアージとラベリング
 
@@ -208,7 +204,6 @@ jobs:
             簡潔にしてください。ポイントごとに1文。
 ```
 
----
 
 ## パターン4: セキュリティ重視のレビュー
 
@@ -252,7 +247,6 @@ jobs:
             各調査結果をリスト: file:line、脆弱性タイプ、推奨される修正。
 ```
 
----
 
 ## パターン5: スケジュールされたリポジトリメンテナンス
 
@@ -290,7 +284,6 @@ jobs:
             注意が必要なものがない場合は「Health check passed — no issues found.」とコメントしてください。
 ```
 
----
 
 ## 認証の代替手段
 
@@ -321,7 +314,6 @@ jobs:
 
 クラウドプロバイダーはデータレジデンシーコンプライアンスから恩恵を受け、別のAPIキーを管理する代わりに既存のIAMポリシーを活用できます。
 
----
 
 ## コスト制御
 
@@ -362,7 +354,6 @@ jobs:
       cancel-in-progress: true
 ```
 
----
 
 ## セキュリティチェックリスト
 
@@ -382,7 +373,6 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
 ```
 
----
 
 ## 関連情報
 

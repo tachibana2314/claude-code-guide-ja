@@ -1,3 +1,11 @@
+---
+layout: default
+title: "AstroでダイナミックOGイメージを生成する"
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 12
+---
+
 # AstroでダイナミックOGイメージを生成する
 
 古くなった静的PNGを管理する代わりに、ビルド時にソーシャルプレビュー画像を自動生成します。Twitter/X、LinkedIn、Slackでのシェア時に、常に正確で最新の情報が表示されます。

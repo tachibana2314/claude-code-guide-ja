@@ -1,8 +1,11 @@
 ---
-title: "AIエコシステム：補完ツールでClaude Codeを最大化する"
-description: "Claude Codeと補完AIツールの使い分け、最適なワークフローのためのチェーン方法"
-tags: [ai-ecosystem, guide, workflows, integration]
+layout: default
+title: "AIエコシステム"
+parent: エコシステム
+grand_parent: ガイド
+nav_order: 1
 ---
+
 
 # AIエコシステム：補完ツールでClaude Codeを最大化する
 
@@ -10,7 +13,6 @@ tags: [ai-ecosystem, guide, workflows, integration]
 >
 > **目的**: このガイドでは、Claude Codeと補完AIツールをいつ使い分けるか、そして最適なワークフローのためにどうチェーンするかを解説します。
 
----
 
 ## 目次
 
@@ -35,7 +37,6 @@ tags: [ai-ecosystem, guide, workflows, integration]
 - [付録：すぐに使えるプロンプト](#付録すぐに使えるプロンプト)
 - [代替プロバイダー（コミュニティの回避策）](#代替プロバイダーコミュニティの回避策)
 
----
 
 ## はじめに
 
@@ -69,7 +70,6 @@ Claude Codeが（設計上）苦手とすること：
 | **ブラウザプロトタイピング** | ❌ なし | v0.dev、Bolt | ライブプレビュー |
 | **IDEオートコンプリート** | ❌ なし | Copilot、Cursor | インライン候補提示 |
 
----
 
 ## 1. Perplexity AI（リサーチ・情報収集）
 
@@ -205,7 +205,6 @@ claude "Add rate limiting to API. Check spec.md for approach."
 
 **推奨**: 簡単な事実確認にはClaude WebSearchを使用する。エコシステムの理解が必要な重要な実装の前には、Perplexity Deep Researchを使用する。
 
----
 
 ## 2. Google Gemini（ビジュアル理解）
 
@@ -293,7 +292,6 @@ claude "Add rate limiting to API. Check spec.md for approach."
 2. Geminiにアップロードしてコードに変換
 3. Claude Codeで洗練させる
 
----
 
 ## 3. Kimi（PPTX・長文ドキュメント生成）
 
@@ -371,7 +369,6 @@ claude "Add rate limiting to API. Check spec.md for approach."
 
 **推奨**: コードを含む技術コンテンツにはKimiを使用する。ビジネス/投資家向けデッキにはGammaを使用する。
 
----
 
 ## 4. NotebookLM（情報統合・音声）
 
@@ -457,7 +454,6 @@ NotebookLM統合後、重要なインサイトをプロジェクトにエクス�
 - Implement error boundary audit
 ```
 
----
 
 ## 4.1 NotebookLM MCP統合
 
@@ -709,7 +705,6 @@ cat ~/.claude.json | jq '.mcpServers.notebooklm'
 "How would I implement this in our codebase?"
 ```
 
----
 
 ## 4.2 高度な機能（フルプロファイル）
 
@@ -818,7 +813,6 @@ export NOTEBOOKLM_PROFILE=full
 
 **ユースケース**: 認証問題のデバッグ、障害時のブラウザ状態の確認、手動ノートブックナビゲーション。
 
----
 
 ## 4.3 ブラウザオプション（全プロファイル）
 
@@ -892,7 +886,6 @@ ask_question(
 - **ステルスを無効化**: ローカルテスト、デバッグ、速度優先
 - **カスタムビューポート**: レスポンシブなノートブックUIのテスト（まれ）
 
----
 
 ## 4.4 セッション管理
 
@@ -957,7 +950,6 @@ NotebookLM MCPは`session_id`を通じてクエリ間の会話コンテキスト
 
 セッションは15分後に自動的に期限切れになる。手動クリーンアップは`cleanup_data`経由で行う。
 
----
 
 ## 4.5 ライブラリ管理のベストプラクティス
 
@@ -1061,7 +1053,6 @@ Topics: TypeScript, types"
 - 無料プラン: ノートブック100件、ノートブックあたりソース50件、50万語、1日50クエリ
 - Google AI Premium/Ultra: 制限が5倍に
 
----
 
 ## 5. 音声入力ツール（Wispr Flow、Superwhisper）
 
@@ -1118,7 +1109,6 @@ Topics: TypeScript, types"
 **プロヒント**: 複雑なプロンプトには、Claudeに送信する前に口述した詳細な入力を構造化されたプロンプトに圧縮する「改善」ステップを検討する。
 `examples/skills/`にある`/voice-refine`スキルテンプレートを参照してください。
 
----
 
 ## 5.1 テキスト読み上げツール（Agent Vibes）
 
@@ -1206,7 +1196,6 @@ Topics: TypeScript, types"
 - GitHub: https://github.com/paulpreibisch/AgentVibes
 - Voice Samples: https://rhasspy.github.io/piper-samples/
 
----
 
 ## 6. IDEベースのツール（Cursor、Windsurf、Cline）
 
@@ -1360,7 +1349,6 @@ Claudeのより深い分析が必要な場合：
 2. コンテキスト付きでコピーする（ファイルパス、行番号）
 3. Claudeにペーストして指示する: 「これを分析してアーキテクチャの改善提案をして」
 
----
 
 ## 6.1 Google Antigravity（エージェントファーストIDE）
 
@@ -1403,7 +1391,6 @@ Google Antigravityは、2025年後半にローンチされた**エージェン�
 
 **結論**: Claude Codeは**既存の開発者ワークフローとの予測可能性と統合**を最適化します。Antigravityは**実験的なトレードオフを伴う最大エージェント自律性**を最適化します。両者は異なる哲学を持っており、リスク許容度とワークフローの好みに基づいて選択してください。
 
----
 ### トレードオフの把握
 
 **Antigravityの強み**: より広い視覚的コンテキスト（エージェントがブラウザとエディタを「見る」）、並列エージェントオーケストレーション、非CLIデベロッパーへの参入障壁の低さ。
@@ -1412,7 +1399,6 @@ Google Antigravityは、2025年後半にローンチされた**エージェン�
 
 **結論**: Claude Codeは**既存の開発者ワークフローへの予測可能性と統合**を最適化する。Antigravityは**実験的なトレードオフを伴う最大限のエージェント自律性**を最適化する。両者は異なる思想を持っており、自身のリスク許容度とワークフローの好みに応じて選択する。
 
----
 
 ## 7. UIプロトタイパー（v0、Bolt、Lovable）
 
@@ -1460,7 +1446,6 @@ Google Antigravityは、2025年後半にローンチされた**エージェン�
 └─────────────────────────────────────────────────────────┘
 ```
 
----
 
 ## 8. ワークフローオーケストレーション
 
@@ -1558,7 +1543,6 @@ claude
    Follow the patterns I see in existing endpoints."
 ```
 
----
 
 ### 8.1 マルチエージェントオーケストレーションシステム
 
@@ -1794,7 +1778,6 @@ Gas Town/multiclaudeを使用していない場合でも次のことが可能：
 
 **ステータス**: 活発なオープンソースプロジェクト、プロダクション対応、ドキュメント充実
 
----
 
 ## 9. コストとサブスクリプション戦略
 
@@ -1840,7 +1823,6 @@ Gas Town/multiclaudeを使用していない場合でも次のことが可能：
 4. **定期的にコンテキスト使用量を確認**（`/status`）して無駄を防ぐ
 5. **Opusは控えめに使用** — アーキテクチャの意思決定にのみ
 
----
 
 ## 10. Claude Cowork（リサーチプレビュー）
 
@@ -1929,7 +1911,6 @@ Coworkは、Claude Desktopアプリを通じて非技術ユーザーへClaudeの
 
 > **詳細**: セキュリティの完全なプラクティス、トラブルシューティング、詳細なユースケースについては[guide/cowork.md](./cowork.md)を参照。
 
----
 
 ## 付録：すぐに使えるプロンプト
 
@@ -2013,7 +1994,6 @@ Integrate this into our project:
 Validate against existing code before implementing.
 ```
 
----
 
 ## クイックリファレンスカード
 
@@ -2039,7 +2019,6 @@ Validate against existing code before implementing.
 ドキュメント → 理解：     NotebookLM → Claude Code
 ```
 
----
 
 ## 11. AIコーディングエージェントマトリクス
 
@@ -2105,7 +2084,6 @@ Validate against existing code before implementing.
 
 **位置づけ**: Matrixは適切なエージェントを**選択**する際にこのガイドを補完する。Claude Codeを選んだ後は、このガイドを使って**習得**する。
 
----
 
 ## 11.1 Goose：オープンソースの代替ツール（Block）
 
@@ -2201,7 +2179,6 @@ GooseはClaude Codeの**代替品ではなく**、異なるトレードオフを
 
 Claude Codeのワークフローにすでに投資しているほとんどの開発者にとって、切り替えコストは大きい。Gooseはモデルの多様性を必要とするチームや、Claude Codeの制限に頻繁に達する開発者にとって最も価値がある。
 
----
 
 ## 11.2 実践者のインサイト
 
@@ -2430,7 +2407,6 @@ Claude Codeのワークフローにすでに投資しているほとんどの開
 
 **ステータス**: 新興（公開初日）。コミュニティ採用の追跡のためのウォッチリストに登録。
 
----
 
 ## 11.3 構築 vs 使用の判断
 
@@ -2502,7 +2478,6 @@ Claude Codeのワークフローにすでに投資しているほとんどの開
 - [MCPサーバーエコシステム](https://github.com/modelcontextprotocol/servers)
 - [このガイドのMCPカバレッジ](../guide/ultimate-guide.md#mcp-servers)（セクション6）
 
----
 
 ## 11.4 スキル配布プラットフォーム
 
@@ -2564,7 +2539,6 @@ npx add-skill anthropics/claude-plugins-official  # CLAUDE.mdオーディター 
 - フォーマット互換性の詳細
 - トレードオフと推奨事項
 
----
 
 ## 12. コンテキストパッキングツール
 
@@ -2670,7 +2644,6 @@ classDiagram
 
 **注記**: Java/Springプロジェクトで報告されたパターン。スケールでは検証されていない。代替のSerena + grepaiはゼロメンテナンスで同様の結果を達成する。
 
----
 
 ## 代替プロバイダー（コミュニティの回避策）
 
@@ -2721,4 +2694,3 @@ Claude Codeは環境変数から`ANTHROPIC_BASE_URL`を読み込み、Anthropic 
 
 *ステップバイステップの手順は意図的に提供していない。*
 
----

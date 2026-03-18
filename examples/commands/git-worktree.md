@@ -1,7 +1,11 @@
 ---
-name: git-worktree
-description: "ブランチを切り替えずに機能開発のための分離された git worktree を作成する"
+layout: default
+title: "Git Worktree セットアップ"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 11
 ---
+
 
 # Git Worktree セットアップ
 

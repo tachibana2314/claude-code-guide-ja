@@ -1,7 +1,11 @@
 ---
-name: review-pr
-description: "プルリクエストの包括的なコードレビューを実施する"
+layout: default
+title: "プルリクエストレビュー"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 22
 ---
+
 
 # プルリクエストレビュー
 
@@ -81,7 +85,6 @@ description: "プルリクエストの包括的なコードレビューを実施
 /review-pr https://github.com/owner/repo/pull/123
 ```
 
----
 
 ## 上級: マルチエージェントレビュー
 
@@ -224,7 +227,6 @@ diff の内容に基づいて追加コンテキストを読み込みます（ス
 
 **AST-grep**: 構造的なパターンマッチング（例: すべての類似 try/catch ブロックを検索）
 
----
 
 ## ソース
 

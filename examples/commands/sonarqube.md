@@ -1,7 +1,11 @@
 ---
-name: sonarqube
-description: "特定の PR の SonarCloud 品質問題を分析する"
+layout: default
+title: "SonarQube 分析"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 28
 ---
+
 
 # SonarQube 分析
 

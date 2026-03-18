@@ -1,8 +1,11 @@
 ---
-title: "Claude Codeリリース履歴"
-description: "ハイライトと破壊的変更を含むClaude Code公式リリースの凝縮版changelog"
-tags: [reference, release]
+layout: default
+title: "リリース履歴"
+parent: コア概念
+grand_parent: ガイド
+nav_order: 6
 ---
+
 
 # Claude Codeリリース履歴
 
@@ -12,7 +15,6 @@ tags: [reference, release]
 
 **最新**: v2.1.77 | **更新日**: 2026-03-17
 
----
 
 ## クイックジャンプ
 
@@ -21,7 +23,6 @@ tags: [reference, release]
 - [破壊的変更のまとめ](#破壊的変更のまとめ)
 - [マイルストーン機能](#マイルストーン機能)
 
----
 
 ## 2.1.xシリーズ（2026年1月〜3月）
 
@@ -687,7 +688,6 @@ tags: [reference, release]
 - planモードに入るためのパーミッションプロンプトを削除
 - [SDK] 最小のzodピア依存関係: `^4.0.0`
 
----
 
 ## 2.0.xシリーズ（2025年11月〜2026年1月）
 
@@ -767,7 +767,6 @@ tags: [reference, release]
 - BashToolのサンドボックスモード（LinuxとMac）
 - Bedrock: `awsAuthRefresh` 出力表示
 
----
 
 ## 破壊的変更のまとめ
 
@@ -819,7 +818,6 @@ tags: [reference, release]
 |----------|------|
 | v2.1.19 | インデックス付き引数の構文変更: `$ARGUMENTS.0` → `$ARGUMENTS[0]`（ブラケット構文）|
 
----
 
 ## マイルストーン機能
 
@@ -842,7 +840,6 @@ tags: [reference, release]
 | **v2.0.28** | planサブエージェント、サブエージェントの再開/モデル選択 |
 | **v2.0.24** | Webテレポート、サンドボックスモード |
 
----
 
 ## このドキュメントの更新方法
 
@@ -851,4 +848,3 @@ tags: [reference, release]
 3. **再生成**: それに応じてこのMarkdownを更新
 4. **ランディングを同期**: `./scripts/check-landing-sync.sh` を実行
 
----

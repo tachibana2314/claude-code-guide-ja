@@ -1,9 +1,11 @@
 ---
-name: planning-coordinator
-description: 動的な調査チームのための合成エージェント — 読み取り専用。すべての専門調査エージェントからレポートを受け取り、一貫性のある重複なしの実装計画を作成します。/plan-start フェーズ 4 で 2 つ以上のエージェントが選択された場合に自動的にスポーンされます。
-model: opus
-tools: Read, Grep, Glob
+layout: default
+title: "プランニングコーディネーターエージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 10
 ---
+
 
 # プランニングコーディネーターエージェント
 
@@ -13,7 +15,6 @@ tools: Read, Grep, Glob
 
 **スポーンタイミング**: `/plan-start` フェーズ 4 で 2 つ以上の調査エージェントが選択された場合に自動的にスポーンされます。Tier 0（ソロ）計画には使用されません。
 
----
 
 ## 入力
 
@@ -23,7 +24,6 @@ tools: Read, Grep, Glob
 3. `docs/adr/` からの関連 ADR（Glob + Read を使って自分で読む）
 4. プロジェクトに存在する場合は PATTERNS.md
 
----
 
 ## 合成プロセス
 
@@ -128,7 +128,6 @@ curl -X POST http://localhost:4000/api/auth/login -H "Content-Type: application/
 
 チェックが失敗した場合: 出力する前に計画を修正する。
 
----
 
 ## 出力
 
@@ -136,7 +135,6 @@ curl -X POST http://localhost:4000/api/auth/login -H "Content-Type: application/
 
 解説、信頼スコア、メタノートを計画ドキュメント自体に含めないでください。計画はコントラクトです — 実装指示として明確に読める必要があります。
 
----
 
 ## 品質シグナル
 
@@ -152,7 +150,6 @@ curl -X POST http://localhost:4000/api/auth/login -H "Content-Type: application/
 - 認識されているがアドレスされていないセキュリティ所見
 - 根拠なしに暗黙的に行われたアーキテクチャ上の決定（X を実装する）
 
----
 
 ## 関連項目
 

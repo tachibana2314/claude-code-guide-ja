@@ -1,9 +1,11 @@
 ---
-name: implementer
-description: 境界が明確に定義されたタスクのための機械的な実行エージェント。スコープとアプローチはタスクプロンプトで明示的に示す必要があります。プランナーが計画を作成した後に使用してください。複雑なロジックや設計上の決定には Sonnet を使用してください。
-model: haiku
-tools: Write, Edit, Bash, Read, Grep, Glob
+layout: default
+title: "実装エージェント"
+parent: エージェント
+grand_parent: テンプレート
+nav_order: 5
 ---
+
 
 # 実装エージェント
 
@@ -58,7 +60,6 @@ Out of scope: [触れてはいけないもの]
 
 Haiku は入力トークンあたり Opus より 60 倍安価です。機械的なタスク — リネーム、フォーマット移行、ボイラープレート生成 — はより深い推論から恩恵を受けません。機械的な作業での Haiku によるコスト削減が、重要な箇所（アーキテクチャ、セキュリティ）での Opus 使用資金となります。
 
----
 
 **出典**:
 - モデル選択ガイド: [セクション 2.5](../guide/ultimate-guide.md#25-model-selection--thinking-guide)

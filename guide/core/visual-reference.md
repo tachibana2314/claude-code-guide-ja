@@ -1,8 +1,11 @@
 ---
-title: "Claude Code — ビジュアルリファレンス"
-description: "Claude Codeの主要コンセプトを一カ所に集めたASCIIダイアグラム"
-tags: [reference, architecture, cheatsheet]
+layout: default
+title: "ビジュアルリファレンス"
+parent: コア概念
+grand_parent: ガイド
+nav_order: 4
 ---
+
 
 # Claude Code — ビジュアルリファレンス
 
@@ -13,7 +16,6 @@ tags: [reference, architecture, cheatsheet]
 
 > **20のダイアグラム**: 新規8個（このファイル）+ 既存ガイドから12個、すべてここに集約。
 
----
 
 ## 目次
 
@@ -51,7 +53,6 @@ tags: [reference, architecture, cheatsheet]
 19. [セキュリティ3層防衛](#19-セキュリティ3層防衛)
 20. [シークレット漏洩タイムライン](#20-シークレット漏洩タイムライン)
 
----
 
 ## 1. コンテキスト管理ゾーン
 
@@ -80,7 +81,6 @@ tags: [reference, architecture, cheatsheet]
 
 → ソース: [ultimate-guide.md:1335](./ultimate-guide.md)
 
----
 
 ## 2. パーミッションモードのサイクル
 
@@ -113,7 +113,6 @@ tags: [reference, architecture, cheatsheet]
 
 → ソース: [ultimate-guide.md:760](./ultimate-guide.md)
 
----
 
 ## 3. ワークフローパイプライン（9ステップ）
 
@@ -144,7 +143,6 @@ tags: [reference, architecture, cheatsheet]
 
 → ソース: [ultimate-guide.md:277](./ultimate-guide.md)
 
----
 
 ## 4. クイック意思決定ツリー
 
@@ -176,7 +174,6 @@ tags: [reference, architecture, cheatsheet]
 
 → ソース: [reference.yaml](../machine-readable/reference.yaml)（decideセクション）
 
----
 
 ## 5. マスターループ
 
@@ -233,7 +230,6 @@ tags: [reference, architecture, cheatsheet]
 
 → ソース: [architecture.md:84](./architecture.md)
 
----
 
 ## 6. Hookイベントフロー
 
@@ -272,7 +268,6 @@ HookがClaude Codeの実行パイプラインをどのようにインターセ�
 
 → ソース: [ultimate-guide.md:6327](./ultimate-guide.md)
 
----
 
 ## 7. データプライバシーフロー
 
@@ -302,7 +297,6 @@ Claude Codeを使用するときにマシンを離れるデータ:
 
 → ソース: [data-privacy.md:24](../security/data-privacy.md)
 
----
 
 ## 8. MCPラグプル攻撃
 
@@ -325,7 +319,6 @@ Claude Codeを使用するときにマシンを離れるデータ:
 
 → ソース: [security-hardening.md:33](../security/security-hardening.md)
 
----
 
 ## 9. Dockerサンドボックスアーキテクチャ
 
@@ -360,7 +353,6 @@ Claude Codeを使用するときにマシンを離れるデータ:
 
 → ソース: [sandbox-isolation.md:87](../security/sandbox-isolation.md)
 
----
 
 ## 10. 検索ツール選択
 
@@ -414,7 +406,6 @@ Claude Codeを使用するときにマシンを離れるデータ:
 
 → ソース: [search-tools-mastery.md:75](./workflows/search-tools-mastery.md)
 
----
 
 ## 11. 信頼調整フロー
 
@@ -455,7 +446,6 @@ Claude Codeを使用するときにマシンを離れるデータ:
 
 → ソース: [ultimate-guide.md:1182](./ultimate-guide.md)
 
----
 
 ## 12. 採用意思決定ツリー
 
@@ -479,7 +469,6 @@ Claude Codeを始める？
 
 → ソース: [adoption-approaches.md:51](../roles/adoption-approaches.md)
 
----
 
 ## 13. 手法選択
 
@@ -499,7 +488,6 @@ Claude Codeを始める？
 
 → ソース: [methodologies.md:24](./methodologies.md)
 
----
 
 ## 14. 調査 → 仕様 → コード
 
@@ -528,7 +516,6 @@ Claude Codeを始める？
 
 → ソース: [ai-ecosystem.md:155](../ecosystem/ai-ecosystem.md)
 
----
 
 ## 15. レビュー自動修正ループ
 
@@ -552,7 +539,6 @@ Claudeがレビュー、修正、再レビューを行う反復的なコード�
 
 → ソース: [iterative-refinement.md:354](./workflows/iterative-refinement.md)
 
----
 
 ## 16. PDFパイプラインスタック
 
@@ -592,7 +578,6 @@ Claudeがレビュー、修正、再レビューを行う反復的なコード�
 
 → ソース: [pdf-generation.md:58](./workflows/pdf-generation.md)
 
----
 
 ## 17. TDD Red-Green-Refactorサイクル
 
@@ -646,7 +631,6 @@ Claudeがレビュー、修正、再レビューを行う反復的なコード�
 
 > ソース: [workflows/tdd-with-claude.md:78](./workflows/tdd-with-claude.md)
 
----
 
 ## 18. UVALプロトコルフロー
 
@@ -687,7 +671,6 @@ AIで学習しながら自分のスキルを失わないための体系的フレ
 
 > ソース: [learning-with-ai.md:208](../roles/learning-with-ai.md)
 
----
 
 ## 19. セキュリティ3層防衛
 
@@ -731,7 +714,6 @@ AIで学習しながら自分のスキルを失わないための体系的フレ
 
 > ソース: [security-hardening.md:24/205/345](../security/security-hardening.md)
 
----
 
 ## 20. シークレット漏洩タイムライン
 
@@ -777,6 +759,5 @@ AIで学習しながら自分のスキルを失わないための体系的フレ
 
 > ソース: [security-hardening.md:347](../security/security-hardening.md)
 
----
 
 *[ガイドREADME](./README.md) に戻る | [チートシート](./cheatsheet.md) | [メインREADME](../README.md)*

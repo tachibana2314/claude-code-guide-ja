@@ -1,7 +1,11 @@
 ---
-name: diagnose
-description: "Claude Code の問題に対するインタラクティブなトラブルシューティングアシスタント"
+layout: default
+title: "Claude Code 診断アシスタント"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 5
 ---
+
 
 # Claude Code 診断アシスタント
 
@@ -58,7 +62,6 @@ cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP confi
 
 ユーザーが具体的な問題を説明していない場合は、次のカテゴリーを表示します:
 
----
 
 **権限**
 1. settings.json の設定にもかかわらず繰り返し表示される権限プロンプト
@@ -84,7 +87,6 @@ cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP confi
 11. エージェント/スキルの問題
 12. その他 → 自由に説明
 
----
 
 ### ステップ 5: 相関と診断
 
@@ -102,7 +104,6 @@ cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP confi
 
 次のフォーマットで応答します:
 
----
 
 ### 診断
 
@@ -125,7 +126,6 @@ cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP confi
 ガイドの X.Y セクション: [簡単な説明]
 `https://github.com/flobby41/claude-code-ultimate-guide`
 
----
 
 ## 一般的なパターン
 

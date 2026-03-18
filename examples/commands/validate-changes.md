@@ -1,7 +1,11 @@
 ---
-name: validate-changes
-description: コミット前に LLM-as-a-Judge を使ってステージされた変更を評価する
+layout: default
+title: "コミット前の変更検証"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 30
 ---
+
 
 # コミット前の変更検証
 

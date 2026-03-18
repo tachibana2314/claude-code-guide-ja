@@ -1,7 +1,11 @@
 ---
-name: refactor
-description: "SOLID 違反を分析し、的を絞った改善を提案する"
+layout: default
+title: "SOLID リファクタリングアシスタント"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 19
 ---
+
 
 # SOLID リファクタリングアシスタント
 
@@ -104,7 +108,6 @@ grep -rn "^\s\{16,\}" --include="*.{ts,js,py}" . 2>/dev/null | head -10
 
 ## 出力フォーマット
 
----
 
 ### 🔧 リファクタリング分析
 
@@ -170,7 +173,6 @@ switch (paymentType) {
 
 - [将来のスプリントで追跡する項目]
 
----
 
 ## リファクタリング安全チェックリスト
 

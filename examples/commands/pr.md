@@ -1,7 +1,11 @@
 ---
-name: pr
-description: "変更を分析し、スコープの問題を検出して、適切に構造化された PR を作成する"
+layout: default
+title: "プルリクエストの作成"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 18
 ---
+
 
 # プルリクエストの作成
 
@@ -97,7 +101,6 @@ git push -u origin feature/payments-stripe
 ## TLDR
 <!-- 最大2行 - エグゼクティブサマリー -->
 
----
 
 ## Type
 {Feature | Fix | Tech | Docs | Security}
@@ -117,7 +120,6 @@ git push -u origin feature/payments-stripe
 - [ ] console.log が残っていない
 - [ ] 型OK（`pnpm typecheck`）
 
----
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 

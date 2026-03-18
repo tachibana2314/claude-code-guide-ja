@@ -1,9 +1,11 @@
 ---
-name: plan-eng-review
-description: エンジニアリングアーキテクチャゲート — 実装コードを書く前にアーキテクチャ、図、エッジケース、テストマトリクスを固定する
-version: 1.0.0
-inspired-by: https://github.com/garrytan/gstack
+layout: default
+title: "/plan-eng-review — エンジニアリングアーキテクチャゲート"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 14
 ---
+
 
 # /plan-eng-review — エンジニアリングアーキテクチャゲート
 
@@ -11,7 +13,6 @@ inspired-by: https://github.com/garrytan/gstack
 
 **`/plan-ceo-review` で方向性が固定された後に使用します。まだプランモード。**
 
----
 
 ## このコマンドが解決する問題
 
@@ -19,7 +20,6 @@ inspired-by: https://github.com/garrytan/gstack
 
 重要な解放: **図の生成を強制すること**。図は散文が曖昧にしておく暗黙の前提を明らかにします。シーケンス図は誰が何を呼び出すかを指定させます。ステートマシンはすべての失敗モードを明示的に列挙させます。
 
----
 
 ## 使用するタイミング
 
@@ -28,7 +28,6 @@ inspired-by: https://github.com/garrytan/gstack
 - 機能に非同期コンポーネント、外部依存関係、またはマルチステップフローがある場合
 - 「アーキテクチャは明確」が前提でなく証明が必要な場合
 
----
 
 ## 生成すべき成果物
 
@@ -42,7 +41,6 @@ inspired-by: https://github.com/garrytan/gstack
 | 信頼境界マップ | 外部入力をどこで受け入れるか？何を検証するか？ |
 | テストマトリクス | 何をどのレイヤーでテストする必要があるか |
 
----
 
 ## プロンプトテンプレート
 
@@ -136,7 +134,6 @@ stateDiagram-v2
 包括的なリストではなく — ブロッカーのみ。
 ```
 
----
 
 ## 例
 
@@ -173,7 +170,6 @@ stateDiagram-v2
 - アップロード成功、分類ジョブが開始しない → 孤立したファイル、クリーンアップジョブが必要
 - ドラフト生成での Web データ → プロンプトインジェクションのベクター、LLM に渡す前にサニタイズ
 
----
 
 ## 他のコマンドとの統合
 

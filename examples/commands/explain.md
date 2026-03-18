@@ -1,7 +1,11 @@
 ---
-name: explain
-description: "コード、概念、またはシステムの動作を調整可能な詳細レベルで説明する"
+layout: default
+title: "コード説明"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 6
 ---
+
 
 # コード説明
 
@@ -51,7 +55,6 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 
 ## 出力フォーマット
 
----
 
 ### 📖 説明: [対象]
 
@@ -87,7 +90,6 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 
 [より広いパターンを理解するための追加コンテキスト]
 
----
 
 ## 詳細レベル
 

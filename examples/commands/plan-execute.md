@@ -1,7 +1,11 @@
 ---
-name: plan-execute
-description: "検証済みプランを実行: worktree 分離、TDD スキャフォールディング、レベルベースの並列エージェント、品質ゲート、PR 作成とマージ。マージされた PR まですべてを処理。"
+layout: default
+title: "Plan Execute — マージされた PR までの実行"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 15
 ---
+
 
 # Plan Execute — マージされた PR までの実行
 
@@ -9,13 +13,11 @@ description: "検証済みプランを実行: worktree 分離、TDD スキャフ
 
 このコマンドの前に `/clear` を実行してください。
 
----
 
 ## 前提条件
 
 検証済みのプランが `docs/plans/plan-{name}.md` にすべての問題を解決済みの状態（`/plan-validate` の出力）で存在している必要があります。
 
----
 
 ## ステップ 1: Worktree のセットアップ
 
@@ -27,7 +29,6 @@ git worktree add .worktrees/{plan-name} -b feature/{plan-name}
 
 すべての実行は worktree 内で行います。メインブランチは常にクリーンな状態を維持します。
 
----
 
 ## ステップ 2: TDD スキャフォールディング
 
@@ -41,7 +42,6 @@ git worktree add .worktrees/{plan-name} -b feature/{plan-name}
 
 このステップでは実装コードを書かない。
 
----
 
 ## ステップ 3: レベルベースの並列実行
 
@@ -73,7 +73,6 @@ git worktree add .worktrees/{plan-name} -b feature/{plan-name}
 完了したら次のメッセージでコミット: "feat: {task-description}"
 ```
 
----
 
 ## ステップ 4: 品質ゲート
 
@@ -95,7 +94,6 @@ git worktree add .worktrees/{plan-name} -b feature/{plan-name}
 
 スモークテストの失敗は同じ3回制限の `quality-fixer-smoke` エージェントによってデバッグされます。
 
----
 
 ## ステップ 5: PR 前のドキュメント
 
@@ -107,7 +105,6 @@ git worktree add .worktrees/{plan-name} -b feature/{plan-name}
 
 ドキュメント更新をコミット: `docs: reconcile PRD and archive plan for {feature-name}`。
 
----
 
 ## ステップ 6: プッシュと PR
 
@@ -143,7 +140,6 @@ PR 本文テンプレート:
 gh pr merge --squash --delete-branch
 ```
 
----
 
 ## ステップ 7: マージ後のメトリクス
 
@@ -158,7 +154,6 @@ develop/main に戻ります。実行データで `docs/plans/metrics/{name}.jso
 
 メトリクス更新をコミット。
 
----
 
 ## ステップ 8: Worktree のクリーンアップ
 
@@ -166,7 +161,6 @@ develop/main に戻ります。実行データで `docs/plans/metrics/{name}.jso
 git worktree remove .worktrees/{plan-name}
 ```
 
----
 
 ## 使用法
 

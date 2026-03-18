@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "Claude CodeによるPDF生成"
-description: "QuartoとTypstスタックを使ってClaude Codeでプロフェッショナルなドキュメントを生成する"
-tags: [workflow, guide, integration]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 13
 ---
+
 
 # Claude CodeによるPDF生成
 
@@ -10,7 +13,6 @@ tags: [workflow, guide, integration]
 
 Claude Codeを使って、モダンなタイポグラフィとデザインでプロフェッショナルなPDF（ドキュメント、ホワイトペーパー、レポート）を生成します。
 
----
 
 ## 目次
 
@@ -24,7 +26,6 @@ Claude Codeを使って、モダンなタイポグラフィとデザインでプ
 8. [トラブルシューティング](#トラブルシューティング)
 9. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -41,7 +42,6 @@ quarto preview document.qmd  # ホットリロード
 
 **スタック**: Quarto（オーケストレーション）+ Typst（タイポグラフィ）+ Pandoc（Markdown）
 
----
 
 ## 使う場面
 
@@ -56,7 +56,6 @@ quarto preview document.qmd  # ホットリロード
 
 **最適な用途**: プロフェッショナルなレイアウト、バージョン管理、再現性が必要な長文の技術コンテンツ。
 
----
 
 ## スタックの概要
 
@@ -146,7 +145,6 @@ quarto preview document.qmd  # ホットリロード
 | **Typst** | 0.13.0 | モダンタイポグラフィ（LaTeXの代替） |
 | **Pandoc** | 3.x | Markdownパース（Quartoにバンドル） |
 
----
 
 ## セットアップ
 
@@ -194,7 +192,6 @@ project/
 `document.qmd` を作成:
 
 ```yaml
----
 title: "My Document"
 author: "Author Name"
 date: 2026-01-17
@@ -202,7 +199,6 @@ format:
   typst:
     toc: true
 lang: en
----
 
 # Introduction
 
@@ -228,7 +224,6 @@ echo "Code blocks work!"
 quarto render document.qmd  # document.pdf を作成
 ```
 
----
 
 ## ワークフロー
 
@@ -286,7 +281,6 @@ function hello(): string {
 ![Alt text](path/to/image.png){width=50%}
 ```
 
----
 
 ## Claude Codeとの統合
 
@@ -360,7 +354,6 @@ PostToolUseフックを使って編集後に自動でPDFを生成:
 }
 ```
 
----
 
 ## カスタマイズ
 
@@ -439,7 +432,6 @@ contributes:
 #warning(title: "Attention")[Check your configuration.]
 ```
 
----
 
 ## トラブルシューティング
 
@@ -501,7 +493,6 @@ for f in *.qmd; do
 done
 ```
 
----
 
 ## 関連情報
 

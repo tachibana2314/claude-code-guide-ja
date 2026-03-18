@@ -1,7 +1,11 @@
 ---
-name: optimize
-description: "コード、クエリ、またはシステムのパフォーマンス改善を分析・提案する"
+layout: default
+title: "パフォーマンスオプティマイザー"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 12
 ---
+
 
 # パフォーマンスオプティマイザー
 
@@ -81,7 +85,6 @@ grep -rn "WHERE\|ORDER BY\|GROUP BY" --include="*.{ts,js,sql}" . | head -15
 
 ## 出力フォーマット
 
----
 
 ### ⚡ パフォーマンス分析
 
@@ -152,7 +155,6 @@ Week 2: 高優先度（項目4-6）
 Week 3: 改善を計測・検証
 ```
 
----
 
 ## 一般的なパターン
 

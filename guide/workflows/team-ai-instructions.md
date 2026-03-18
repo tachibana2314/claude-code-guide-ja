@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "チームAIインストラクション管理"
-description: "プロファイルベースのモジュールアセンブリを使ってCLAUDE.mdを複数の開発者チームにスケールさせる"
-tags: [workflow, team, claude-md, configuration]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 23
 ---
+
 
 # チームAIインストラクション管理
 
@@ -13,7 +16,6 @@ AIインストラクション（CLAUDE.md、.cursorrules）をチーム全体で
 **使う場面**: 5人以上の開発者チーム、複数のAIツール（Claude Code + Cursor/Windsurf）、OS混在環境。
 **スキップする場面**: ソロ開発者、均質なチーム（同じツール、同じOS）、短期プロジェクト（3ヶ月未満）。
 
----
 
 ## 問題: N x M x P の断片化
 
@@ -39,7 +41,6 @@ AIインストラクション（CLAUDE.md、.cursorrules）をチーム全体で
 
 **根本原因**: CLAUDE.mdがモジュール化された設定ではなく、モノリシックなファイルとして扱われている。
 
----
 
 ## アーキテクチャ概要
 
@@ -68,7 +69,6 @@ output/
 
 **フロー**: プロファイル（YAML）+ スケルトン（テンプレート）+ モジュール（フラグメント）→ アセンブラー → 生成されたCLAUDE.md
 
----
 
 ## フェーズ1: 現在のCLAUDE.mdの監査
 
@@ -101,7 +101,6 @@ wc -l CLAUDE.md  # モジュール化前の総行数
 
 **典型的な結果**: 60%ユニバーサル、25%条件付き、15%個人的。
 
----
 
 ## フェーズ2: モジュールの抽出
 
@@ -139,7 +138,6 @@ modules/
 - 対象者ではなくドメインにちなんでモジュールを命名
 - 1モジュール = 変更する理由が1つ
 
----
 
 ## フェーズ3: 開発者プロファイルの作成
 
@@ -173,7 +171,6 @@ preferences:
 
 **新しいチームメンバー向けテンプレート**: [profile-template.yaml](../../examples/team-config/profile-template.yaml)を参照
 
----
 
 ## フェーズ4: アセンブラースクリプトの作成
 
@@ -216,7 +213,6 @@ npx ts-node sync-ai-instructions.ts --check # ずれがないか確認
 
 完全なテンプレート: [sync-script.ts](../../examples/team-config/sync-script.ts)
 
----
 
 ## フェーズ5: CIドリフト検出
 
@@ -258,7 +254,6 @@ jobs:
 
 **ポリシー**: 生成されたファイルは読み取り専用。すべての変更はプロファイル/モジュールを通じて行い、その後アセンブラーを再実行する。
 
----
 
 ## フェーズ6: 新しい開発者のオンボーディング
 
@@ -283,7 +278,6 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 - プロジェクト全体: `project/CLAUDE.md`（コミット済み、チーム規約用）
 - 個人的なオーバーライド: `.claude/CLAUDE.md`（.gitignore済み、個人の好み用）
 
----
 
 ## トラブルシューティング
 
@@ -295,7 +289,6 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 | 開発者AはBにないルールを持っている | 想定内 — それが目的 | そのDevのプロファイルが正しいか確認 |
 | マージ後の古い出力 | マージが再生成をトリガーしなかった | マージ後にアセンブラーを実行（gitフックを追加） |
 
----
 
 ## スケーリングのしきい値
 
@@ -306,7 +299,6 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 | 5人以上または複数ツール | プロファイルベースのモジュールアセンブリ（このワークフロー） |
 | 20人以上 | CLAUDE.md設定サーバー + PRベースのモジュール変更を検討 |
 
----
 
 ## 測定結果
 
@@ -320,7 +312,6 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 | オンボーディング時間 | 「誰かのファイルをコピー」 | 5分（テンプレート + 生成） |
 | ドリフト発生件数 | 毎週 | 0件（CIが検出） |
 
----
 
 ## 関連
 

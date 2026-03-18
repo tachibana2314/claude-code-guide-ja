@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Changelogフラグメント: PRごとのドキュメントの強制"
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 3
+---
+
 # Changelogフラグメント: PRごとのドキュメントの強制
 
 PRごとに、リリース時ではなく実装時にドキュメントを作成することを確実にする3層強制パターン。

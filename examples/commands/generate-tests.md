@@ -1,7 +1,11 @@
 ---
-name: generate-tests
-description: "指定されたコードに対して包括的なテストを生成する"
+layout: default
+title: "テスト生成"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 7
 ---
+
 
 # テスト生成
 

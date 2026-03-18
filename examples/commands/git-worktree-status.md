@@ -1,7 +1,11 @@
 ---
-name: git-worktree-status
-description: "git worktree で実行中のバックグラウンド検証タスクのステータスを確認する"
+layout: default
+title: "Git Worktree ステータス"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 10
 ---
+
 
 # Git Worktree ステータス
 

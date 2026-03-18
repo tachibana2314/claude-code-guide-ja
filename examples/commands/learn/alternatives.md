@@ -1,7 +1,10 @@
 ---
-name: learn-alternatives
-description: "同じ問題を解決するための異なるアプローチを比較する"
+layout: default
+title: "代替案の表示"
+parent: コマンド
+grand_parent: テンプレート
 ---
+
 
 # 代替案の表示
 
@@ -43,12 +46,10 @@ description: "同じ問題を解決するための異なるアプローチを比
 **Pros**: [リスト]
 **Cons**: [リスト]
 
----
 
 ### Approach 2: [名前]
 ...
 
----
 
 ## Comparison Table
 
@@ -120,7 +121,6 @@ Claude: ## Problem: Managing Form State in React
 **Pros**: シンプル、依存関係なし、理解しやすい
 **Cons**: 多くのフィールドでは冗長、状態が分散
 
----
 
 ### Approach 2: Single useState with Object
 
@@ -134,7 +134,6 @@ Claude: ## Problem: Managing Form State in React
 **Pros**: グループ化された状態、簡単なリセット、クリーン
 **Cons**: スプレッド演算子が必要、不要な再レンダリングが発生する可能性
 
----
 
 ### Approach 3: useReducer
 
@@ -148,7 +147,6 @@ Claude: ## Problem: Managing Form State in React
 **Pros**: 予測可能な更新、複雑なロジックを処理、テスト可能
 **Cons**: より多くのボイラープレート、学習曲線
 
----
 
 ### Approach 4: Form Library (React Hook Form, Formik)
 
@@ -162,7 +160,6 @@ Claude: ## Problem: Managing Form State in React
 **Pros**: 最適化された再レンダリング、バリデーション内蔵、コードが少ない
 **Cons**: 依存関係、学習曲線、バンドルサイズ
 
----
 
 ## Comparison Table
 

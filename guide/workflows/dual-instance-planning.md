@@ -1,8 +1,11 @@
 ---
+layout: default
 title: "デュアルインスタンスプランニングワークフロー"
-description: "プランニングと実装に異なる役割を持つ2つのClaudeインスタンスを使う"
-tags: [workflow, architecture, design-patterns]
+parent: ワークフロー
+grand_parent: ガイド
+nav_order: 6
 ---
+
 
 # デュアルインスタンスプランニングワークフロー
 
@@ -10,7 +13,6 @@ tags: [workflow, architecture, design-patterns]
 
 2つのClaudeインスタンスを異なる役割で使う: 1つはプランニングとレビュー用（Claude Zero）、もう1つは実装用（Claude One）。関心の分離によってプラン品質が向上し、実装エラーが減少します。
 
----
 
 ## 目次
 
@@ -23,7 +25,6 @@ tags: [workflow, architecture, design-patterns]
 7. [ヒントとトラブルシューティング](#ヒントとトラブルシューティング)
 8. [関連情報](#関連情報)
 
----
 
 ## 要約
 
@@ -37,7 +38,6 @@ tags: [workflow, architecture, design-patterns]
 
 **最適な用途**: ソロ開発者、仕様が多い作業、スピードより品質、月$300未満の予算
 
----
 
 ## このパターンを使う場面
 
@@ -66,7 +66,6 @@ tags: [workflow, architecture, design-patterns]
 | **デュアルインスタンス（Jon）** | 垂直（プラン ↔ 実装） | $100〜200 | 仕様が多い、品質重視 |
 | **マルチインスタンス（Boris）** | 水平（5〜15並列） | $500〜1,000 | チーム、大量のシッピング |
 
----
 
 ## セットアップ
 
@@ -140,7 +139,6 @@ claude
 
 Claude Oneが確認: 「了解しました。私はClaude One（実装者）です。承認されたプランのみを実行します。」
 
----
 
 ## 完全なワークフロー
 
@@ -334,7 +332,6 @@ mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
 
 **プランは今後の参照とチームの学習のためにアーカイブされます。**
 
----
 
 ## プランテンプレート
 
@@ -421,12 +418,10 @@ mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
 
 **合計**: [時間]
 
----
 
 **プランを承認？** → `.claude/plans/Active/[ファイル名].md`に移動
 ```
 
----
 
 ## コスト分析
 
@@ -457,7 +452,6 @@ mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
 - シンプルな機能のみ → シングルインスタンス
 - 中程度/複雑な機能 → デュアルインスタンスはコストと時間を節約する
 
----
 
 ## ヒントとトラブルシューティング
 
@@ -555,7 +549,6 @@ approve-plan auth-jwt     # プランを承認
 complete-plan auth-jwt    # 完了したプランをアーカイブ
 ```
 
----
 
 ## 関連情報
 

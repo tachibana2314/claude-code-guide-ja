@@ -1,8 +1,11 @@
 ---
-title: "開発手法リファレンス"
-description: "TDD、SDD、BDDを含む15の構造化AI支援開発手法のクイックリファレンス"
-tags: [reference, tdd, design-patterns, workflows]
+layout: default
+title: "開発手法"
+parent: コア概念
+grand_parent: ガイド
+nav_order: 3
 ---
+
 
 # 開発手法リファレンス
 
@@ -12,7 +15,6 @@ tags: [reference, tdd, design-patterns, workflows]
 
 これは、2025〜2026年にAI支援開発向けに登場した15の構造化開発手法のクイックリファレンスです。実践的なワークフローについては [workflows/](./workflows/) を参照してください。
 
----
 
 ## 目次
 
@@ -23,7 +25,6 @@ tags: [reference, tdd, design-patterns, workflows]
 5. [組み合わせパターン](#組み合わせパターン)
 6. [ソース](#ソース)
 
----
 
 ## 意思決定ツリー: 何が必要か？
 
@@ -39,7 +40,6 @@ tags: [reference, tdd, design-patterns, workflows]
 └─ 「手法論の理論が知りたい」 ─────────────→ このまま読み続ける
 ```
 
----
 
 ## 15の手法
 
@@ -62,7 +62,6 @@ tags: [reference, tdd, design-patterns, workflows]
 
 > **新興**: [Ralph Inferno](https://github.com/sandstream/ralph-inferno) は自律的なマルチペルソナワークフロー（Analyst→PM→UX→Architect→Business）をVM実行と自己修正E2Eループで実装しています。実験的ですが「ヴァイブコーディングをスケールさせる」観点から興味深いです。
 
----
 
 ### 基礎的規律: Plan-Firstワークフロー
 
@@ -134,7 +133,6 @@ tags: [reference, tdd, design-patterns, workflows]
 
 > **上級パターン**: アノテーションベースの反復的なplan-driven開発アプローチについては [カスタムMarkdownプラン（Boris Taneパターン）](./workflows/plan-driven.md#advanced-custom-markdown-plans-boris-tane-pattern) を参照してください。
 
----
 
 ### Tier 2: 仕様とアーキテクチャ
 
@@ -156,7 +154,6 @@ tags: [reference, tdd, design-patterns, workflows]
 - 境界コンテキスト: 隔離されたドメイン境界
 - ドメイン蒸留: コアドメイン vs サポートドメイン vs 汎用ドメイン
 
----
 
 ### Tier 3: ふるまいと受け入れ
 
@@ -202,7 +199,6 @@ Feature: パスワードリセット
 
 **CDD（Contract-Driven Development）** — APIコントラクト（OpenAPI仕様）をチーム間の実行可能インターフェースとして使用します。パターン: コントラクトをテストとして、コントラクトをスタブとして。
 
----
 
 ### Tier 4: フィーチャーデリバリー
 
@@ -225,7 +221,6 @@ Feature: パスワードリセット
 - メモリ管理: 会話メモリ vs 永続メモリ
 - 動的リフレッシュ: レスポンスの前にTODOリストを書き換える
 
----
 
 ### Tier 5: 実装
 
@@ -349,7 +344,6 @@ vim docs/adr/001-database-migration.md
 
 **ソース**: [Gur Sannikov embedded engineeringワークフロー](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)
 
----
 
 ### Tier 6: 最適化
 
@@ -372,7 +366,6 @@ vim docs/adr/001-database-migration.md
 
 **Fresh Contextパターン（Ralph Loop）** — タスクごとに新鮮なエージェントインスタンスを生成することでコンテキストの劣化を解決します。状態はチャット履歴ではなく、git + progressファイルに永続化されます。長い自律セッション（マイグレーション、夜間実行）に理想的です。実装については [Ultimate Guide - Fresh Context Pattern](./ultimate-guide.md#fresh-context-pattern-ralph-loop) を参照してください。
 
----
 
 ## SDDツールリファレンス
 
@@ -411,7 +404,6 @@ openspec/
 - **コントラクトをスタブとして**: 並行開発のためのモックサーバー
 - **後方互換性**: 破壊的変更を検出
 
----
 
 ## 効果的な仕様書の書き方
 
@@ -451,7 +443,6 @@ openspec/
 | 中（10〜50ファイル） | セクション分けした仕様、タスクごとに渡す |
 | 大（50ファイル以上） | ドメインごとにサブエージェントルーティング |
 
----
 
 ## 組み合わせパターン
 
@@ -466,7 +457,6 @@ openspec/
 | エンタープライズ10人以上 | BMAD + Spec Kit + Specmatic | フルガバナンス + コントラクト |
 | LLMネイティブ製品 | Eval-Driven + Multi-Agent | 自己改善システム |
 
----
 
 ## クイックリファレンステーブル
 
@@ -488,7 +478,6 @@ openspec/
 | Iterative | 最適化 | 改善 | 任意 | 低 |
 | Prompt Eng. | 最適化 | 基礎 | 任意 | 非常に低い |
 
----
 
 ## ソース
 
@@ -550,7 +539,6 @@ openspec/
 - Walturn: [Prompt Engineering for Claude](https://www.walturn.com/insights/mastering-prompt-engineering-for-claude)
 - AWS: [Prompt Engineering with Claude on Bedrock](https://aws.amazon.com/blogs/machine-learning/prompt-engineering-techniques-and-best-practices-learn-by-doing-with-anthropics-claude-3-on-amazon-bedrock/)
 
----
 
 ## 参照
 

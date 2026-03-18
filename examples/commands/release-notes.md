@@ -1,7 +1,11 @@
 ---
-name: release-notes
-description: "git コミットから複数のフォーマットでリリースノートを生成する"
+layout: default
+title: "リリースノートジェネレーター"
+parent: コマンド
+grand_parent: テンプレート
+nav_order: 20
 ---
+
 
 # リリースノートジェネレーター
 

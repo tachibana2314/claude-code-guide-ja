@@ -1,8 +1,10 @@
 ---
-title: "Claude Code チートシート"
-description: "最大限の生産性を発揮するための毎日使える必須事項 — 印刷可能な1枚"
-tags: [cheatsheet, reference]
+layout: default
+title: "チートシート"
+parent: ガイド
+nav_order: 5
 ---
+
 
 # Claude Code チートシート
 
@@ -14,7 +16,6 @@ tags: [cheatsheet, reference]
 
 **バージョン**: 3.37.0 | **最終更新**: 2026年3月
 
----
 
 ## 基本コマンド
 
@@ -47,7 +48,6 @@ tags: [cheatsheet, reference]
 | `/debug` | 体系的なトラブルシューティング |
 | `/exit` | 終了（または Ctrl+D） |
 
----
 
 ## キーボードショートカット
 
@@ -66,7 +66,6 @@ tags: [cheatsheet, reference]
 | `Space` （長押し） | 音声入力（`/voice` 有効時） |
 | `Ctrl+D` | 終了 |
 
----
 
 ## ファイル参照
 
@@ -81,7 +80,6 @@ tags: [cheatsheet, reference]
 | VS Code | `Alt+K` |
 | JetBrains | `Cmd+Option+K` |
 
----
 
 ## あまり知られていない機能（でも公式！）
 
@@ -102,7 +100,6 @@ tags: [cheatsheet, reference]
 
 **Pro tip**: これらは「秘密」ではありません — すべて [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) に記載されています。読んでみてください！
 
----
 
 ## パーミッションモード
 
@@ -116,7 +113,6 @@ tags: [cheatsheet, reference]
 
 モード切替は **Shift+Tab**
 
----
 
 ## メモリと設定（2つのレベル）
 
@@ -134,7 +130,6 @@ tags: [cheatsheet, reference]
 | `settings.local.json` | `.claude/` | 個人設定の上書き |
 | `CLAUDE.md` | `~/.claude/` (Win: `%USERPROFILE%\.claude\`) | 個人メモリ |
 
----
 
 ## .claude/ フォルダ構造
 
@@ -150,7 +145,6 @@ tags: [cheatsheet, reference]
 └── skills/             # ナレッジモジュール
 ```
 
----
 
 ## 典型的なワークフロー
 
@@ -166,7 +160,6 @@ tags: [cheatsheet, reference]
 9. /compact           → コンテキストが >70% になったら
 ```
 
----
 
 ## コンテキスト管理（重要）
 
@@ -210,7 +203,6 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | `claude -c` | 最後のセッションを再開（CLIフラグ） |
 | `claude -r <id>` | 特定のセッションを再開（CLIフラグ） |
 
----
 
 ## 内部の仕組み（クイックファクト）
 
@@ -224,7 +216,6 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 **詳細**: [アーキテクチャと内部構造](./core/architecture.md)
 
----
 
 ## Plan Mode と Thinking
 
@@ -294,7 +285,6 @@ claude
 
 **参照**: [Gur Sannikov組み込みエンジニアリングワークフロー](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)
 
----
 
 ## MCPサーバー
 
@@ -324,18 +314,15 @@ serena project index --incremental --parallel 4
 
 状態確認: `/mcp`
 
----
 
 ## カスタムコンポーネントの作成
 
 ### エージェント (`.claude/agents/my-agent.md`)
 ```yaml
----
 name: my-agent
 description: Use when [trigger]
 model: sonnet
 tools: Read, Write, Edit, Bash
----
 # Instructions here
 ```
 
@@ -363,7 +350,6 @@ $input = [Console]::In.ReadToEnd() | ConvertFrom-Json
 exit 0  # 0=continue, 2=block
 ```
 
----
 
 ## アンチパターン
 
@@ -375,7 +361,6 @@ exit 0  # 0=continue, 2=block
 | パーミッションをスキップする | 本番環境では絶対にしない |
 | 否定的な制約のみ | 代替案を提示する |
 
----
 
 ## クイックプロンプトの公式
 
@@ -394,7 +379,6 @@ HOW: Use Zod schema, show inline errors
 VERIFY: Empty email shows error, invalid format shows error
 ```
 
----
 
 ## CLIフラグ クイックリファレンス
 
@@ -418,7 +402,6 @@ VERIFY: Empty email shows error, invalid format shows error
 
 > 完全なCLIリファレンス（約45フラグ）: [code.claude.comのcli-reference](https://docs.anthropic.com/en/docs/claude-code/cli-reference) を参照
 
----
 
 ## デバッグコマンド
 
@@ -431,7 +414,6 @@ claude --mcp-debug   # MCPのデバッグ
 /mcp                 # MCPの状態（Claude内から）
 ```
 
----
 
 ## CI/CDモード（ヘッドレス）
 
@@ -449,7 +431,6 @@ claude -p "lint" --model haiku
 claude -p "fix typos" --dangerously-skip-permissions
 ```
 
----
 
 ## リモートコントロール — モバイルアクセス（v2.1.51+、Research Preview）
 
@@ -486,7 +467,6 @@ tmux new-session -s dev
 
 **完全なドキュメント**: [§9.22 リモートコントロール](ultimate-guide.md#922-remote-control-mobile-access) | [セキュリティノート](security-hardening.md#remote-control-security)
 
----
 
 ## タスク管理（v2.1.16+）
 
@@ -532,7 +512,6 @@ CLAUDE_CODE_ENABLE_TASKS=false claude
 
 **→ 完全なワークフロー**: [guide/workflows/task-management.md](../workflows/task-management.md)
 
----
 
 ## ゴールデンルール
 
@@ -544,7 +523,6 @@ CLAUDE_CODE_ENABLE_TASKS=false claude
 6. **頻繁にコミットする** — 各タスク完了後
 7. **何が送信されるかを知る** — プロンプト、ファイル、MCPの結果 → Anthropic（[学習のオプトアウト](https://claude.ai/settings/data-privacy-controls)）
 
----
 
 ## クイック決定ツリー
 
@@ -558,7 +536,6 @@ CLAUDE_CODE_ENABLE_TASKS=false claude
 深い分析               → Opus（デフォルトでthinkingオン）
 ```
 
----
 
 ## よくある問題のクイック修正
 
@@ -580,7 +557,6 @@ which claude && claude doctor && claude mcp list
 where.exe claude; claude doctor; claude mcp list
 ```
 
----
 
 ## コスト最適化
 
@@ -593,7 +569,6 @@ where.exe claude; claude doctor; claude mcp list
 
 **ヒント**: `--add-dir` を使って現在の作業ディレクトリ外のディレクトリへのツールアクセスを許可する
 
----
 
 ## コミュニティツール
 
@@ -606,7 +581,6 @@ where.exe claude; claude doctor; claude mcp list
 
 > **Entire CLI**: 元GitHub CEOによるエージェントネイティブプラットフォーム。巻き戻し可能なチェックポイント、承認ゲート、監査証跡を備える。コンプライアンス（SOC2、HIPAA）やマルチエージェントワークフロー向け。
 
----
 
 ## 検索ツール クイックリファレンス
 
@@ -624,7 +598,6 @@ where.exe claude; claude doctor; claude mcp list
 
 > 完全なワークフロー: [workflows/search-tools-mastery.md](./workflows/search-tools-mastery.md)
 
----
 
 ## リソース
 
@@ -635,7 +608,6 @@ where.exe claude; claude doctor; claude mcp list
 - **プロジェクトメモリ**: プロジェクトルートに `CLAUDE.md` を作成
 - **DeepSeek（コスト効果的）**: `ANTHROPIC_BASE_URL` 経由で設定
 
----
 
 **著者**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
