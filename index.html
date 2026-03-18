@@ -78,10 +78,16 @@
   p { margin: 0.4rem 0; font-size: 0.92rem; }
   strong { color: var(--text); font-weight: 600; }
   code { background: var(--bg-warm); padding: 0.12rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: 'JetBrains Mono', monospace; color: var(--claude-warm); border: 1px solid var(--border-light); }
-  pre { background: #1A1612; border-radius: var(--radius-sm); padding: 1rem 1.2rem; overflow-x: auto; margin: 0.8rem 0; font-size: 0.82rem; line-height: 1.7; }
-  pre code { background: none; padding: 0; color: #E8DFD3; border: none; }
+  pre { background: #1A1612; border-radius: var(--radius-sm); padding: 1rem 1.2rem; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0.8rem 0; font-size: 0.82rem; line-height: 1.7; max-width: 100%; white-space: pre; word-break: normal; overflow-wrap: normal; }
+  pre code { background: none; padding: 0; color: #E8DFD3; border: none; white-space: pre; word-break: normal; }
+  code { word-break: break-all; overflow-wrap: break-word; }
+  .card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .task-content { overflow-x: hidden; }
+  .main { overflow-x: hidden; }
   .kw { color: #DA7756; } .str { color: #7EC699; } .cmt { color: #7A6E60; } .fn { color: #E8B66D; }
-  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.85rem; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0.8rem 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 400px; }
+  .table-wrap table { border: none; border-radius: 0; margin: 0; }
   th, td { padding: 0.55rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border-light); }
   th { background: var(--bg-warm); font-weight: 600; color: var(--text); font-size: 0.82rem; }
   td { background: var(--surface); } tr:last-child td { border-bottom: none; }
@@ -217,14 +223,14 @@ claude <span class="str">"src/api.ts のエラーハンドリングを改善し�
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">1.4</span> パーミッションモード</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
   <p>Claude Code は安全性を確保するため、複数のパーミッションモードを提供しています。<code>Shift+Tab</code> でモードを切り替えられます。</p>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>モード</th><th>説明</th><th>用途</th></tr>
     <tr><td><strong>Default</strong></td><td>読み取りは自動許可、書き込み・実行は都度確認</td><td>通常の開発作業</td></tr>
     <tr><td><strong>acceptEdits</strong></td><td>ファイル編集を自動許可、Bash コマンドは都度確認</td><td>信頼できるコード編集</td></tr>
     <tr><td><strong>Plan Mode</strong></td><td>読み取り専用。計画のみ立案し実行しない</td><td>調査・設計フェーズ</td></tr>
     <tr><td><strong>dontAsk</strong></td><td>許可リストのツールを自動承認</td><td>繰り返し作業</td></tr>
     <tr><td><strong>bypassPermissions</strong></td><td>全ツールを自動承認（Docker 推奨）</td><td>CI/CD、サンドボックス環境</td></tr>
-  </table>
+  </table></div>
   <div class="card exam-trap"><h4><span class="icon">!</span> 注意点</h4>
   <p><code>bypassPermissions</code> はローカル開発では使用しないでください。必ず Docker 等のサンドボックス環境で使用すること。セキュリティリスクが非常に高いモードです。</p></div>
 </div></div></div>
@@ -269,7 +275,7 @@ claude <span class="str">"src/api.ts のエラーハンドリングを改善し�
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.2</span> 8つのコアツール</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
   <p>Claude Code はモデルに以下の8つのコアツールを提供します。モデルはタスクに応じてこれらを自律的に選択します。</p>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>ツール</th><th>機能</th><th>用途</th></tr>
     <tr><td><code>Bash</code></td><td>シェルコマンド実行</td><td>ビルド、テスト、git操作、任意のCLI</td></tr>
     <tr><td><code>Read</code></td><td>ファイル読み取り</td><td>ソースコード閲覧、設定確認</td></tr>
@@ -279,7 +285,7 @@ claude <span class="str">"src/api.ts のエラーハンドリングを改善し�
     <tr><td><code>Glob</code></td><td>ファイルパターンマッチ</td><td>ファイル名でのファイル検索</td></tr>
     <tr><td><code>Task</code></td><td>サブエージェント生成</td><td>独立した調査・実行タスクの委譲</td></tr>
     <tr><td><code>TodoWrite</code></td><td>TODO リスト管理</td><td>タスク進捗の追跡</td></tr>
-  </table>
+  </table></div>
   <div class="card info"><h4><span class="icon">&#9733;</span> Grep vs Glob の使い分け</h4>
   <ul>
     <li><strong>Grep</strong>: ファイル<em>内容</em>を検索（「この関数を呼んでいる箇所は？」）</li>
@@ -350,12 +356,12 @@ claude <span class="str">"src/api.ts のエラーハンドリングを改善し�
 <div class="task-body"><div class="task-content">
   <div class="card concept"><h4><span class="icon">&#9670;</span> 3レベルの CLAUDE.md</h4>
   <p>CLAUDE.md はプロジェクトの指示書として機能し、3つのレベルで階層的に読み込まれます。</p></div>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>レベル</th><th>パス</th><th>用途</th><th>Git管理</th></tr>
     <tr><td><strong>企業/ユーザー</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>個人のグローバル設定・スタイル</td><td>いいえ</td></tr>
     <tr><td><strong>プロジェクト（共有）</strong></td><td><code>./CLAUDE.md</code></td><td>チーム共有のプロジェクトルール</td><td>はい</td></tr>
     <tr><td><strong>プロジェクト（個人）</strong></td><td><code>./.claude/CLAUDE.local.md</code></td><td>個人のプロジェクト固有設定</td><td>いいえ</td></tr>
-  </table>
+  </table></div>
   <div class="card best-practice"><h4><span class="icon">&#10003;</span> CLAUDE.md のベストプラクティス</h4>
   <ul>
     <li>コーディング規約、テスト方針、アーキテクチャの決定事項を記載</li>
@@ -430,11 +436,11 @@ API ルートでは:
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">3.4</span> メモリレベル</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>レベル</th><th>場所</th><th>スコープ</th><th>例</th></tr>
     <tr><td><strong>プロジェクト</strong></td><td><code>.claude/</code></td><td>このプロジェクトのみ</td><td>コーディング規約、アーキテクチャ</td></tr>
     <tr><td><strong>パーソナル</strong></td><td><code>~/.claude/</code></td><td>全プロジェクト共通</td><td>エディタ設定、個人的なスタイル</td></tr>
-  </table>
+  </table></div>
   <div class="card best-practice"><h4><span class="icon">&#10003;</span> /memory コマンド</h4>
   <p><code>/memory</code> コマンドを使うと、現在読み込まれている CLAUDE.md のソースとその優先順位をデバッグできます。メモリ関連の問題が発生した場合にまず使うべきコマンドです。</p></div>
 </div></div></div>
@@ -469,13 +475,13 @@ tools:
 3. パフォーマンスの問題
 4. テストカバレッジの不足</code></pre>
   <div class="card info"><h4><span class="icon">&#9733;</span> 主要エージェント例</h4>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>エージェント</th><th>用途</th><th>推奨ツール</th></tr>
     <tr><td><strong>code-reviewer</strong></td><td>コードレビュー</td><td>Read, Grep, Glob</td></tr>
     <tr><td><strong>test-writer</strong></td><td>テスト自動生成</td><td>Read, Write, Bash</td></tr>
     <tr><td><strong>security-auditor</strong></td><td>セキュリティ監査</td><td>Read, Grep, Glob</td></tr>
     <tr><td><strong>refactoring-specialist</strong></td><td>リファクタリング</td><td>Read, Edit, Grep, Bash</td></tr>
-  </table></div>
+  </table></div></div>
   <p>エージェントは <code>@agent-name</code> で呼び出せます:</p>
   <pre><code><span class="cmt"># エージェントの呼び出し</span>
 @code-reviewer src/api/users.ts をレビューして</code></pre>
@@ -508,11 +514,11 @@ argument-hint: "デプロイ先の環境名 (staging|production)"
 <div class="task-body"><div class="task-content">
   <div class="card concept"><h4><span class="icon">&#9670;</span> カスタムコマンド（スラッシュコマンド）</h4>
   <p>コマンドは <code>/command-name</code> で呼び出せる再利用可能なプロンプトです。</p></div>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>スコープ</th><th>パス</th><th>共有</th></tr>
     <tr><td><strong>プロジェクト</strong></td><td><code>.claude/commands/</code></td><td>チームで共有（Git管理）</td></tr>
     <tr><td><strong>パーソナル</strong></td><td><code>~/.claude/commands/</code></td><td>個人のみ</td></tr>
-  </table>
+  </table></div>
   <pre><code><span class="cmt"># .claude/commands/fix-lint.md</span>
 ESLint エラーを全て修正してください。
 1. `npm run lint` でエラーを確認
@@ -554,13 +560,13 @@ ESLint エラーを全て修正してください。
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.5</span> 判断ガイド: どれを使うべきか</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>機能</th><th>用途</th><th>コンテキスト</th><th>呼び出し方</th></tr>
     <tr><td><strong>エージェント</strong></td><td>特定の役割・ペルソナ</td><td>独自のモデル・ツール設定</td><td><code>@agent-name</code></td></tr>
     <tr><td><strong>スキル</strong></td><td>手順・ワークフロー</td><td>fork 可能（分離）</td><td><code>/skill-name</code></td></tr>
     <tr><td><strong>コマンド</strong></td><td>再利用プロンプト</td><td>メインコンテキスト内</td><td><code>/command-name</code></td></tr>
     <tr><td><strong>フック</strong></td><td>自動チェック・変換</td><td>ツール実行の前後</td><td>自動（設定ベース）</td></tr>
-  </table>
+  </table></div>
   <div class="card best-practice"><h4><span class="icon">&#10003;</span> 選択の指針</h4>
   <ul>
     <li>特定の専門家の視点が必要 → <strong>エージェント</strong></li>
@@ -592,11 +598,11 @@ ESLint エラーを全て修正してください。
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.2</span> MCP 設定</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
   <div class="card concept"><h4><span class="icon">&#9670;</span> 設定ファイルの配置</h4>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>ファイル</th><th>スコープ</th><th>用途</th></tr>
     <tr><td><code>.mcp.json</code></td><td>プロジェクト</td><td>プロジェクト固有の MCP サーバー</td></tr>
     <tr><td><code>~/.claude.json</code></td><td>ユーザー</td><td>全プロジェクト共通の MCP サーバー</td></tr>
-  </table></div>
+  </table></div></div>
   <pre><code><span class="cmt">// .mcp.json の例</span>
 {
   <span class="str">"mcpServers"</span>: {
@@ -619,14 +625,14 @@ ESLint エラーを全て修正してください。
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.3</span> コミュニティ MCP サーバー</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>サーバー</th><th>機能</th><th>パッケージ</th></tr>
     <tr><td><strong>GitHub</strong></td><td>PR、Issue、リポジトリ操作</td><td><code>@modelcontextprotocol/server-github</code></td></tr>
     <tr><td><strong>Slack</strong></td><td>メッセージ送受信、チャンネル管理</td><td><code>@modelcontextprotocol/server-slack</code></td></tr>
     <tr><td><strong>Filesystem</strong></td><td>ファイルシステムアクセス</td><td><code>@modelcontextprotocol/server-filesystem</code></td></tr>
     <tr><td><strong>Database</strong></td><td>SQL クエリ実行</td><td>各DB用の MCP サーバー</td></tr>
     <tr><td><strong>Jira</strong></td><td>チケット管理</td><td>コミュニティ製サーバー</td></tr>
-  </table>
+  </table></div>
   <div class="card exam-trap"><h4><span class="icon">!</span> Build vs Use の判断</h4>
   <ul>
     <li><strong>既存サーバーを使用</strong>: 一般的なサービス（GitHub, Slack等）にはコミュニティサーバーを使用</li>
@@ -637,12 +643,12 @@ ESLint エラーを全て修正してください。
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.4</span> tool_choice とリソース</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
   <div class="card concept"><h4><span class="icon">&#9670;</span> tool_choice オプション</h4>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>値</th><th>動作</th><th>用途</th></tr>
     <tr><td><code>auto</code></td><td>モデルが自由にツール選択（デフォルト）</td><td>通常のエージェントループ</td></tr>
     <tr><td><code>any</code></td><td>モデルは必ず何かのツールを使用</td><td>ツール使用を強制したい場合</td></tr>
     <tr><td><code>forced</code>（特定ツール名）</td><td>指定したツールを必ず使用</td><td>特定の操作を強制したい場合</td></tr>
-  </table></div>
+  </table></div></div>
   <div class="card info"><h4><span class="icon">&#9733;</span> MCP リソース</h4>
   <p>MCP サーバーはツールだけでなく「リソース」も提供できます。リソースはコンテンツカタログとして機能し、モデルが参照できるドキュメントやデータを提供します。ツールが「アクション」なら、リソースは「情報源」です。</p></div>
 </div></div></div>
@@ -746,13 +752,13 @@ claude -p <span class="str">"セキュリティ上の問題がないか確認し
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.7</span> コンテキスト使用率の目安</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>使用率</th><th>状態</th><th>推奨アクション</th></tr>
     <tr><td style="color: var(--green); font-weight: 600;">0-50%</td><td>安全</td><td>通常通り作業を継続</td></tr>
     <tr><td style="color: var(--accent); font-weight: 600;">50-70%</td><td>注意</td><td>大きなファイル読み込みに注意</td></tr>
     <tr><td style="color: var(--claude-orange); font-weight: 600;">70-90%</td><td>警告</td><td><code>/compact</code> を実行して圧縮</td></tr>
     <tr><td style="color: var(--red); font-weight: 600;">90%+</td><td>危険</td><td><code>/clear</code> で新しいセッションを開始</td></tr>
-  </table>
+  </table></div>
 </div></div></div>
 </div>
 
@@ -766,12 +772,12 @@ claude -p <span class="str">"セキュリティ上の問題がないか確認し
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.1</span> 脅威カテゴリ</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
   <div class="card anti-pattern"><h4><span class="icon">&#10005;</span> 主要な脅威</h4>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>脅威</th><th>説明</th><th>対策</th></tr>
     <tr><td><strong>プロンプトインジェクション</strong></td><td>悪意のある指示がデータに埋め込まれ、モデルの動作を変える</td><td>入力検証、フックでの検出</td></tr>
     <tr><td><strong>データ流出</strong></td><td>機密データが外部に送信される</td><td>ネットワーク制限、コマンド監視</td></tr>
     <tr><td><strong>MCP ラグプル</strong></td><td>信頼していた MCP サーバーが悪意のある更新を配信</td><td>バージョン固定、コードレビュー</td></tr>
-  </table></div>
+  </table></div></div>
 </div></div></div>
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.2</span> MCP サーバー検証チェックリスト</h3><span class="task-arrow">&#9660;</span></div>
@@ -864,7 +870,7 @@ claude -p <span class="str">"セキュリティ上の問題がないか確認し
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.1</span> 主要スラッシュコマンド</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>コマンド</th><th>説明</th></tr>
     <tr><td><code>/help</code></td><td>ヘルプを表示</td></tr>
     <tr><td><code>/compact</code></td><td>会話履歴を要約して圧縮</td></tr>
@@ -880,35 +886,35 @@ claude -p <span class="str">"セキュリティ上の問題がないか確認し
     <tr><td><code>/review</code></td><td>コードレビューを実行</td></tr>
     <tr><td><code>/status</code></td><td>現在のセッション状態を表示</td></tr>
     <tr><td><code>/vim</code></td><td>vim モードの切り替え</td></tr>
-  </table>
+  </table></div>
 </div></div></div>
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.2</span> キーボードショートカット</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>ショートカット</th><th>機能</th></tr>
     <tr><td><code>Shift+Tab</code></td><td>パーミッションモードの切り替え</td></tr>
     <tr><td><code>Ctrl+C</code></td><td>現在の生成を中断</td></tr>
     <tr><td><code>Ctrl+D</code></td><td>セッションを終了</td></tr>
     <tr><td><code>Esc</code></td><td>入力行をクリア / 実行を中止</td></tr>
     <tr><td><code>Up/Down</code></td><td>入力履歴をブラウズ</td></tr>
-  </table>
+  </table></div>
   <div class="card info"><h4><span class="icon">&#9733;</span> IDE ショートカット</h4>
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>IDE</th><th>ショートカット</th><th>機能</th></tr>
     <tr><td><strong>VS Code</strong></td><td><code>Alt+K</code></td><td>Claude Code パネルを開く</td></tr>
     <tr><td><strong>JetBrains</strong></td><td><code>Cmd+Option+K</code></td><td>Claude Code パネルを開く</td></tr>
-  </table></div>
+  </table></div></div>
 </div></div></div>
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.3</span> ファイル参照</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>構文</th><th>説明</th><th>例</th></tr>
     <tr><td><code>@path</code></td><td>ファイルやディレクトリを参照</td><td><code>@src/api/users.ts</code></td></tr>
     <tr><td><code>@agent-name</code></td><td>カスタムエージェントを呼び出し</td><td><code>@code-reviewer</code></td></tr>
     <tr><td><code>!command</code></td><td>シェルコマンドの出力を添付</td><td><code>!git diff HEAD~1</code></td></tr>
-  </table>
+  </table></div>
 </div></div></div>
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.4</span> .claude/ フォルダ構造まとめ</h3><span class="task-arrow">&#9660;</span></div>
@@ -950,26 +956,26 @@ claude -p <span class="str">"セキュリティ上の問題がないか確認し
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.6</span> パーミッションモード早見表</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>モード</th><th>Read</th><th>Edit/Write</th><th>Bash</th><th>推奨場面</th></tr>
     <tr><td><strong>Default</strong></td><td>自動</td><td>確認</td><td>確認</td><td>通常開発</td></tr>
     <tr><td><strong>acceptEdits</strong></td><td>自動</td><td>自動</td><td>確認</td><td>信頼できる編集</td></tr>
     <tr><td><strong>Plan Mode</strong></td><td>自動</td><td>不可</td><td>不可</td><td>調査・計画</td></tr>
     <tr><td><strong>dontAsk</strong></td><td>自動</td><td>許可リスト</td><td>許可リスト</td><td>反復作業</td></tr>
     <tr><td><strong>bypass</strong></td><td>自動</td><td>自動</td><td>自動</td><td>Docker内のみ</td></tr>
-  </table>
+  </table></div>
 </div></div></div>
 
 <div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.7</span> メモリ &amp; 設定の2レベル構造</h3><span class="task-arrow">&#9660;</span></div>
 <div class="task-body"><div class="task-content">
-  <table>
+  <div class="table-wrap"><table>
     <tr><th>項目</th><th>プロジェクトレベル</th><th>ユーザーレベル</th></tr>
     <tr><td><strong>ルール</strong></td><td><code>./CLAUDE.md</code></td><td><code>~/.claude/CLAUDE.md</code></td></tr>
     <tr><td><strong>個人ルール</strong></td><td><code>.claude/CLAUDE.local.md</code></td><td>-</td></tr>
     <tr><td><strong>設定</strong></td><td><code>.claude/settings.json</code></td><td><code>~/.claude/settings.json</code></td></tr>
     <tr><td><strong>MCP</strong></td><td><code>.mcp.json</code></td><td><code>~/.claude.json</code></td></tr>
     <tr><td><strong>コマンド</strong></td><td><code>.claude/commands/</code></td><td><code>~/.claude/commands/</code></td></tr>
-  </table>
+  </table></div>
 </div></div></div>
 </div>
 
