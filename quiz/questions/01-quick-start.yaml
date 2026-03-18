@@ -1,0 +1,310 @@
+category: "クイックスタート"
+category_id: 1
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "01-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "Claude Codeをインストールする推奨の汎用的な方法は何ですか？"
+    options:
+      a: "brew install claude-code"
+      b: "npm install -g @anthropic-ai/claude-code"
+      c: "pip install claude-code"
+      d: "curl -fsSL https://claude.ai/install.sh | sh"
+    correct: "b"
+    explanation: |
+      すべてのプラットフォーム（Windows、macOS、Linux）で動作する汎用インストール方法は `npm install -g @anthropic-ai/claude-code` です。シェルスクリプトやHomebrewも特定のプラットフォームで利用できますが、npmが推奨されるクロスプラットフォームのアプローチです。これにより、オペレーティングシステムに関わらず一貫したインストールが保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.1 Installation"
+      anchor: "#11-installation"
+
+  - id: "01-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claudeがコード変更を提案した後、差分をレビューする際にどのような選択肢がありますか？"
+    options:
+      a: "承認（y）または拒否（n）のみ"
+      b: "承認（y）、拒否（n）、または編集（e）"
+      c: "承認（y）、スキップ（s）、または延期（d）"
+      d: "コミット（c）、拒否（r）、またはレビュー（v）"
+    correct: "b"
+    explanation: |
+      Claudeが変更を提案すると、3つの選択肢があります：「y」を押して変更を承認する、「n」を押して拒否し代替案を求める、または「e」を押して手動で変更を編集する。これにより、コードベースに何が適用されるかを完全にコントロールできます。常に承認前に差分をレビューしてください―これがあなたのセーフティネットです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.2 First Workflow"
+      anchor: "#12-first-workflow"
+
+  - id: "01-003"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "利用可能なClaude Codeコマンドをすべて表示するコマンドはどれですか？"
+    options:
+      a: "/commands"
+      b: "/list"
+      c: "/help"
+      d: "/menu"
+    correct: "c"
+    explanation: |
+      `/help` コマンドは利用可能なすべてのClaude Codeコマンドを表示します。迷ったときや利用可能な機能を確認したいときに最初に使うコマンドです。日常的な使用の90%をカバーする7つの必須コマンドの一つです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#13-essential-commands"
+
+  - id: "01-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeにおいて `!` プレフィックスは何をしますか？"
+    options:
+      a: "コマンドを緊急としてマークする"
+      b: "Claudeに依頼せずに直接シェルコマンドを実行する"
+      c: "特殊文字をエスケープする"
+      d: "前のコマンドを削除する"
+    correct: "b"
+    explanation: |
+      `!` プレフィックスはClaudeに依頼せずに即座にシェルコマンドを実行します。例えば、`!git status` はコマンドを直接実行します。ステータス確認、表示コマンド、すでに把握しているコマンドに使用してください。必要なコマンドが分かっている場合、Claudeに依頼するよりも高速です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#shell-commands-with-"
+
+  - id: "01-005"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "プロンプトで `@` 記号を使用すると何が起こりますか？"
+    options:
+      a: "別のユーザーをメンションする"
+      b: "ターゲット操作のために特定のファイルを参照する"
+      c: "メッセージを重要としてタグ付けする"
+      d: "エージェントをアクティブ化する"
+    correct: "b"
+    explanation: |
+      `@` 記号はプロンプトでターゲット操作のために特定のファイルを参照します。例えば、`Review @src/auth/login.tsx for security issues` はClaudeにそのファイルを読むよう指示します。これにより、精度（特定のファイルをターゲット）、速度（ファイル検索をスキップ）、明確さ（意図を明示）が向上します。Claudeはツールを介してオンデマンドでファイルを読み込みます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#file-references-with-"
+
+  - id: "01-006"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "GitHub CopilotからClaude Codeに移行する際の推奨アプローチは何ですか？"
+    options:
+      a: "直ちにCopilotの使用を完全に停止する"
+      b: "ハイブリッドアプローチ：オートコンプリートにはCopilot、複雑なタスクにはClaude Code"
+      c: "単純なタスクにのみClaude Codeを使用する"
+      d: "すべてのCopilot設定をClaude Codeにエクスポートする"
+    correct: "b"
+    explanation: |
+      ガイドではハイブリッドアプローチを推奨しています：クイックオートコンプリートやボイラープレートにはCopilotを使用し、機能実装、デバッグ、コードレビュー、未知のコードベースの理解にはClaude Codeを使用します。これにより両ツールの強みを活かすことができます―Copilotはインライン提案に優れ、Claude Codeは複数ファイルの操作や複雑な推論を扱います。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.6 Migrating from Other AI Coding Tools"
+      anchor: "#migration-guide-github-copilot--claude-code"
+
+  - id: "01-007"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "プランモードでClaudeが許可されていることは何ですか？"
+    options:
+      a: "ファイルの編集、コマンドの実行、コミットの作成"
+      b: "読み取りと分析のみ―変更は許可されない"
+      c: "コマンドの実行は可能だがファイルの編集は不可"
+      d: "新しいファイルの作成は可能だが既存ファイルの編集は不可"
+    correct: "b"
+    explanation: |
+      プランモードはClaude Codeの「見るだけで触らない」モードです。ファイルの読み取り、コードベースの検索、アーキテクチャの分析、アプローチの提案は可能です。ファイルの編集、状態を変更するコマンドの実行、新しいファイルの作成、コミットの作成は防止されます。変更を加える前の安全な探索に最適です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.4 Permission Modes"
+      anchor: "#plan-mode"
+
+  - id: "01-008"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "最新のClaude Code会話を継続するためのフラグはどれですか？"
+    options:
+      a: "--last"
+      b: "--continue または -c"
+      c: "--resume-last"
+      d: "--restore"
+    correct: "b"
+    explanation: |
+      `claude --continue` または `claude -c` を使用して最新の会話を自動的に再開できます。これにより、ターミナルセッション間で完全なコンテキストと会話履歴が維持されます。IDで特定のセッションを再開するには、`claude --resume <id>` または `claude -r <id>` を使用します。複数日にわたる機能開発や中断された作業に特に有効です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#session-continuation-and-resume"
+
+  - id: "01-009"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claudeからのコード変更を承認する前に「常に」行うべきことは何ですか？"
+    options:
+      a: "テストスイートを実行する"
+      b: "ファイルのバックアップを作成する"
+      c: "差分を注意深く読む"
+      d: "Claudeの確信度を尋ねる"
+    correct: "c"
+    explanation: |
+      承認前に常に差分を読んでください―これがあなたのセーフティネットです。ガイドはこれを重要として強調しています：「変更を承認する前に常に差分をレビューしてください。」テストの実行は良い習慣ですが、差分のレビューが承認前の即座に必要なステップです。どのような変更が提案されているかを理解する必要があります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.2 First Workflow"
+      anchor: "#step-3-review-the-diff"
+
+  - id: "01-010"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeで現在の操作をキャンセルするキーボードショートカットはどれですか？"
+    options:
+      a: "Ctrl+Z"
+      b: "Ctrl+C"
+      c: "Esc"
+      d: "Ctrl+Q"
+    correct: "c"
+    explanation: |
+      EscはClaude Codeで現在の操作をキャンセル（停止）します。Escを1回押してClaudeの動作を途中で停止し、Escを2回押す（Esc+Esc）と巻き戻しメニューが開きます。Ctrl+Cは標準的なターミナル割り込みですが、Escが操作を停止するための主要なアプリ内ショートカットです。これらのショートカットを知ることで、ワークフロー中のコントロールを維持できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#quick-actions--shortcuts"
+
+  - id: "01-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeで自動承認モードを使用すべき場面はいつですか？"
+    options:
+      a: "時間を節約するためすべての操作に使用する"
+      b: "信頼できる、明確に定義された、元に戻せる操作にのみ使用する"
+      c: "本番コードで作業するとき"
+      d: "複雑なリファクタリングタスクに使用する"
+    correct: "b"
+    explanation: |
+      自動承認モードは、明確に定義された元に戻せる操作にのみ使用すべきです。ガイドは次のように警告しています：「明確に定義された、元に戻せる操作にのみ自動承認を使用してください。」複雑またはリスクの高い変更には危険です。デフォルトモード（確認を求める）が最も安全で、特に学習中や本番作業には適しています。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.4 Permission Modes"
+      anchor: "#auto-accept-mode"
+
+  - id: "01-012"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "コードのサイズに基づいてClaude Codeとオートコンプリートツールを選択する際の推奨目安は何ですか？"
+    options:
+      a: "10行未満：オートコンプリート、10行超：Claude Code"
+      b: "5行未満：オートコンプリート、5〜50行の単一ファイル：どちらでも可、50行超またはマルチファイル：Claude Code"
+      c: "常にClaude Codeを使用する（サイズに関わらず）"
+      d: "20行未満：オートコンプリート、20行超：Claude Code"
+    correct: "b"
+    explanation: |
+      ガイドは明確なガイダンスを提供しています：5行未満のコード―Copilot/オートコンプリートを使用；単一ファイルで5〜50行―どちらのツールでも可；50行超またはマルチファイルの変更―Claude Codeを使用。これにより、タスクの複雑さに応じて適切なツールを選択できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.6 Migrating from Other AI Coding Tools"
+      anchor: "#common-migration-issues"
+
+  - id: "01-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeがビジュアル分析でサポートする画像フォーマットはどれですか？"
+    options:
+      a: "PNGのみ"
+      b: "PNG、JPG、JPEG、WebP、GIF（静止画）"
+      c: "RAWを含むすべての画像フォーマット"
+      d: "SVGとPNGのみ"
+    correct: "b"
+    explanation: |
+      Claude CodeはPNG、JPG、JPEG、WebP、および静止GIFフォーマットをサポートしています。ターミナルに直接画像を貼り付け（Cmd+V/Ctrl+V）、ドラッグ＆ドロップ、またはパスで参照できます。モックアップからのUI実装、視覚的な問題のデバッグ、図の分析、アクセシビリティ監査に役立ちます。なお、画像はかなりのコンテキストトークンを消費します（1000〜2000語相当）。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#working-with-images-and-screenshots"
+
+  - id: "01-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeセッションを再開する際、どのようなコンテキストが保持されますか？"
+    options:
+      a: "会話履歴のみ"
+      b: "完全な会話履歴、読み取り/編集されたファイル、CLAUDE.mdの設定、MCPサーバーの状態"
+      c: "最後の10メッセージのみ"
+      d: "変更されたファイルのみ"
+    correct: "b"
+    explanation: |
+      セッションを再開すると、Claudeは以下を保持します：完全な会話履歴、以前に読み取り/編集したファイル、CLAUDE.mdとプロジェクト設定、MCPサーバーの状態（Serenaを使用している場合）、未コミットのコード変更の認識。この包括的なコンテキスト保持により、複雑な複数日にわたるタスクをシームレスに継続できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#context-preservation"
+
+  - id: "01-015"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "Claude Codeのインストールを確認するために使用するコマンドはどれですか？"
+    options:
+      a: "claude check"
+      b: "claude --verify"
+      c: "claude --version"
+      d: "claude test"
+    correct: "c"
+    explanation: |
+      `claude --version` を使用してインストールを確認し、現在のバージョンを表示します。バグを報告する前にも役立ちます。インストール後、`claude doctor` で自動アップデーターの健全性を確認し、`claude update` で利用可能なアップデートを確認することもできます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.1 Installation"
+      anchor: "#verify-installation"
+
+  - id: "01-016"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claude Codeのビジュアル分析に最適な画像解像度の範囲はどれですか？"
+    options:
+      a: "50〜200px（できるだけ小さく）"
+      b: "200〜1568px（品質とトークンのバランスのスイートスポット）"
+      c: "2000〜4000px（最大の詳細度）"
+      d: "8000px以上（最高解像度）"
+    correct: "b"
+    explanation: |
+      最適な範囲は200〜1568pxです。200px未満では詳細が不足し、200〜1000pxはワイヤーフレームのスイートスポット、1000〜1568pxは品質とトークンの最適なバランス、1568pxを超える画像は自動縮小されます（アップロード時間の無駄）、8000pxを超える画像はAPIによって拒否されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#image-resolution-guidelines"
+
+  - id: "01-017"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeで画像トークンはどのように計算されますか？"
+    options:
+      a: "file_size_bytes / 1000"
+      b: "(width × height) / 750"
+      c: "pixels / 1000"
+      d: "1画像あたり固定500トークン"
+    correct: "b"
+    explanation: |
+      トークン計算式：(width × height) / 750 ≈ 消費トークン数。例：200×200 = 約54トークン、500×500 = 約334トークン、1000×1000 = 約1334トークン。画像を貼り付ける前にコンテキストへの影響を推定するのに役立ちます。貼り付け後に /status を使用して実際のコンテキスト使用量を確認してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#image-resolution-guidelines"
+
+  - id: "01-018"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claude Codeでワイヤーフレームや図に推奨される画像フォーマットはどれですか？"
+    options:
+      a: "JPEG（最良の圧縮）"
+      b: "PNG（シャープな線とテキスト）"
+      c: "GIF（ユニバーサルサポート）"
+      d: "BMP（ロスレス）"
+    correct: "b"
+    explanation: |
+      PNGはワイヤーフレーム、図、テキストに推奨されます。シャープな線を保持するためです。WebPは圧縮を伴う一般的なスクリーンショットに適しています。JPEGは写真専用です―圧縮アーティファクトが線の検出を損ないます。GIFは避けてください（静止画のみ、品質が低い）。常に関連部分にトリミングし、1000〜1200pxを超える場合はリサイズしてください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.3 Essential Commands"
+      anchor: "#format-recommendations"

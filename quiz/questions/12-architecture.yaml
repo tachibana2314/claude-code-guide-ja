@@ -1,0 +1,259 @@
+category: "アーキテクチャ内部"
+category_id: 12
+source_file: "guide/architecture.md"
+
+questions:
+  - id: "12-001"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claude Codeのコアとなるアーキテクチャパターンは何ですか？"
+    options:
+      a: "タスク計画を持つDAGオーケストレーター"
+      b: "分類器なしのシンプルなwhile(tool_call)ループ"
+      c: "埋め込みを使ったRAGパイプライン"
+      d: "インテントルーターを持つマルチエージェントシステム"
+    correct: "b"
+    explanation: |
+      Claude Codeは驚くほどシンプルな`while(tool_call)`ループで動作します。インテント分類器、タスクルーター、RAG/埋め込みパイプライン、DAGオーケストレーター、プランナー/エグゼキューターの分割は一切ありません。モデル自体がどのツールを呼び出すか、どのツールを呼び出すか、いつ終了するかを決定します。これが「エージェントループ」パターンです。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "The Master Loop"
+      anchor: "#1-the-master-loop"
+
+  - id: "12-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeのコアツールはいくつありますか？"
+    options:
+      a: "5個のツール"
+      b: "8個のツール"
+      c: "12個のツール"
+      d: "無制限（モデル依存）"
+    correct: "b"
+    explanation: |
+      Claude Codeには正確に8個のコアツールがあります：Bash（ユニバーサルアダプター）、Read（ファイル内容）、Edit（ファイルの修正）、Write（作成/上書き）、Grep（内容の検索）、Glob（ファイルの検索）、Task（サブエージェント）、TodoWrite（進捗管理）。これがすべての武器庫です。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "The Tool Arsenal"
+      anchor: "#2-the-tool-arsenal"
+
+  - id: "12-003"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claudeの「スイスアーミーナイフ」および「ユニバーサルアダプター」と説明されているツールはどれですか？"
+    options:
+      a: "Read"
+      b: "Grep"
+      c: "Bash"
+      d: "Task"
+    correct: "c"
+    explanation: |
+      BashはClaudeのスイスアーミーナイフです。任意のCLIツール（git、npm、docker、curlなど）を実行し、スクリプトを実行し、パイプでコマンドを連結し、システム状態にアクセスできます。モデルは大量のシェルデータで訓練されており、ユニバーサルアダプターとして非常に効果的です。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "The Bash Universal Adapter"
+      anchor: "#the-bash-universal-adapter"
+
+  - id: "12-004"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claude 3.5 SonnetでのClaude Codeのコンテキスト予算はおよそどのくらいですか？"
+    options:
+      a: "約32Kトークン"
+      b: "約100Kトークン"
+      c: "約200Kトークン"
+      d: "約500Kトークン"
+    correct: "c"
+    explanation: |
+      Claude Codeは約200Kトークンのコンテキストウィンドウ内で動作します。これはシステムプロンプト（約5〜15K）、CLAUDE.mdファイル（約1〜10K）、会話履歴（可変）、ツールの結果（可変）、確保された応答バッファ（約40〜45K）で共有されます。使用可能なスペースはおよそ140〜150Kトークンです。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Context Budget Breakdown"
+      anchor: "#context-budget-breakdown"
+
+  - id: "12-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeの自動コンパクションのしきい値として報告されているのはどれですか？"
+    options:
+      a: "50〜60%"
+      b: "75〜92%（報告によって異なる）"
+      c: "95〜99%"
+      d: "自動コンパクションは存在しない"
+    correct: "b"
+    explanation: |
+      自動コンパクションのしきい値はソースによって異なります：PromptLayerの分析では92%、コミュニティの観察では75〜80%と報告されています。発動すると、古い会話ターンが要約され、ツールの結果が凝縮され、最近のコンテキストが保持されます。手動で要約をトリガーするには/compactを使用します。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Auto-Compaction"
+      anchor: "#auto-compaction"
+
+  - id: "12-006"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "Taskツールで生成されるサブエージェントの最大深度はどのくらいですか？"
+    options:
+      a: "無制限の深度"
+      b: "深度3"
+      c: "深度1（サブサブエージェントを生成できない）"
+      d: "深度2"
+    correct: "c"
+    explanation: |
+      サブエージェントには深度1の制限があります。サブサブエージェントを生成することはできません。これにより防止されるのは：再帰的爆発（無限リソース）、コンテキストの汚染（蓄積されたコンテキスト）、デバッグの悪夢（多レベルのチェーン）、予測不能なコスト（ネストされたトークン使用）です。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Why Depth = 1?"
+      anchor: "#why-depth--1"
+
+  - id: "12-007"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Taskツールによって生成されたサブエージェントが受け取るものは何ですか？"
+    options:
+      a: "完全な会話履歴＋すべてのファイル読み込み"
+      b: "タスクの説明のみ（隔離された新しいコンテキスト）"
+      c: "会話の最新10メッセージ"
+      d: "システムプロンプト＋CLAUDE.mdファイル"
+    correct: "b"
+    explanation: |
+      サブエージェントは隔離されたコンテキストを持ちます。タスクの説明のみを受け取り、独自の新しいコンテキストウィンドウを持ち、同じツール（Taskを除く）にアクセスし、要約テキストのみを返します。この隔離によりメインのコンテキストがクリーンに保たれ、コンテキストの汚染が防止されます。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Isolation Model"
+      anchor: "#isolation-model"
+
+  - id: "12-008"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "Claude Codeのセキュリティモデルにおける4つの権限レイヤーは何ですか？"
+    options:
+      a: "ユーザー、管理者、システム、ルート"
+      b: "インタラクティブプロンプト、許可/拒否ルール、フック、サンドボックス"
+      c: "読み取り、書き込み、実行、削除"
+      d: "ローカル、プロジェクト、グローバル、エンタープライズ"
+    correct: "b"
+    explanation: |
+      Claude Codeには4層のセキュリティがあります：(1) インタラクティブプロンプト（一度許可/常に許可/拒否）、(2) settings.jsonの許可/拒否ルール、(3) フック（実行前/後のスクリプト）、(4) サンドボックスモード（ファイルシステム＋ネットワーク分離）。各レイヤーが追加の保護を提供します。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Permission & Security Model"
+      anchor: "#5-permission--security-model"
+
+  - id: "12-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Editツールは完全一致に失敗した場合にどのアルゴリズムを使用しますか？"
+    options:
+      a: "即座にエラーを返す"
+      b: "ファジーマッチ（ホワイトスペース正規化、改行コード正規化、コンテキスト拡張）"
+      c: "正規表現パターンマッチング"
+      d: "意味的類似性検索"
+    correct: "b"
+    explanation: |
+      完全一致に失敗した場合、Editはファジーマッチングを試みます：(1) ホワイトスペース正規化（末尾のスペース、インデント）、(2) 改行コード正規化（CRLFとLF）、(3) コンテキスト拡張（周囲の行）。ファジーマッチも失敗した場合にのみエラーを返します。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Fuzzy Matching Details"
+      anchor: "#fuzzy-matching-details"
+
+  - id: "12-010"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "MCP（Model Context Protocol）が通信に使用するプロトコルは何ですか？"
+    options:
+      a: "REST API over HTTPS"
+      b: "GraphQL"
+      c: "JSON-RPC 2.0 over stdioまたはHTTP"
+      d: "Protocol Buffersを使ったgRPC"
+    correct: "c"
+    explanation: |
+      MCPはstdioまたはHTTPトランスポート上のJSON-RPC 2.0を使用します。MCPツールは`mcp__<server>__<tool>`という命名規則に従います。サーバーは初回使用時に起動し、セッション中は稼働し続けます。ネイティブツールと同じ権限システムを持ちます。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "MCP Integration"
+      anchor: "#6-mcp-integration"
+
+  - id: "12-011"
+    difficulty: "senior"
+    profiles: ["power"]
+    question: "Anthropicが述べるClaude Codeの設計哲学は何ですか？"
+    options:
+      a: "より多くのスキャフォールディング、より少ないモデル - 複雑なオーケストレーションを構築する"
+      b: "より少ないスキャフォールディング、より多いモデル - Claudeの推論を信頼する"
+      c: "最大限のコントロール - すべてのケースに対して明示的なルールを設ける"
+      d: "ハイブリッドアプローチ - RAG + 分類器 + モデル"
+    correct: "b"
+    explanation: |
+      Claude Codeの哲学は「より少ないスキャフォールディング、より多いモデル」です。複雑なオーケストレーションシステムを構築する代わりにClaudeの推論を信頼します。これは次を意味します：単一のモデルが決定する（分類器/ルーターなし）、Grep+Glob（RAGなし）、シンプルなwhileループ（DAGなし）、状態としての会話（ステートマシンなし）。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Philosophy: Less Scaffolding, More Model"
+      anchor: "#9-philosophy-less-scaffolding-more-model"
+
+  - id: "12-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeで利用可能な4種類の特化したサブエージェントタイプは何ですか？"
+    options:
+      a: "リーダー、ライター、サーチャー、エグゼキューター"
+      b: "Explore、Plan、Bash、汎用"
+      c: "ジュニア、シニア、エキスパート、アーキテクト"
+      d: "高速、バランス、徹底、完全"
+    correct: "b"
+    explanation: |
+      Claude Codeは4種類のサブエージェントタイプを提供します：Explore（コードベースの探索、読み取り専用ツール）、Plan（アーキテクチャ計画、Edit/Writeなし）、Bash（コマンド実行、Bashのみ）、汎用（複雑なマルチステップタスク、すべてのツール）。各タイプは異なるツールアクセスを持ちます。
+    doc_reference:
+      file: "guide/architecture.md"
+      section: "Sub-Agent Types"
+      anchor: "#sub-agent-types"
+
+  - id: "12-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Code v2.1.16以降でTodoWriteのタスク管理を置き換えたツールは何ですか？"
+    options:
+      a: "ProjectManager API"
+      b: "Kanbanツール"
+      c: "Tasks API（TaskCreate、TaskGet、TaskList、TaskUpdate）"
+      d: "AgendaWriteツール"
+    correct: "c"
+    explanation: |
+      Tasks API（v2.1.16以降）はTodoWriteを4つのツールで置き換えました：TaskCreate（説明付きのタスクを作成）、TaskGet（完全なタスク詳細を取得）、TaskList（ステータス付きのすべてのタスクを一覧表示）、TaskUpdate（ステータス、依存関係、メタデータを更新）。主な改善点：blockedBy/blocksフィールドによるタスクの依存関係。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Tasks API"
+      anchor: "#tasks-api"
+
+  - id: "12-014"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Tasks APIで50個のタスクの完全な詳細を取得する際のAPIコストのオーバーヘッドはどのくらいですか？"
+    options:
+      a: "10倍のオーバーヘッド（10回のAPIコール）"
+      b: "25倍のオーバーヘッド（25回のAPIコール）"
+      c: "51倍のオーバーヘッド（1回のTaskList + 50回のTaskGetコールが必要）"
+      d: "100倍のオーバーヘッド（100回のAPIコール）"
+    correct: "c"
+    explanation: |
+      Tasks APIの制限：TaskListは要約フィールド（id、subject、status、owner、blockedBy）のみを返します。完全な詳細（説明、メタデータ）を取得するには、個別のTaskGetコールが必要です。50個のタスクの場合：1回のTaskList + 50回のTaskGet = 51回のAPIコール。このN+1パターンは、1回のコールですべてを返したTodoWriteと比較した場合の既知の制限です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Tasks API Limitations"
+      anchor: "#tasks-api-limitations"
+
+  - id: "12-015"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "TeammateToolとは何ですか？そのステータスはどうなっていますか？"
+    options:
+      a: "本番対応のマルチエージェントフレームワーク"
+      b: "実験的なマルチエージェント調整ツール（spawnTeam、discoverTeams、requestJoin、approveJoin） - 不安定、公式サポートなし"
+      c: "チームコラボレーションのための公式Anthropicツール"
+      d: "Tasks APIに置き換えられた非推奨機能"
+    correct: "b"
+    explanation: |
+      TeammateToolは4つの操作を持つ実験的なマルチエージェント調整ツールです：spawnTeam、discoverTeams、requestJoin、approveJoin。ステータス：不安定、Anthropicによる公式サポートなし。ClaudeインスタンスがチームとなってAI同士で調整できますが、APIは予告なく変更される可能性があります。本番での使用は推奨されません。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "TeammateTool"
+      anchor: "#teammatetool"

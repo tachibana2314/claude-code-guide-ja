@@ -1,0 +1,474 @@
+category: "MCPサーバー"
+category_id: 8
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "08-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude CodeにおけるMCPは何の略ですか？"
+    options:
+      a: "Model Compute Protocol"
+      b: "Model Context Protocol"
+      c: "Multi-Channel Processing"
+      d: "Module Configuration Protocol"
+    correct: "b"
+    explanation: |
+      MCPはModel Context Protocol（モデルコンテキストプロトコル）の略です。
+
+      AIモデルを外部ツールやデータソースに接続するための標準です。
+      MCPにより、Claude Codeは組み込みツールを超えて以下に接続することで拡張できます：
+      - セマンティックコード分析（Serena）
+      - ドキュメント検索（Context7）
+      - データベースクエリ（Postgres）
+      - ブラウザ自動化（Playwright）
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.1 What is MCP"
+      anchor: "#81-what-is-mcp"
+
+  - id: "08-002"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "コードベース全体で関数のすべての使用箇所を見つけるにはどのMCPサーバーを使用すべきですか？"
+    options:
+      a: "Context7"
+      b: "Sequential Thinking"
+      c: "Serena"
+      d: "Postgres"
+    correct: "c"
+    explanation: |
+      Serenaは `find_referencing_symbols` などのツールでセマンティックコード分析を提供します。
+
+      Serenaのツール：
+      - `find_symbol` - 名前で関数、クラス、メソッドを検索
+      - `get_symbols_overview` - ファイル構造の概要を取得
+      - `find_referencing_symbols` - シンボルのすべての使用箇所を検索
+      - `search_for_pattern` - コードベース全体で正規表現検索
+
+      深いコード理解とシンボルレベルの分析にSerenaを使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.2 Available Servers"
+      anchor: "#serena-semantic-code-analysis"
+
+  - id: "08-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "公式ライブラリドキュメントを調べるのに最適なMCPサーバーはどれですか？"
+    options:
+      a: "Serena"
+      b: "Context7"
+      c: "Sequential Thinking"
+      d: "mgrep"
+    correct: "b"
+    explanation: |
+      Context7は公式ライブラリドキュメントへのアクセスのために設計されています。
+
+      Context7を使用する場面：
+      - 新しいライブラリを学習するとき
+      - 正しいAPIの使用法を見つけるとき
+      - 公式パターンを確認するとき
+
+      例えば、「React の useEffect はどのように機能しますか？」は汎用知識ではなく
+      公式ドキュメントを取得するためにContext7を使用すべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.4 Server Selection Guide"
+      anchor: "#server-comparison"
+
+  - id: "08-004"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "セッションを超えて永続的なメモリを提供するMCPサーバーはどれですか？"
+    options:
+      a: "Context7"
+      b: "Postgres"
+      c: "Serena"
+      d: "Sequential Thinking"
+    correct: "c"
+    explanation: |
+      Serenaは会話を超えて持続するセッションメモリを提供します。
+
+      Serenaのメモリツール：
+      - `write_memory` - 将来のセッションのためにコンテキストを保存
+      - `read_memory` - 保存されたコンテキストを取得
+      - `list_memories` - 保存されたすべてのメモリをリスト
+
+      メモリは `.serena/memories/` に保存され、Claude Codeセッション間で持続します。
+      長期プロジェクトのコンテキストを維持するために重要です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.2 Available Servers"
+      anchor: "#session-memory-workflow"
+
+  - id: "08-005"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ユーザースコープのMCP設定はどこに保存されますか？"
+    options:
+      a: "~/.mcp/config.json"
+      b: "~/.claude.json"
+      c: "/etc/claude/mcp.json"
+      d: "~/.config/claude/mcp.json"
+    correct: "b"
+    explanation: |
+      MCPサーバーは `~/.claude.json` の `"mcpServers"` フィールドで設定されます。
+
+      設定の場所：
+      - `~/.claude.json`（フィールド `"mcpServers"`）- ユーザー/ローカルスコープ
+      - プロジェクトルートの `.mcp.json` - プロジェクトスコープ（VCS経由で共有可能）
+
+      設定では実行するサーバーとその設定を指定します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.3 Configuration"
+      anchor: "#mcp-configuration-location"
+
+  - id: "08-006"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "複雑なデバッグシナリオに推奨されるMCPサーバーはどれですか？"
+    options:
+      a: "Context7"
+      b: "Serena"
+      c: "Sequential Thinking"
+      d: "Postgres"
+    correct: "c"
+    explanation: |
+      Sequential Thinkingは明示的な推論を持つ多段階分析のために設計されています。
+
+      Sequential Thinkingを使用する場面：
+      - 複雑なデバッグシナリオ
+      - アーキテクチャ分析
+      - システム設計の決定
+
+      `sequentialthinking` ツールはステップバイステップの推論を提供し、
+      体系的な調査が必要な問題に最適です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.4 Server Selection Guide"
+      anchor: "#decision-tree"
+
+  - id: "08-007"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "MCPサーバーはどのように効果的に連携できますか？"
+    options:
+      a: "連携できない―一度に1つのサーバーのみ"
+      b: "Context7でパターン -> Serenaでコード -> Sequentialで分析 -> Playwrightでテスト"
+      c: "すべてのサーバーは同一の設定が必要"
+      d: "サーバーはアルファベット順に連鎖させる必要がある"
+    correct: "b"
+    explanation: |
+      MCPサーバーを組み合わせて強力なワークフローを実現できます：
+
+      1. **Context7** - 認証の公式パターンを取得
+      2. **Serena** - コードベース内の既存の認証コードを検索
+      3. **Sequential** - 統合方法を分析
+      4. **Playwright** - 実装をテスト
+
+      この組み合わせにより、包括的な開発のために各サーバーの強みを活用します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.4 Server Selection Guide"
+      anchor: "#combining-servers"
+
+  - id: "08-008"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude CodeがMCP設定で環境変数の置換に使用する構文は何ですか？"
+    options:
+      a: "${projectPath}"
+      b: "${workspaceFolder}"
+      c: "${VAR_NAME}"
+      d: "${PROJECT_DIR}"
+    correct: "c"
+    explanation: |
+      Claude Codeは環境変数の展開に標準的なシェルスタイルの `${VAR}` 構文を使用します。
+
+      MCP設定での変数置換：
+      - `${VAR}` - 環境変数の値
+      - `${VAR:-default}` - フォールバックを含む環境変数
+
+      注意：`${workspaceFolder}` と `${env:VAR_NAME}` はVS Codeの規約であり、Claude Codeのものではありません。
+
+      例：
+      ```json
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+      ```
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.3 Configuration"
+      anchor: "#variable-substitution"
+
+  - id: "08-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeの組み込みツールに対するSerenaの主な利点は何ですか？"
+    options:
+      a: "速い"
+      b: "Claude Codeにはないインデクシングを提供する"
+      c: "メモリ使用量が少ない"
+      d: "オフラインで動作する"
+    correct: "b"
+    explanation: |
+      Serenaは重要なギャップを埋めます：Claude CodeにはCursorとは異なり組み込みのインデクシングがありません。
+
+      Serenaが提供するもの：
+      - **インデクシング**：効率的なシンボル検索のためにコードベースを事前インデックス
+      - **プロジェクトメモリ**：セッション間でコンテキストを保存
+      - **オンボーディング**：初回実行時にプロジェクト構造を自動分析
+
+      大規模なコードベース（1万行以上）では、Serenaのインデクシングがパフォーマンスを劇的に改善します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.2 Available Servers"
+      anchor: "#serena-semantic-code-analysis"
+
+  - id: "08-010"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Claude CodeにおけるプラグインとMCPサーバーの違いは何ですか？"
+    options:
+      a: "プラグインの方が速い"
+      b: "プラグインはClaude固有のワークフローをバンドル；MCPサーバーは外部ツール機能を追加"
+      c: "それらは同一"
+      d: "MCPサーバーは初心者向け、プラグインは専門家向け"
+    correct: "b"
+    explanation: |
+      経験則：
+      - **プラグイン** = 「Claudeの考え方」（新しいワークフロー、専門化されたエージェント）
+      - **MCPサーバー** = 「Claudeができること」（新しいツール、外部システム）
+
+      プラグインはエージェント、スキル、設定をインストール可能なモジュールにバンドルします。
+      MCPサーバーはデータベースアクセスやブラウザ自動化などの外部機能を追加します。
+
+      インストール方法も異なります：
+      - プラグイン：`claude plugin install`
+      - MCP：`settings.json` のMCP設定に追加
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.5 Plugin System"
+      anchor: "#plugin-vs-mcp-server"
+
+  - id: "08-011"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ブラウザ自動化とE2Eテストに使用されるMCPサーバーはどれですか？"
+    options:
+      a: "Serena"
+      b: "Context7"
+      c: "Playwright"
+      d: "Sequential Thinking"
+    correct: "c"
+    explanation: |
+      Playwright MCPはブラウザ自動化機能を提供します。
+
+      Playwrightのツール：
+      - `navigate` - URLに移動
+      - `click` - 要素をクリック
+      - `fill` - フォームフィールドに入力
+      - `screenshot` - スクリーンショットを撮る
+
+      Playwrightを使用する場面：
+      - E2Eテスト
+      - ビジュアル検証
+      - ブラウザデバッグ
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.2 Available Servers"
+      anchor: "#playwright-browser-automation"
+
+  - id: "08-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "CLIで環境変数を使用してMCPサーバーを追加するにはどうすればよいですか？"
+    options:
+      a: "claude mcp add --env API_KEY=key server"
+      b: "claude mcp add -e API_KEY=key my-server -- npx @org/server"
+      c: "claude mcp install server --api-key key"
+      d: "claude add mcp server -k key"
+    correct: "b"
+    explanation: |
+      `-e` フラグを使用して環境変数を渡します：
+
+      ```bash
+      claude mcp add -e API_KEY=your-key my-server -- npx @org/server
+      ```
+
+      複数の環境変数の場合：
+      ```bash
+      claude mcp add -e DATABASE_URL=postgres://... -e DEBUG=true postgres -- npx @prisma/postgres
+      ```
+
+      これはmcp.jsonを手動で編集するよりも高速です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.3 Configuration"
+      anchor: "#cli-based-mcp-configuration"
+
+  - id: "08-013"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Serenaと比較したgrepaiの主な差別化点は何ですか？"
+    options:
+      a: "速い"
+      b: "意図によるセマンティック検索とコールグラフ分析を提供する"
+      c: "より多くの言語をサポートする"
+      d: "より良いドキュメントを持つ"
+    correct: "b"
+    explanation: |
+      grepaiは自然言語を使用した意図ベースの検索に優れており、
+      関数の依存関係をトレースするコールグラフ分析も提供します：
+
+      ```bash
+      # セマンティック検索（意味でコードを見つける、完全一致のテキストではない）
+      grepai search "user authentication flow"
+
+      # この関数を呼び出しているのは誰か？
+      grepai trace callers "createSession"
+      ```
+
+      Serenaがシンボルレベルの分析に焦点を当てているのに対し、grepaiは
+      機能の説明でコードを見つけ、呼び出し元/呼び出し先の関係をトレースします。
+
+      未知のコードベースの探索や依存関係の理解にgrepaiを使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.2 Available Servers"
+      anchor: "#grepai-recommended-semantic-search"
+
+  - id: "08-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Codeにインストールされているすべてのプラグインをリストするコマンドはどれですか？"
+    options:
+      a: "claude plugins list"
+      b: "claude plugin"
+      c: "/plugins"
+      d: "claude list plugins"
+    correct: "b"
+    explanation: |
+      `claude plugin`（サブコマンドなし）を実行すると、インストールされているすべてのプラグインがステータスとともにリストされます。
+
+      プラグインコマンド：
+      - `claude plugin` - インストールされているプラグインをリスト
+      - `claude plugin install <name>` - プラグインをインストール
+      - `claude plugin enable <name>` - プラグインを有効化
+      - `claude plugin disable <name>` - プラグインを無効化
+      - `claude plugin uninstall <name>` - プラグインを削除
+      - `claude plugin validate <path>` - プラグインマニフェストを検証
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "8.5 Plugin System"
+      anchor: "#plugin-commands"
+
+  - id: "08-015"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "スクリーンショットに対するFigma MCPの主な利点は何ですか？"
+    options:
+      a: "より高い画像品質"
+      b: "3〜10倍少ないトークン：画像分析ではなく構造化データ"
+      c: "より速いダウンロード速度"
+      d: "オフラインで動作する"
+    correct: "b"
+    explanation: |
+      Figma MCPは画像分析ではなく構造化データ（React+Tailwind構造、デザイントークン）を返すため、スクリーンショットよりも3〜10倍少ないトークンで済みます。その他の利点：直接トークンアクセス、Code Connectによるコンポーネントマッピング、新しいスクリーンショットなしでの反復的なワークフロー。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.3 Figma MCP Integration"
+      anchor: "#figma-mcp-integration"
+
+  - id: "08-016"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "デザイントークン（色、スペーシング、タイポグラフィ）を取得するFigma MCPツールはどれですか？"
+    options:
+      a: "get_design_context"
+      b: "get_variable_defs"
+      c: "get_metadata"
+      d: "get_screenshot"
+    correct: "b"
+    explanation: |
+      `get_variable_defs` は色（--color-primary: #3B82F6）、スペーシング（--spacing-md: 16px）、タイポグラフィなどのデザイントークンを取得します。推奨ワークフロー：get_metadata → get_design_context → get_variable_defs（プロジェクトごとに1回）→ get_screenshot（ビジュアル参照が必要な場合のみ）。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.3 Figma MCP Integration"
+      anchor: "#available-tools-via-figma-mcp"
+
+  - id: "08-017"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "リモートアクセス用のFigma MCPサーバーを追加するコマンドはどれですか？"
+    options:
+      a: "claude mcp install figma"
+      b: "claude mcp add --transport http figma https://mcp.figma.com/mcp"
+      c: "claude figma connect"
+      d: "npm install @figma/mcp"
+    correct: "b"
+    explanation: |
+      リモートMCP（すべてのFigmaプラン、任意のマシン）の場合：`claude mcp add --transport http figma https://mcp.figma.com/mcp`。デスクトップMCP（Figmaデスクトップアプリのデベロッパーモードが必要）の場合：`claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`。公式Figma MCPは2025年に発表されました。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.3 Figma MCP Integration"
+      anchor: "#setup-options"
+
+  - id: "08-018"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "MCP Appsアーキテクチャの2つのコアプリミティブは何ですか？"
+    options:
+      a: "関数とルート"
+      b: "コマンドとイベント"
+      c: "UIメタデータを持つツールとUIリソース（ui://スキーム）"
+      d: "プラグインとテーマ"
+    correct: "c"
+    explanation: |
+      MCP Apps（SEP-1865）は2つのコアプリミティブを導入します：
+
+      1. **UIメタデータを持つツール** - レンダリングヒント（入力フォーム、出力表示）で注釈された標準のMCPツール
+      2. **UIリソース（ui://スキーム）** - データではなくUIコンポーネントを返すリソース
+
+      これらを組み合わせることで、MCPサーバーは機能とユーザーインターフェースの両方を提供でき、エージェントとユーザー間のより豊かなインタラクションが可能になります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Apps"
+      anchor: "#mcp-apps"
+
+  - id: "08-019"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "MCPツール設定の 'auto:N' しきい値は何を制御しますか？"
+    options:
+      a: "MCPの最大同時接続数"
+      b: "ツール結果のキャッシュサイズ"
+      c: "遅延読み込み―ツールの説明がユーザーの意図と一致した場合にのみ読み込まれ、Nは自動読み込みする最大ツール数"
+      d: "失敗したツール呼び出しの再試行回数"
+    correct: "c"
+    explanation: |
+      `auto:N` しきい値はMCPツールの遅延読み込みを有効にします。セッション開始時にすべてのツールを読み込む（コンテキストを無駄にする）代わりに、ツールの説明がユーザーの意図と一致した場合にのみ読み込まれます。Nは意図のマッチごとに自動読み込みするツールの最大数を制御します。これにより、多くのツールを持つMCPサーバーのコンテキスト使用量が削減されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Configuration"
+      anchor: "#mcp-configuration"
+
+  - id: "08-020"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "本番エコシステム評価で最高スコア（9.0/10）を獲得したMCPサーバーはどれですか？"
+    options:
+      a: "Playwright MCP（8.8/10）"
+      b: "Context7 MCP（8.5/10）"
+      c: "Semgrep MCP―SAST、シークレット、サプライチェーン分析"
+      d: "Kubernetes MCP（8.4/10）"
+    correct: "c"
+    explanation: |
+      Semgrep MCPは本番MCPエコシステム評価で9.0/10を獲得しました。静的アプリケーションセキュリティテスト（SAST）、シークレット検出、サプライチェーン分析を提供します。トップスコア：Semgrep（9.0）、Playwright（8.8）、Context7（8.5）、Kubernetes（8.4）。評価基準：信頼性、トークン効率、本番対応性。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Servers Ecosystem"
+      anchor: "#mcp-servers-ecosystem"

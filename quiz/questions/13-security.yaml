@@ -1,0 +1,208 @@
+category: "セキュリティ強化"
+category_id: 13
+source_file: "guide/security-hardening.md"
+
+questions:
+  - id: "13-001"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "「MCP Rug Pull」攻撃とは何ですか？"
+    options:
+      a: "突然クラッシュするMCPサーバー"
+      b: "信頼を得た後に悪意を持つようになる無害なMCP（再承認不要）"
+      c: "トークンを使いすぎるMCP"
+      d: "MCPプロトコル自体への攻撃"
+    correct: "b"
+    explanation: |
+      MCP Rug Pullは一度限りの承認モデルを悪用します：攻撃者が無害なMCPを公開 → ユーザーが一度承認 → MCPが通常通り動作（信頼を構築） → 攻撃者が悪意のある更新をプッシュ → MCPが再承認なしで認証情報を流出させる。対策：バージョンピニング＋ハッシュ検証。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Attack: MCP Rug Pull"
+      anchor: "#attack-mcp-rug-pull"
+
+  - id: "13-002"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "CVE-2025-53109/53110（EscapeRoute）が悪用するものは何ですか？"
+    options:
+      a: "Claudeのシステムプロンプトへのプロンプトインジェクション"
+      b: "プレフィックスバイパス＋シンボリックリンクによるFilesystem MCPサンドボックスエスケープ"
+      c: "BashツールのメモリCorruption"
+      d: "ネットワークリクエストでのAPIキー漏洩"
+    correct: "b"
+    explanation: |
+      CVE-2025-53109/53110（EscapeRoute）は、プレフィックスバイパスとシンボリックリンクを組み合わせてFilesystem MCPのサンドボックスエスケープを可能にします。重大度：高。対策：制限なしのアクセスでのFilesystem MCPを避けるか、公式パッチを適用してください。出典：Cymulateセキュリティリサーチ。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "CVE Summary (2025)"
+      anchor: "#cve-summary-2025"
+
+  - id: "13-003"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: ".claude/settings.jsonのpermissions.denyの既知の制限は何ですか？"
+    options:
+      a: "macOSでのみ動作する"
+      b: "システムリマインダーがツールの権限チェックの前にファイルの内容を公開する可能性がある"
+      c: "Bashコマンドをブロックできない"
+      d: "管理者権限が必要"
+    correct: "b"
+    explanation: |
+      permissions.denyにはアーキテクチャ上の制限があります：バックグラウンドインデックスが、ツールの権限チェックが適用される前に内部の「システムリマインダー」メカニズムを通じてファイルの内容を公開する可能性があります。これはGitHub #4160で文書化されています。多層防御：シークレットをプロジェクトディレクトリの外に保管してください。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Known Security Gaps"
+      anchor: "#known-security-gaps"
+
+  - id: "13-004"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "シークレット保護のための推奨される多層防御戦略は何ですか？"
+    options:
+      a: "permissions.denyのみを使用する"
+      b: "プロジェクト外にシークレットを保管＋外部ボールト＋PreToolUseフック＋コミットしない"
+      c: "プロジェクト内のすべてのファイルを暗号化する"
+      d: "Claude Codeを実行する際にVPNを使用する"
+    correct: "b"
+    explanation: |
+      多層防御：(1) プロジェクトディレクトリ外にシークレットを保管（~/.secrets/またはボールト）、(2) 外部シークレット管理を使用（AWS Secrets Manager、1Password）、(3) 二次ブロッキングとしてPreToolUseフックを追加、(4) シークレットを絶対にコミットしない、(5) bashコマンドを手動でレビューする。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Defense-in-Depth Strategy"
+      anchor: "#defense-in-depth-strategy"
+
+  - id: "13-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "U+200B、U+200C、U+200Dを使用するプロンプトインジェクションの回避テクニックはどれですか？"
+    options:
+      a: "Base64エンコーディング"
+      b: "RTLオーバーライド"
+      c: "ゼロ幅文字（人間には見えない）"
+      d: "ホモグリフ"
+    correct: "c"
+    explanation: |
+      ゼロ幅文字（U+200B、U+200C、U+200D）は人間には見えないが解釈される指示を作成します。検出方法：Unicodeの正規表現パターン[\x{200B}-\x{200D}\x{FEFF}\x{202A}-\x{202E}]。v3.6.0でprompt-injection-detector.shに追加されました。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Evasion Techniques"
+      anchor: "#evasion-techniques"
+
+  - id: "13-006"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "最高のリコール率（88%）を持つが精度は低い（46%）シークレット検出ツールはどれですか？"
+    options:
+      a: "TruffleHog"
+      b: "GitGuardian"
+      c: "Gitleaks"
+      d: "detect-secrets"
+    correct: "c"
+    explanation: |
+      Gitleaks：リコール88%、精度46%、高速（10万コミットあたり約2分）- pre-commitフックに最適。TruffleHog：リコール52%、精度85%、低速 - CI検証に最適。GitGuardian：リコール80%、精度95% - エンタープライズ監視向け。detect-secrets：リコール60%、精度98% - ベースラインアプローチ。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Tool Comparison"
+      anchor: "#tool-comparison"
+
+  - id: "13-007"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "settings.jsonにおけるセキュリティのための推奨フックスタックはどれですか？"
+    options:
+      a: "ロギングのためのPostToolUseフックのみ"
+      b: "PreToolUse（危険ブロッカー、インジェクション検出器）＋PostToolUse（出力スキャナー）＋SessionStart（MCP整合性）"
+      c: "フックなし - permissions.denyのみに依存する"
+      d: "UserPromptSubmitフックのみ"
+    correct: "b"
+    explanation: |
+      推奨セキュリティフックスタック：PreToolUse → dangerous-actions-blocker.sh（Bash）、prompt-injection-detector.sh + unicode-injection-scanner.sh（Edit/Write）。PostToolUse → output-secrets-scanner.sh（Bash）。SessionStart → mcp-config-integrity.sh。多層防御のための複数レイヤー。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Hook Stack Setup"
+      anchor: "#23-hook-stack-setup"
+
+  - id: "13-008"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "コミュニティ審査済みの安全リストで「安全」とマークされているMCPサーバーはどれですか？"
+    options:
+      a: "filesystem（無制限）、database（本番認証情報）"
+      b: "@anthropic/mcp-server-*、context7、sequential-thinking、memory"
+      c: "browser（フルアクセス）、カスタムMCP"
+      d: "すべてのMCPはデフォルトで安全"
+    correct: "b"
+    explanation: |
+      MCP安全リスト：@anthropic/mcp-server-*（公式）、context7（読み取り専用ドキュメント）、sequential-thinking（外部アクセスなし、ローカル）、memory（ローカルファイルベース）。リスクあり：filesystem無制限（CVE-2025-53109）、データベース本番（流出）。安全でない：ブラウザのフルアクセス。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "MCP Safe List (Community Vetted)"
+      anchor: "#mcp-safe-list-community-vetted"
+
+  - id: "13-009"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "シークレットが漏洩した場合の最初のアクションは何ですか？"
+    options:
+      a: "ポストモーテムのためにインシデントを文書化する"
+      b: "認証情報を即座に取り消す"
+      c: "リポジトリ全体をスキャンする"
+      d: "チームに通知する"
+    correct: "b"
+    explanation: |
+      最初の15分間（被害を止める）：(1) 即座に取り消す - AWSのdelete-access-key、GitHubのトークン取り消し、Stripeのキーロール。(2) 公開範囲を確認する。その後：gitの履歴を監査し、依存関係をスキャンし、CI/CDログを確認する。最初の24時間：関連するすべての認証情報をローテーションし、コンプライアンスに通知し、タイムラインを文書化する。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Secret Exposed"
+      anchor: "#31-secret-exposed"
+
+  - id: "13-010"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "ガイドの3つのセキュリティポスチャーレベルは何ですか？"
+    options:
+      a: "低、中、高"
+      b: "Basic（5分）、Standard（30分）、Hardened（2時間）"
+      c: "開発、ステージング、本番"
+      d: "無料、プロ、エンタープライズ"
+    correct: "b"
+    explanation: |
+      セキュリティポスチャーレベル：Basic（5分）= 出力スキャナー＋危険ブロッカー - ソロ開発/実験向け。Standard（30分）= ＋インジェクションフック＋MCP審査 - チーム/機密コード向け。Hardened（2時間）= ＋整合性検証＋ZDR - エンタープライズ/本番向け。
+    doc_reference:
+      file: "guide/security-hardening.md"
+      section: "Security Posture Levels"
+      anchor: "#security-posture-levels"
+
+  - id: "13-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントの自律性のためにmicroVM分離とネットワークポリシーを組み合わせるサンドボックス分離アプローチはどれですか？"
+    options:
+      a: "E2B（ホステッドクラウドサンドボックス）"
+      b: "Fly.io Sprites（エッジコンピュート）"
+      c: "Dockerサンドボックス（カスタムテンプレートとネットワークポリシー付き）"
+      d: "Cloudflare Sandbox SDK"
+    correct: "c"
+    explanation: |
+      Dockerサンドボックスはカスタマイズされたネットワークポリシーを持つmicroVMレベルの分離を提供します。主な機能：再現可能な環境のためのカスタムDockerfileテンプレート、エグレス/イングレスを制御するネットワークポリシー、永続ストレージのためのボリュームマウント、CPU/メモリ制限。このアプローチは、強力な分離を維持しながらサンドボックス設定に対して完全なコントロールを望むチームに適しています。
+    doc_reference:
+      file: "guide/sandbox-isolation.md"
+      section: "Docker Sandboxes"
+      anchor: "#docker-sandboxes"
+
+  - id: "13-012"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "GitHubイシュー自動作成バグ（#13797）とは何ですか？なぜ危険なのですか？"
+    options:
+      a: "イシューが自動的に削除される"
+      b: "Claude Codeが誤ってプライベートなプロジェクト詳細を含む公開GitHubイシューを作成する"
+      c: "イシューは作成されるがプライベートのまま"
+      d: "有料エンタープライズアカウントにのみ影響する"
+    correct: "b"
+    explanation: |
+      GitHubイシュー自動作成バグ（#13797）は、Claude Codeがプライベートなプロジェクト詳細を含む公開GitHubイシューを誤って作成することを引き起こします。17件以上の誤った公開が記録されており、v2.0.65以降に影響します。危険性：内部コード、アーキテクチャの決定、プライベートなコンテキストが公開される。対策：gh CLIツールを無効にするか、GitHubの権限を制限する。
+    doc_reference:
+      file: "guide/known-issues.md"
+      section: "GitHub Issue Auto-Creation Bug"
+      anchor: "#github-issue-auto-creation-bug"

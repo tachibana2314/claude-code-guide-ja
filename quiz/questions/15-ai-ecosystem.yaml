@@ -1,0 +1,344 @@
+category: "AIエコシステム"
+category_id: 15
+source_file: "guide/ai-ecosystem.md"
+
+questions:
+  - id: "15-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeと補完的なAIツールを使用する背景にある主な哲学は何ですか？"
+    options:
+      a: "Claude Codeをより良いツールに置き換える"
+      b: "代替ではなく補強 - 各ステップに適切なツールを連鎖させる"
+      c: "できるだけ多くのツールを同時に使用する"
+      d: "コーディングタスクにClaude Codeを使用しない"
+    correct: "b"
+    explanation: |
+      哲学は「代替ではなく補強」です。
+
+      Claude Codeはコンテキストの推論と実装において優れていますが、ギャップがあります：
+      - ソース検証付きのリアルタイムウェブ検索なし
+      - 画像生成なし
+      - PowerPoint/スライド生成なし
+      - 音声合成なし
+
+      目標はワークフローの各ステップに適切なツールを連鎖させることです。
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "Introduction"
+      anchor: "#introduction"
+
+  - id: "15-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeの代わりにPerplexityを使用すべきなのはいつですか？"
+    options:
+      a: "コードベースで機能を実装するとき"
+      b: "100件以上の検証済みソースで深い調査が必要なとき"
+      c: "複数のファイルを編集するとき"
+      d: "テストを実行するとき"
+    correct: "b"
+    explanation: |
+      Perplexityは検証済みソースを使った調査に優れています。
+
+      Perplexityを使う場面：
+      - 「Xの最新APIは何ですか？」（リアルタイム情報）
+      - 「認証用の5つのライブラリを比較」（ソース付き比較）
+      - Deep Researchモードは100件以上のソースを統合
+
+      Claude Codeを使う場面：
+      - コードベースでの実装
+      - コンテキストに基づいたコードの説明
+      - 複数ファイルの編集
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "1. Perplexity AI"
+      anchor: "#1-perplexity-ai-research--sourcing"
+
+  - id: "15-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "推奨されるリサーチからコードへのパイプラインはどれですか？"
+    options:
+      a: "Claude Code → Perplexity → 実装"
+      b: "Perplexity Deep Research → spec.mdをエクスポート → Claude Codeが実装"
+      c: "Google検索 → コードをコピー → プロジェクトに貼り付け"
+      d: "Claude Codeに最初にウェブを検索させる"
+    correct: "b"
+    explanation: |
+      リサーチからコードへのパイプライン：
+
+      1. PERPLEXITY（Deep Research）
+         - ソース付きでベストプラクティスを調査
+         - 出力：引用付きの2000ワードの仕様
+
+      2. spec.mdとしてエクスポート
+
+      3. CLAUDE CODE
+         - 「spec.mdに従って実装してください」
+         - 出力：テスト付きの動作する実装
+
+      これにより、実装が検証済みの最新情報に基づいていることが保証されます。
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "Integration Workflow"
+      anchor: "#integration-workflow"
+
+  - id: "15-004"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "UIのスクリーンショットをReactコードに変換するのに最適なツールはどれですか？"
+    options:
+      a: "Perplexity"
+      b: "Claude Codeを直接使用"
+      c: "Gemini 2.5 Pro → その後Claude Codeで改良"
+      d: "NotebookLM"
+    correct: "c"
+    explanation: |
+      Gemini 2.5 Proは視覚的理解に優れています：
+
+      ビジュアルからコードへのパイプライン：
+      1. GEMINI：スクリーンショットをアップロード → JSX + Tailwindを取得（90%以上の忠実度）
+      2. CLAUDE CODE：プロジェクト向けに改良
+         - TypeScriptの型を追加
+         - 自分のコンポーネントに接続
+         - 状態管理に統合
+
+      Claude Code単体ではGeminiと比較して画像の理解が限られています。
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "2. Google Gemini"
+      anchor: "#2-google-gemini-visual-understanding"
+
+  - id: "15-005"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "コードのドキュメントからPowerPointプレゼンテーションを作成するのに使用すべきツールはどれですか？"
+    options:
+      a: "Claude Code"
+      b: "Perplexity"
+      c: "Kimi（Moonshot AI）"
+      d: "Gemini"
+    correct: "c"
+    explanation: |
+      Moonshot AIのKimi（kimi.ai）はPPTX生成に特化しています：
+
+      機能：
+      - ネイティブPPTXエクスポート（マークダウンではなく実際のスライド）
+      - 128K以上のトークンコンテキスト（コードベース全体）
+      - シンタックスハイライト付きのコード対応レイアウト
+      - 技術的なコンテンツからのステークホルダーデッキに優れている
+
+      ワークフロー：Claude Codeがサマリーを生成 → Kimiがプレゼンテーションを作成
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "3. Kimi"
+      anchor: "#3-kimi-pptx--long-document-generation"
+
+  - id: "15-006"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "開発者のオンボーディングにおけるNotebookLMのユニークな機能は何ですか？"
+    options:
+      a: "コードの実行"
+      b: "Audio Overview - ドキュメントからポッドキャスト形式の説明を生成"
+      c: "リアルタイムコラボレーション"
+      d: "Git統合"
+    correct: "b"
+    explanation: |
+      NotebookLMのAudio Overview機能：
+
+      - 50件以上のドキュメントファイルをアップロード
+      - 10〜15分の「ポッドキャスト」を生成
+      - 2人のAIホストがコードベースについて議論
+      - オンボーディングや大規模システムのレビューに最適
+
+      ワークフロー：
+      1. ドキュメントをcombined-docs.mdにエクスポート
+      2. NotebookLMにアップロード
+      3. Audio Overviewを生成
+      4. 通勤中に聴く
+      5. より深い理解を持ってClaude Codeに戻る
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "4. NotebookLM"
+      anchor: "#4-notebooklm-synthesis--audio"
+
+  - id: "15-007"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "完全なワークフローパイプラインの正しいフェーズの順序はどれですか？"
+    options:
+      a: "実装 → 計画 → 納品"
+      b: "計画（Perplexity/Gemini/NotebookLM） → 実装（Claude Code） → 納品（Kimi）"
+      c: "納品 → 計画 → 実装"
+      d: "すべてのツールを同時に使用"
+    correct: "b"
+    explanation: |
+      完全なパイプラインには3つのフェーズがあります：
+
+      計画フェーズ：
+      - Perplexity：Deep Research → spec.md
+      - Gemini：図の分析 → mermaid + 計画
+      - NotebookLM：ドキュメントの統合 → audio overview
+
+      実装フェーズ：
+      - Claude Code：複数ファイルの実装
+      - IDE + Copilot：インライン自動補完
+
+      納品フェーズ：
+      - Claude Code：PRの説明、リリースノート
+      - Kimi：ステークホルダーデッキ（presentation.pptx）
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "7. Workflow Orchestration"
+      anchor: "#7-workflow-orchestration"
+
+  - id: "15-008"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "AIエコシステムにおけるv0.devの最適な用途は何ですか？"
+    options:
+      a: "バックエンドAPI開発"
+      b: "データベースクエリ"
+      c: "Shadcn/Tailwindを使ったUIプロトタイプの迅速な作成"
+      d: "セキュリティ監査"
+    correct: "c"
+    explanation: |
+      v0.devは迅速なUIプロトタイピングに優れています：
+
+      - React + Shadcn + Tailwindコンポーネントを生成
+      - ブラウザでのライブプレビュー
+      - UIデザインの迅速なイテレーション
+
+      ワークフロー：
+      1. v0：プロンプト → コンポーネントプレビューを取得
+      2. コードをエクスポート
+      3. Claude Code：プロジェクト向けに適応
+         - TypeScriptの型を追加
+         - 自分のAPIに接続
+         - デザインシステムと統合
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "6. UI Prototypers"
+      anchor: "#6-ui-prototypers-v0-bolt-lovable"
+
+  - id: "15-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "調査においてClaude WebSearchとPerplexity Proはどのように異なりますか？"
+    options:
+      a: "Claude WebSearchはより多くのソース（100件以上）を持つ"
+      b: "機能的に同一"
+      c: "Claude WebSearch：5〜10件のソース、クイック調査。Perplexity Pro：100件以上のソース、包括的な調査"
+      d: "Perplexityはリアルタイムデータにアクセスできない"
+    correct: "c"
+    explanation: |
+      比較：
+
+      | 機能 | Claude WebSearch | Perplexity Pro |
+      |------|-----------------|----------------|
+      | ソース数 | 約5〜10件 | 100件以上（Deep Research） |
+      | ソース検証 | 基本的 | 完全な引用 |
+      | 最適な用途 | クイック調査 | 包括的な調査 |
+      | コスト | 含まれる | 月額$20 |
+
+      推奨：クイックな事実確認にはClaude WebSearchを使用する。
+      重要な実装前にはPerplexity Deep Researchを使用する。
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "Comparison"
+      anchor: "#comparison-claude-websearch-vs-perplexity"
+
+  - id: "15-010"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "AIツールの「最小限のスタック」の月額コストとして推奨されるのはどれですか？"
+    options:
+      a: "月額$200以上 - すべてのProサブスクリプション"
+      b: "月額$40〜70 - Claude Code + Perplexity Pro、残りは無料ティア"
+      c: "月額$0 - 無料ティアのみ"
+      d: "月額$500以上 - エンタープライズプラン"
+    correct: "b"
+    explanation: |
+      推奨サブスクリプションスタック：
+
+      最小限のスタック（月額$40〜70）：
+      - Claude Code（従量制）：$20〜50
+      - Perplexity Pro：$20
+      - その他すべて：無料ティア（NotebookLM、Kimi、Gemini無料）
+
+      バランスの取れたスタック（月額$80〜110）：
+      - Gemini Advanced（$20）とCursor Pro（$20）を追加
+
+      コスト最適化のヒント：
+      - シンプルなタスクにはHaikuを使用
+      - Perplexityでの調査セッションをまとめて行う
+      - コンテキスト使用量を定期的に確認する（/status）
+    doc_reference:
+      file: "guide/ai-ecosystem.md"
+      section: "8. Cost & Subscription Strategy"
+      anchor: "#8-cost--subscription-strategy"
+
+  - id: "15-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude CodeからLM Studioへのブリッジが提供するコスト削減はどのくらいですか？"
+    options:
+      a: "APIコストの20〜30%削減"
+      b: "50%削減だが実行速度が遅い"
+      c: "Opusで計画し、ローカルLLMで無料で実行することで80〜90%削減"
+      d: "削減なしだがプライバシーが向上"
+    correct: "c"
+    explanation: |
+      Claude CodeからLM Studioへのブリッジは80〜90%のコスト削減を実現します。戦略：計画フェーズにOpusを使用（セッションあたり約$0.50〜2）し、その後LM Studio経由で無料のローカルLLMで実装を実行します。ブリッジスクリプトがClaudeの計画をローカルLLMの指示に変換します。トレードオフ：ローカルLLMは能力は低いが無料です。
+    doc_reference:
+      file: "examples/scripts/bridge.py"
+      section: "LM Studio Bridge"
+      anchor: "#lm-studio-bridge"
+
+  - id: "15-012"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "マルチエージェントClaude Codeのための3つの文書化された外部オーケストレーションシステムは何ですか？"
+    options:
+      a: "LangChain、AutoGPT、CrewAI"
+      b: "Vercel AI SDK、Fly.io Machines、Railway"
+      c: "Gas Town（Steve Yegge）、multiclaude（dlorenc）、agent-chat（Justin Abrahms）"
+      d: "Kubernetes、Docker Compose、Terraform"
+    correct: "c"
+    explanation: |
+      3つの文書化された外部オーケストレーションシステム：
+
+      1. **Gas Town**（Steve Yegge） - 共有コンテキストを持つマルチエージェント調整
+      2. **multiclaude**（dlorenc） - タスク分散を持つ並列Claude Codeインスタンス
+      3. **agent-chat**（Justin Abrahms） - エージェント間通信プロトコル
+
+      これらはコミュニティが構築したツールであり、Anthropicの公式製品ではありません。各ツールはマルチエージェント調整を異なる方法で解決します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "External Orchestration"
+      anchor: "#external-orchestration"
+
+  - id: "15-013"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "スケルトンプロジェクトをフォークする前に評価する際、サブエージェントが監査すべき3つの領域は何ですか？"
+    options:
+      a: "パフォーマンス、コスト、スケーラビリティ"
+      b: "UI、API、データベース"
+      c: "セキュリティ、アーキテクチャ、開発者体験（DX）"
+      d: "テスト、ドキュメント、CI/CD"
+    correct: "c"
+    explanation: |
+      スケルトンプロジェクトの評価には3つの特化したサブエージェントを使用します：
+
+      1. **セキュリティ** - 依存関係、シークレット管理、認証パターン、既知の脆弱性を監査
+      2. **アーキテクチャ** - コード構成、パターン、スケーラビリティ、保守性を評価
+      3. **開発者体験（DX）** - セットアップの複雑さ、ドキュメントの質、ツール、オンボーディングの摩擦を確認
+
+      各エージェントがフォーク決定前にスコアと推奨事項を提示します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Skeleton Projects Workflow"
+      anchor: "#skeleton-projects-workflow"

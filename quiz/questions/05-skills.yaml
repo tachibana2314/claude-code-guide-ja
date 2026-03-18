@@ -1,0 +1,310 @@
+category: "スキル"
+category_id: 5
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "05-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "スキルとエージェントの関係は何ですか？"
+    options:
+      a: "スキルはエージェントを置き換える"
+      b: "スキルはエージェントが継承できる知識パッケージ"
+      c: "エージェントはスキルの一種"
+      d: "それらは完全に独立している"
+    correct: "b"
+    explanation: |
+      スキルはエージェントが継承できる知識パッケージです。エージェントが専門化された役割（タスク重視）であるのに対して、スキルは再利用可能な知識モジュール（ドメイン重視）です。複数のエージェントが同じスキルを継承でき、重複を避けられます。例えば、コードレビュアーエージェントとセキュリティ監査エージェントの両方がsecurity-guardianスキルを継承できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.1 Understanding Skills"
+      anchor: "#51-understanding-skills"
+
+  - id: "05-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "スキルファイルはどこに保存すべきですか？"
+    options:
+      a: ".claude/commands/"
+      b: ".claude/skills/{skill-name}/"
+      c: ".claude/agents/"
+      d: "~/.claude/skills/"
+    correct: "b"
+    explanation: |
+      スキルはプロジェクト内の `.claude/skills/{skill-name}/` ディレクトリに保存されます。各スキルには最低限SKILL.mdファイルが含まれる独自のフォルダーがあり、オプションでreference.md、checklists/、examples/、scripts/サブディレクトリも含められます。この構成により知識がモジュール化され再利用可能になります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#52-creating-skills"
+
+  - id: "05-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "スキルフォルダーで必須のファイルは何ですか？"
+    options:
+      a: "README.md"
+      b: "skill.yaml"
+      c: "SKILL.md"
+      d: "index.md"
+    correct: "c"
+    explanation: |
+      SKILL.mdはすべてのスキルフォルダーで必須のメインファイルです。オプションファイルには：reference.md（詳細ドキュメント）、checklists/（検証リスト）、examples/（good/badの例を含むコードパターン）、scripts/（ヘルパースクリプト）があります。SKILL.mdにはスキルのフロントマターとコア指示が含まれます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#skill-folder-structure"
+
+  - id: "05-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "スキル、エージェント、コマンドの主な違いは何ですか？"
+    options:
+      a: "すべて同じことをする"
+      b: "スキル = 知識モジュール（継承）、エージェント = 専門化された役割（委任）、コマンド = プロセスワークフロー（スラッシュで呼び出し）"
+      c: "コマンドだけが再利用可能なコンポーネント"
+      d: "エージェントはスキルやコマンドを使用できない"
+    correct: "b"
+    explanation: |
+      3つのコンセプトはそれぞれ異なる目的を持ちます：スキルはエージェントが継承する知識モジュール（OWASPセキュリティ知識など）、エージェントはClaudeがタスクを委任する専門化された役割（セキュリティレビュアーなど）、コマンドはスラッシュコマンドで呼び出されるプロセスワークフロー（/tech:commitなど）。これらは組み合わせることができます：エージェントはスキルを継承してコマンドを実行します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.1 Understanding Skills"
+      anchor: "#skills-vs-agents-vs-commands"
+
+  - id: "05-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "SKILL.mdフロントマターの 'context' フィールドは何を制御しますか？"
+    options:
+      a: "コンテキストウィンドウサイズ"
+      b: "スキルが分離されたコンテキスト（fork）で実行されるか共有コンテキスト（inherit）で実行されるか"
+      c: "読み込むファイルコンテキスト"
+      d: "データベース接続コンテキスト"
+    correct: "b"
+    explanation: |
+      `context` フィールドは実行コンテキストを制御します：'fork' は分離されたコンテキスト（スキルが独立して実行される）、'inherit' は共有コンテキスト（スキルが呼び出しエージェントとコンテキストを共有する）を意味します。クリーンな状態が必要なスキルにはforkを使用し、会話履歴と読み込まれたファイルにアクセスが必要なスキルにはinheritを使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#skillmd-frontmatter"
+
+  - id: "05-006"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "複数のエージェントで知識を複製する代わりにスキルを使用する理由は何ですか？"
+    options:
+      a: "スキルが速い"
+      b: "スキルは単一の信頼できる情報源を提供する―一度更新すれば、すべてのエージェントが恩恵を受ける"
+      c: "スキルはClaude Codeで必須"
+      d: "スキルはコストが安い"
+    correct: "b"
+    explanation: |
+      スキルはDRY（Don't Repeat Yourself）原則に従います。スキルなしでは、エージェントA、B、Cにセキュリティ知識を複製することになります。スキルを使えば、security-guardianスキルが唯一の情報源となり、すべてのエージェントがそれを継承し、更新はどこにでも伝播します。これにより一貫性が確保され、メンテナンスが簡素化されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.1 Understanding Skills"
+      anchor: "#why-skills"
+
+  - id: "05-007"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "良いスキルと悪いスキルの違いは何ですか？"
+    options:
+      a: "良いスキルは長く、悪いスキルは短い"
+      b: "良いスキルは再利用可能でドメイン重視で参照資料を含む；悪いスキルは単一エージェント固有で範囲が広すぎる"
+      c: "良いスキルはopusを使用し、悪いスキルはhaikuを使用する"
+      d: "良いスキルはより多くのファイルを持つ"
+    correct: "b"
+    explanation: |
+      良いスキルは：複数のエージェントで再利用可能、ドメイン重視（広すぎない）、参照資料とチェックリストを含む、検証ステップが含まれる。悪いスキルは：1つのエージェントにのみ固有、スコープが広すぎる、参照資料のない指示のみ、検証チェックリストが欠けている。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.1 Understanding Skills"
+      anchor: "#what-makes-a-good-skill"
+
+  - id: "05-008"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "TDD（テスト駆動開発）スキルのコアメソドロジーは何ですか？"
+    options:
+      a: "コードの後にテストを書く"
+      b: "RED（失敗するテスト）-> GREEN（通過する最小限のコード）-> REFACTOR（グリーンを維持しながら改善）"
+      c: "最初にすべてのテストを書き、次にすべてのコードを書く"
+      d: "速度のためにテストをスキップする"
+    correct: "b"
+    explanation: |
+      TDDスキルは次の手順に従います：1）RED―コードの前に望ましい動作に対する失敗するテストを書く、2）GREEN―テストを通過させる最小限のコードを書く、3）REFACTOR―テストをグリーンに保ちながら実装を改善し、繰り返す。このサイクルにより、最初に失敗を要求することでテストが実際に動作を検証し、その後の段階的な改善が保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.4 Skill Examples"
+      anchor: "#example-2-tdd-skill"
+
+  - id: "05-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "セキュリティガーディアンスキルにはOWASPカバレッジのために何を含めるべきですか？"
+    options:
+      a: "脆弱性のリストのみ"
+      b: "特定の検証項目を含むOWASP Top 10カテゴリーごとのチェックリスト"
+      c: "外部セキュリティツールへのリンク"
+      d: "パスワードの例"
+    correct: "b"
+    explanation: |
+      セキュリティガーディアンスキルには、OWASP Top 10の各カテゴリーの詳細なチェックリストを含めるべきです：A01 アクセス制御の不備（認可、IDOR、権限昇格を確認）、A02 暗号化の失敗（ハードコードされたシークレット、TLS、パスワードハッシュ）、A03 インジェクション（SQL、NoSQL、XSS）など。各カテゴリーには特定の検証項目とチェックボックスが含まれるべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.4 Skill Examples"
+      anchor: "#example-1-security-guardian-skill"
+
+  - id: "05-010"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "SKILL.mdフロントマターの 'agent' フィールドは何を意味しますか？"
+    options:
+      a: "スキルを作成したエージェント"
+      b: "スキルが 'specialist'（ドメイン重視）か 'general'（広い範囲）かどうか"
+      c: "このスキルを使用しなければならないエージェント"
+      d: "エージェントの名前"
+    correct: "b"
+    explanation: |
+      `agent` フィールドは、スキルが 'specialist'（ドメイン重視、一つの領域の深い専門知識）か 'general'（広い範囲、複数のドメインに適用可能）かを示します。security-guardianのような専門スキルは深いドメイン知識を提供し、一般スキルは広く適用可能なパターンやユーティリティを提供することがあります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#skillmd-frontmatter"
+
+  - id: "05-011"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "スキルフロントマターの 'allowed-tools' フィールドは何を制御しますか？"
+    options:
+      a: "スキルがドキュメント化するツール"
+      b: "スキルがアクティブ化されたときに使用できるツール"
+      c: "スキルをアクティブ化できるツール"
+      d: "インストールするツール"
+    correct: "b"
+    explanation: |
+      `allowed-tools` フィールドはスキルがアクティブ化されたときに使用できるツールを指定します。例えば、security-guardianスキルは `allowed-tools: Read, Grep, Bash` を持つことで、ファイルを読む、パターンを検索する、セキュリティスキャンコマンドを実行できますが、ファイルを変更することはできません。これにより各スキルのセキュリティ境界が提供されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#skillmd-frontmatter"
+
+  - id: "05-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "スキルディレクトリに含めることができるオプションフォルダーは何ですか？"
+    options:
+      a: "SKILL.mdのみが許可されている"
+      b: "reference.md、checklists/、examples/、scripts/"
+      c: "src/、dist/、node_modules/"
+      d: "tests/、docs/、config/"
+    correct: "b"
+    explanation: |
+      スキルディレクトリには：SKILL.md（必須）、reference.md（詳細ドキュメント）、checklists/（security.md、performance.mdなどの検証リスト）、examples/（good-example.ts、bad-example.tsなどのコードパターン）、scripts/（audit.shなどのヘルパースクリプト）を含めることができます。この豊富な構造により、包括的なドメイン知識がサポートされます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.2 Creating Skills"
+      anchor: "#skill-folder-structure"
+
+  - id: "05-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "セキュリティガーディアンスキルで示される安全なパスワードハッシュの例はどれですか？"
+    options:
+      a: "md5(password)"
+      b: "sha1(password)"
+      c: "argon2 または bcrypt"
+      d: "Base64エンコード"
+    correct: "c"
+    explanation: |
+      セキュリティガーディアンスキルは argon2 または bcrypt を安全なパスワードハッシュとして示しています。明示的にリストされた悪い例：md5(password) と sha1(password)―これらはパスワード保存には暗号学的に壊れています。良いパターン：argon2ライブラリを使用した `const hashedPassword = await hash(password)`。常に `await verify(hashedPassword, inputPassword)` でパスワードを検証してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.4 Skill Examples"
+      anchor: "#authentication-patterns"
+
+  - id: "05-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "TDDテストにおけるAAAパターンとは何ですか？"
+    options:
+      a: "Ask（尋ねる）、Answer（答える）、Assert（アサートする）"
+      b: "Arrange（準備する）、Act（実行する）、Assert（アサートする）"
+      c: "Analyze（分析する）、Apply（適用する）、Approve（承認する）"
+      d: "Accept（受け入れる）、Adjust（調整する）、Acknowledge（認める）"
+    correct: "b"
+    explanation: |
+      AAAはArrange（準備する）、Act（実行する）、Assert（アサートする）の略です：1）Arrange―テストデータと前提条件をセットアップ、2）Act―テスト対象のコードを実行、3）Assert―結果が期待値と一致することを検証。例：itemsの配列をArrange、calculateTotal(items)を呼び出してAct、合計が期待値と等しいことをAssert。この構造によりテストが読みやすく保守しやすくなります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.4 Skill Examples"
+      anchor: "#test-structure-aaa-pattern"
+
+  - id: "05-015"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "サイバーセキュリティとペネトレーションテストに焦点を当てたコミュニティスキルリポジトリはどれですか？"
+    options:
+      a: "awesome-claude-skills"
+      b: "claude-security-pack"
+      c: "zebbern/claude-code-guide（29のサイバーセキュリティスキル）"
+      d: "owasp-claude-skills"
+    correct: "c"
+    explanation: |
+      zebbern/claude-code-guideリポジトリには29のサイバーセキュリティに焦点を当てたスキルが含まれています：ペネトレーションテスト（SQLインジェクション、XSS、IDOR）、セキュリティツール（Metasploit、Burp Suite、SQLMap）、インフラセキュリティ（AWS、クラウド、ネットワーク）、メソドロジー（倫理的ハッキング、ペンテストチェックリスト）。重要：これらは本番評価で使用する前に徹底的にテストし、適切な許可がある場合にのみ使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.5 Community Skill Repositories"
+      anchor: "#cybersecurity-skills-repository"
+
+  - id: "05-016"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "最も役立つスキルに含めるべきものは何ですか？"
+    options:
+      a: "理論と概念のみ"
+      b: "チェックリスト、良い/悪いコード例、メソドロジーのステップ"
+      c: "外部ウェブサイトへのリンク"
+      d: "マーケティングの説明"
+    correct: "b"
+    explanation: |
+      役立つスキルには：メソドロジーのステップ（従うべき明確なプロセス）、チェックリスト（チェックボックスを含む検証項目）、良い/悪いコード例（正しいパターンとアンチパターンを示す）、参照資料が含まれます。この組み合わせにより、エージェントがタスクに直接適用できる理論的知識と実践的ガイダンスの両方が提供されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.3 Skill Template"
+      anchor: "#53-skill-template"
+
+  - id: "05-017"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントのフロントマターでスキルを参照するにはどうすればよいですか？"
+    options:
+      a: "import: skill-name"
+      b: "skills: [skill-name]"
+      c: "use: skill-name"
+      d: "require: skill-name"
+    correct: "b"
+    explanation: |
+      エージェントのフロントマターで `skills` 配列を使用してスキルを参照します：`skills: [security-guardian, tdd]`。これにより、エージェントはそれらのスキルのすべての知識を継承します。複数のスキルを参照でき、エージェントはそれらの専門知識を組み合わせます。スキル名は `.claude/skills/` のフォルダー名と一致します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.4 Best Practices"
+      anchor: "#skill-composition"
+
+  - id: "05-018"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "コミュニティのサイバーセキュリティスキルに適用される免責事項は何ですか？"
+    options:
+      a: "公式に認定されている"
+      b: "徹底的にテストし、許可を確保し、ポリシーに照らして検証し、法的にのみ使用する"
+      c: "すべてのシステムで機能する"
+      d: "免責事項は不要"
+    correct: "b"
+    explanation: |
+      コミュニティのサイバーセキュリティスキルには重要な免責事項があります：本番評価で使用する前に徹底的にテストする、ペネトレーションテストの前に適切な許可があることを確認する、組織のセキュリティポリシーに照らして確認・検証する、システムオーナーからの書面による許可を得た法的なコンテキストでのみ使用する、問題を見つけた場合はフィードバックする。セキュリティツールには検証が不可欠です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "5.5 Community Skill Repositories"
+      anchor: "#important-disclaimer"

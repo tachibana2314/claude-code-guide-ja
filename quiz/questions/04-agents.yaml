@@ -1,0 +1,310 @@
+category: "エージェント"
+category_id: 4
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "04-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "Claude Codeにおけるエージェントとは何ですか？"
+    options:
+      a: "外部ソフトウェアプログラム"
+      b: "Claudeが委任できる特定のタスク向けの専門的なAIペルソナ"
+      c: "人間のアシスタント"
+      d: "自動化されたスクリプト"
+    correct: "b"
+    explanation: |
+      エージェントはClaudeがタスクを委任できる専門化されたサブプロセス（AIペルソナ）です。セキュリティレビュアーがOWASP Top 10を知っていたり、バックエンドアーキテクトがAPI設計を理解しているように、ドメインの専門知識をカプセル化します。「専門家コンサルタント」として考えてください―プロンプトですべてを説明する代わりに、すでにその専門知識を持つエージェントを呼び出します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.1 What Are Agents"
+      anchor: "#41-what-are-agents"
+
+  - id: "04-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "カスタムエージェントファイルはどこに保存すべきですか？"
+    options:
+      a: "~/.claude/agents/"
+      b: ".claude/agents/"
+      c: "/agents/"
+      d: ".claude/commands/"
+    correct: "b"
+    explanation: |
+      カスタムエージェントファイルはプロジェクトディレクトリ内の `.claude/agents/` に保存すべきです。YAMLフロントマターを持つMarkdownファイルです。例：`.claude/agents/backend-architect.md`、`.claude/agents/code-reviewer.md`。チームと共有するためにバージョン管理にコミットできます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.2 Creating Custom Agents"
+      anchor: "#42-creating-custom-agents"
+
+  - id: "04-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントのYAMLフロントマターで必須のフィールドは何ですか？"
+    options:
+      a: "name、model、tools"
+      b: "name、description"
+      c: "name、description、model、tools"
+      d: "name、role、skills"
+    correct: "b"
+    explanation: |
+      エージェントフロントマターで必須なのは `name` と `description` のみです。オプションフィールドには：model（デフォルトはsonnet、またはopus、haiku）、tools（カンマ区切りリスト）、skills（継承するもの）、disallowedToolsがあります。descriptionは重要です―Claudeがエージェントを自動アクティブ化するタイミングを決定するので、明確で具体的にしてください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.2 Creating Custom Agents"
+      anchor: "#frontmatter-fields"
+
+  - id: "04-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "直接プロンプトよりエージェントを使用する利点は何ですか？"
+    options:
+      a: "エージェントが速い"
+      b: "エージェントは専門知識をカプセル化しているので、毎回すべてを説明する必要がない"
+      c: "エージェントはコストが安い"
+      d: "エージェントはより多くのファイルにアクセスできる"
+    correct: "b"
+    explanation: |
+      エージェントは専門知識をカプセル化します。エージェントなしでは：「OWASP Top 10に焦点を当てて、SQLインジェクション、XSS、CSRFをチェックして、このコードのセキュリティ問題をレビューしてください...」と書く必要があります。エージェントを使用すると：「このコードを監査するためにsecurity-reviewerエージェントを使用してください。」エージェントはすでにその専門知識を持っているため、プロンプトが短くなり一貫性が増します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.1 What Are Agents"
+      anchor: "#agent-vs-direct-prompt"
+
+  - id: "04-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "複雑なアーキテクチャ分析を実行するエージェントにはどのモデルを使用すべきですか？"
+    options:
+      a: "haiku―速度のため"
+      b: "sonnet―バランスのため"
+      c: "opus―最大の推論のため"
+      d: "どのモデルも同等に機能する"
+    correct: "c"
+    explanation: |
+      複雑な推論とアーキテクチャタスクにはopusを使用してください。モデル選択ガイドライン：haiku（高速、低コスト）―クイックタスクと単純な変更；sonnet（バランス、デフォルト）―ほとんどのタスク；opus（低速、高コスト）―複雑な推論、アーキテクチャ決定、重要なセキュリティレビュー。タスクの複雑さに合わせてモデルを選択してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.2 Creating Custom Agents"
+      anchor: "#model-selection"
+
+  - id: "04-006"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "エージェント設計における「ツールSEO」とは何ですか？"
+    options:
+      a: "ツールをオンラインで検索可能にすること"
+      b: "Claudeがエージェントを自動アクティブ化するタイミングを改善するためにdescriptionフィールドを最適化すること"
+      c: "ドキュメントのSEO"
+      d: "マーケティングテクニック"
+    correct: "b"
+    explanation: |
+      ツールSEOは自動アクティブ化を改善するためにエージェントのdescriptionフィールドを最適化します。テクニックには：「PROACTIVELY使用」を使って自動アクティブ化を促進する、明示的なトリガーキーワードをリストアップする、特定のコンテキストを説明する、短いニックネームを追加するなどがあります。良い説明の例：「セキュリティコードレビュアー―認証コードのレビュー、APIエンドポイントの分析時にPROACTIVELY使用... トリガー：security、auth、vulnerability、OWASP」
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#tool-seo---optimizing-agent-descriptions"
+
+  - id: "04-007"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "エージェント設計のベストプラクティスは、専門化と汎化のどちらですか？"
+    options:
+      a: "すべてを行う1つの汎用エージェントを作成する"
+      b: "各ドメイン用の専門化されたエージェントを作成する（セキュリティ、テスト、バックエンドなど）"
+      c: "専門化されたエージェントと汎用エージェントを混在させる"
+      d: "エージェントを完全に避ける"
+    correct: "b"
+    explanation: |
+      常に汎化よりも専門化を優先してください。良い例：バックエンドアーキテクト（API、データベース、パフォーマンス）、セキュリティレビュアー（OWASP、認証、暗号化）、テストエンジニア（テスト戦略、カバレッジ、TDD）の個別エージェント。悪い例：「すべてをこなす（が質が低い）」全スタックエキスパート1つ。専門化されたエージェントは集中したコンテキストとドメイン固有の専門知識を持っています。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.4 Best Practices"
+      anchor: "#specialization-over-generalization"
+
+  - id: "04-008"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントはスキルからどのように知識を継承できますか？"
+    options:
+      a: "エージェントにスキルの内容をコピーする"
+      b: "フロントマターの 'skills' フィールドを使用する"
+      c: "スキルとエージェントは組み合わせられない"
+      d: "スキルファイルをインポートする"
+    correct: "b"
+    explanation: |
+      エージェントはフロントマターの `skills` フィールドを使用してスキルを継承します。例：`skills: [security-guardian]`。これにより重複なしに専門知識を組み合わせられます―セキュリティ関連のすべてのエージェントにOWASPの知識をコピーする代わりに、すべてがsecurity-guardianスキルから継承します。これはDRY（Don't Repeat Yourself）原則に従った知識の整理です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.4 Best Practices"
+      anchor: "#skill-composition"
+
+  - id: "04-009"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「7並列タスクメソッド」とは何ですか？"
+    options:
+      a: "7つのClaudeインスタンスを同時に実行する"
+      b: "完全な機能を実装するために7つの専門サブエージェントを並列で起動する"
+      c: "デバッグテクニック"
+      d: "コードレビューチェックリスト"
+    correct: "b"
+    explanation: |
+      7並列タスクメソッドは7つの専門サブエージェントを並列で起動します：1）コンポーネント、2）スタイル、3）テスト、4）型、5）フック、6）統合、7）設定。すべてが並列で実行され、その後結果が統合されます。独立した作業ストリームを並列化することで機能の実装を劇的に高速化します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#the-7-parallel-task-method"
+
+  - id: "04-010"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "頻繁に使用されるタスクに推奨されるエージェントの重みはどれですか？"
+    options:
+      a: "重い（25K以上のトークン）―徹底性のため"
+      b: "中程度（10〜15Kトークン）―バランスのため"
+      c: "軽量（3K未満のトークン）―速度のため"
+      d: "重みは関係ない"
+    correct: "c"
+    explanation: |
+      頻繁なタスクとワーカーには軽量エージェント（3K未満のトークン、1秒未満の初期化時間）を使用してください。黄金律：「100回使用される軽量エージェント > 10回使用される重いエージェント。」エージェントの重みカテゴリー：軽量（3K未満のトークン）―頻繁なタスク、中程度（10〜15K）―分析/レビュー、重い（25K以上）―アーキテクチャ/完全な監査。タスクの頻度に合わせた重みを選択してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#agent-weight-classification"
+
+  - id: "04-011"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "マルチエージェントオーケストレーションで推奨されるモデルの組み合わせは何ですか？"
+    options:
+      a: "品質のためにどこでもOpus"
+      b: "コスト削減のためにどこでもHaiku"
+      c: "Sonnetオーケストレーター + Haikuワーカー + Sonnetバリデーター"
+      d: "すべてのエージェントに同じモデルを使用する"
+    correct: "c"
+    explanation: |
+      推奨パターンは：Sonnetをオーケストレーター（調整）、Haikuワーカー（並列実行）、Sonnetバリデーター（最終確認）として使用することです。これはどこでもOpusを使用するよりも2〜2.5倍安く、タスクの90%で同等の品質を発揮します。例えば、100ファイルのリファクタリング：Sonnetが分析・計画し、Haikuが並列編集を行い、Sonnetが検証―80〜90%のコスト節約。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#multi-agent-orchestration-pattern"
+
+  - id: "04-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントの出力フォーマットセクションには何を含めるべきですか？"
+    options:
+      a: "コード例のみ"
+      b: "セクション、重大度レベル、推奨事項を含む構造化された成果物（レポートなど）"
+      c: "生のテキスト出力"
+      d: "JSONのみ"
+    correct: "b"
+    explanation: |
+      エージェントの出力フォーマットは構造化された成果物を指定すべきです。例えば、コードレビュアーエージェントの出力：サマリー、重大な問題（必ず修正）とファイル:行の参照、警告（修正すべき）、提案（あると良い）、ポジティブなノート。明確な出力フォーマットにより、すべての呼び出しで一貫した実行可能な結果が保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.5 Agent Examples"
+      anchor: "#example-1-code-reviewer-agent"
+
+  - id: "04-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "エージェントフロントマターの 'disallowedTools' フィールドの目的は何ですか？"
+    options:
+      a: "エージェントが使用しなければならないツールをリストアップする"
+      b: "エージェントが使用できない特定のツールをブロックする"
+      c: "エージェントを無効にする"
+      d: "非推奨のツールをリストアップする"
+    correct: "b"
+    explanation: |
+      disallowedToolsフィールドはエージェントが使用できない特定のツールをブロックします。例えば、コードレビュアーエージェントは `disallowedTools: [WebSearch]` を持つことで、ウェブを検索するのではなく実際のコードに集中することを保証します。これによりセキュリティの境界が提供され、エージェントがその核心的な目的に集中できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.2 Creating Custom Agents"
+      anchor: "#agent-file-structure"
+
+  - id: "04-014"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「スプロールサブエージェント」パターンとは何ですか？"
+    options:
+      a: "1つのエージェントを複数のファイルに分割する"
+      b: "異なる専門家の役割を持つ並列エージェントによる多視点分析"
+      c: "コードレビューをフェーズに分割する"
+      d: "エージェントをチームメンバーに割り当てる"
+    correct: "b"
+    explanation: |
+      スプロールサブエージェントは並列に多視点分析を提供します。プロセス：1）プランモードをアクティブ化（Opus 4.5でのデフォルトで思考が有効）、2）「この問題を分析する専門家の役割は何か？」と尋ねる、3）役割を選択（例：セキュリティエキスパート、シニアDev、コードレビュアー）、4）各視点から並列分析を実行、5）レポートを推奨事項に統合。包括的なコードとUXレビューに最適です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#split-role-sub-agents"
+
+  - id: "04-015"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントの並列実行を避けるべき場合はいつですか？"
+    options:
+      a: "タスクが読み取り専用のとき"
+      b: "タスクが破壊的（書き込み操作）で互いに依存しているとき"
+      c: "haikuモデルを使用しているとき"
+      d: "3つ以上のエージェントが関与しているとき"
+    correct: "b"
+    explanation: |
+      互いに依存する破壊的（書き込み）操作には並列実行を避けてください。決定マトリクス：独立 + 非破壊的 = 並列（最大効率）；独立 + 破壊的 = 最初にプランモードで順次実行；依存する操作 = 順次（順序が重要）。並列書き込みは、ファイルがインポート/エクスポートを共有する場合に競合のリスクがあります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.6 Advanced Agent Patterns"
+      anchor: "#parallelization-decision-matrix"
+
+  - id: "04-016"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "デバッガーエージェントの方法論には通常何が含まれますか？"
+    options:
+      a: "コードを修正するだけ"
+      b: "再現、分離、分析、仮説立て、テスト、修正、検証"
+      c: "テストを実行するだけ"
+      d: "問題のあるコードを削除する"
+    correct: "b"
+    explanation: |
+      体系的なデバッガーエージェントは次の手順に従います：1）再現（Reproduce）―問題が存在することを確認、2）分離（Isolate）―最小限の再現可能なケースに絞り込む、3）分析（Analyze）―コードを読む、ログを確認する、実行をトレース、4）仮説立て（Hypothesize）―原因に関する理論を形成、5）テスト（Test）―最小限の変更で仮説を検証、6）修正（Fix）―解決策を実装、7）検証（Verify）―修正が機能し他のものを壊さないことを確認。推測しない―常に検証する。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.5 Agent Examples"
+      anchor: "#example-2-debugger-agent"
+
+  - id: "04-017"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "悪いエージェントの説明の例はどれですか？"
+    options:
+      a: "'APIの設計、データベーススキーマのレビュー、またはバックエンドパフォーマンスの最適化時に使用'"
+      b: "'バックエンドの作業'"
+      c: "'セキュリティコードレビュアー―認証コードをレビューするときにPROACTIVELYに使用'"
+      d: "'エラー、テスト失敗、または予期しない動作が発生したときに使用'"
+    correct: "b"
+    explanation: |
+      「バックエンドの作業」は悪い説明です―Claudeがエージェントをアクティブにするタイミングを知るのに役立ちません。良い説明は具体的です：「APIの設計、データベーススキーマのレビュー、またはバックエンドパフォーマンスの最適化時に使用」または「セキュリティコードレビュアー―認証コードをレビューするときにPROACTIVELYに使用。」明確なアクティブ化トリガーはエージェントの活用を改善します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "4.4 Best Practices"
+      anchor: "#explicit-activation-triggers"
+
+  - id: "04-018"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "AGENTS.md（先読みコンテキスト）とスキル（遅延呼び出し）の呼び出し信頼性の違いは何ですか？"
+    options:
+      a: "スキルの方がAGENTS.mdより信頼性が高い"
+      b: "両方とも100%の信頼性がある"
+      c: "AGENTS.md：100%信頼性（常に読み込まれる）対スキル：53〜79%の自動呼び出し"
+      d: "AGENTS.mdはスキルに置き換えられた非推奨"
+    correct: "c"
+    explanation: |
+      AGENTS.mdは先読みコンテキスト読み込みを使用―常にClaudeのコンテキストに存在するため、100%の信頼性でアクティブ化されます。スキルは遅延呼び出しを使用―Claudeがニーズを認識したときのみ自動検出・呼び出しされ、53〜79%の自動呼び出し率を達成します。トレードオフ：AGENTS.mdはすべてのセッションでコンテキストトークンを消費し、スキルはトークンを節約しますがアクティブ化を見逃す可能性があります。重要な動作にはAGENTS.mdを使用し、オプション機能にはスキルを使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "AGENTS.md vs Skills Evaluation"
+      anchor: "#agentsmd-vs-skills-evaluation"

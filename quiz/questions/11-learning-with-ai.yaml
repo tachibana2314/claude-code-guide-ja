@@ -1,0 +1,305 @@
+category: "AIで学ぶ"
+category_id: 11
+source_file: "guide/learning-with-ai.md"
+
+questions:
+  - id: "11-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "AIで学ぶガイドによると、AIを使う際の開発者の3つのパターンは何ですか？"
+    options:
+      a: "初心者、中級者、エキスパート"
+      b: "依存型、回避型、拡張型"
+      c: "受動型、能動型、積極型"
+      d: "消費者、生産者、創造者"
+    correct: "b"
+    explanation: |
+      3つのパターンは、依存型（理解せずにコピー＆ペーストし、AIのコードをデバッグできない）、回避型（原則としてAIを拒否し、同僚より遅い）、拡張型（AIを批判的に使い、すべてを理解している）です。目標は拡張型になること、つまりAIをレバレッジとして使いながら深い理解を維持することです。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "The Three Patterns"
+      anchor: "#the-three-patterns"
+
+  - id: "11-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "AI学習プロトコルにおいてUVALが表すものは何ですか？"
+    options:
+      a: "Use（使用）、Validate（検証）、Apply（適用）、Learn（学習）"
+      b: "Understand（理解）、Verify（確認）、Apply（適用）、Learn（学習）"
+      c: "Understand（理解）、Validate（検証）、Analyze（分析）、Learn（学習）"
+      d: "Use（使用）、Verify（確認）、Analyze（分析）、Log（記録）"
+    correct: "b"
+    explanation: |
+      UVALは以下を表します：Understand First（最初に理解する・15分ルール）、Verify（実際に学習したかどうかを確認する）、Apply（修正を通じて知識をスキルに変換する）、Learn（長期的な定着のためにインサイトを記録する）。このプロトコルにより、単にコピーするだけでなく学習していることが保証されます。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "The UVAL Protocol"
+      anchor: "#the-uval-protocol"
+
+  - id: "11-003"
+    difficulty: "junior"
+    profiles: ["junior", "senior"]
+    question: "クイックセルフチェックで「はい」の回答が0〜2個の場合、何を意味しますか？"
+    options:
+      a: "あなたは拡張型の開発者です"
+      b: "最適化の余地はありますが順調です"
+      c: "依存リスクあり - 思考をAIに外注しています"
+      d: "あなたはAI回避型です"
+    correct: "c"
+    explanation: |
+      「はい」が0〜2個の場合、依存リスクを示します。思考をAIに外注しています。5つの質問では、AIが生成したコードを説明できるか、AIなしでデバッグしたことがあるか、解決策がなぜ機能するかを知っているか、自分でコードを書けるか、AIの限界を知っているかをテストします。スコアが低い場合は「依存性の断ち切り方」セクションを読んでください。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Quick Self-Check"
+      anchor: "#quick-self-check-start-here"
+
+  - id: "11-004"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "UVALプロトコルの「最初に理解する」ステップにおける「15分ルール」とは何ですか？"
+    options:
+      a: "AIの使用を1日15分に制限する"
+      b: "4ステップのプロトコル：問題を述べる、アプローチを考える、ギャップを特定する、それからAIに聞く"
+      c: "AIの回答を受け取ってから15分後に使用する"
+      d: "AIのコードを同僚に説明するために15分費やす"
+    correct: "b"
+    explanation: |
+      15分ルールは具体的なプロトコルです：(1) 問題を1文で述べる（2分）、(2) 3つの可能なアプローチを考える（5分）、(3) 知識のギャップを特定する（3分）、(4) より良い質問でAIに聞く（5分）。これにより質問前に考えることが強制され、より良い質問とより速い学習につながります。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "U — Understand First"
+      anchor: "#u--understand-first-the-15-minute-rule"
+
+  - id: "11-005"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "UVALプロトコルの検証ステップにおける「説明し返す」テクニックとは何ですか？"
+    options:
+      a: "AIに自身のコードを説明させる"
+      b: "コードのドキュメントを書く"
+      c: "同僚にコードを説明できなければ、理解していないということ"
+      d: "説明している自分を録音して後で見直す"
+    correct: "c"
+    explanation: |
+      ルールはシンプルです：同僚にコードを説明できなければ理解していません。これが検証ステップです。解決策が機能することだけでなく、なぜ機能するかを明確に説明できなければなりません。ガイドでは、AIが生成したコードをあなた自身が説明するよう求める/explain-backスラッシュコマンドの使用を推奨しています。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "V — Verify"
+      anchor: "#v--verify-explain-it-back"
+
+  - id: "11-006"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "30日間進行計画において、第1週のAI使用率はどのくらいですか？"
+    options:
+      a: "0〜20% AI使用"
+      b: "40〜50% AI使用"
+      c: "60〜70% AI使用"
+      d: "70〜80% AI使用"
+    correct: "a"
+    explanation: |
+      第1週はAI使用率0〜20%で基礎に焦点を当てます：1〜2日目はAIなしで機能を構築（0%）、4〜5日目はAIによるレビューのみでリファクタリング（20%）、6日目はAIなしでデバッグ（0%）。目標は重いAI依存なしにコアスキルを構築（または再構築）することです。成功基準：自分が書いたすべての行を説明できること。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "30-Day Progression Plan"
+      anchor: "#30-day-progression-plan"
+
+  - id: "11-007"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "30日間計画が第4週（拡張ステージ）に推奨するAI使用率はどのくらいですか？"
+    options:
+      a: "30〜40%"
+      b: "50〜60%"
+      c: "70%"
+      d: "90〜100%"
+    correct: "c"
+    explanation: |
+      第4週（拡張ステージ）では、UVALプロトコルで70%のAI使用を推奨します。進行は：第1週（0〜20%）、第2週（30〜40%）、第3週（50〜60%）、第4週（70%）です。第4週の成功基準：速くて、かつすべてを理解していること。70%の上限によりスキルが維持されます。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "30-Day Progression Plan"
+      anchor: "#week-4-augmented"
+
+  - id: "11-008"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "ガイドによると、開発におけるAIの比喩は何ですか？"
+    options:
+      a: "AIはコパイロット"
+      b: "AIはGPS"
+      c: "AIはアシスタント"
+      d: "AIは先生"
+    correct: "b"
+    explanation: |
+      AIはGPSに例えられています：目的地に速く到達するのには最適ですが、それなしでナビゲートする能力を失うと危険で、地図を理解しながらGPSも使うときに真に有用です。AIの出力をコピー＆ペーストするだけの開発者は、地図を読めないドライバーのようなものです。GPSが壊れるか誰かに道を聞かれるまでは大丈夫です。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "The Problem in 60 Seconds"
+      anchor: "#the-problem-in-60-seconds"
+
+  - id: "11-009"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "チェックリストによると、AI依存の「レッドフラグ」サインは何ですか？"
+    options:
+      a: "複雑なアルゴリズムにAIを使用する"
+      b: "AIなしではコーディングを始められない"
+      c: "コードレビューにAIを使用する"
+      d: "概念の説明をAIに求める"
+    correct: "b"
+    explanation: |
+      「AIなしでは始められない」は、問題の分解を外注していることを示すレッドフラグです。その他のレッドフラグ：AIのコードを理解していない、AIのエラーをデバッグできない、AIなしでは不安、面接で落ちる、常に「どうやって」を尋ね「なぜ」は尋ねない、すべての解決策が同じに見える。即時対処法：毎日30分AIなしでコードを書く。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Red Flags Checklist"
+      anchor: "#red-flags-checklist"
+
+  - id: "11-010"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "UVALプロトコルにおける「適用」ステップのコアとなる原則は何ですか？"
+    options:
+      a: "コードを本番環境に直接適用する"
+      b: "コピーではなく修正を通じて知識をスキルに変換する"
+      c: "AIが生成したすべてのコードにコードレビューを適用する"
+      d: "正確性を検証するためにユニットテストを適用する"
+    correct: "b"
+    explanation: |
+      適用ステップでは、コピー＆ペーストではなく修正が必要です。少なくとも1つの要素（変数名、構造、エッジケースの処理）を変更する必要があります。なぜなら、修正は理解を強制するからです。コピーは受動的ですが、修正するにはコードに関与してその仕組みを理解する必要があります。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "A — Apply"
+      anchor: "#a--apply-transform-dont-copy"
+
+  - id: "11-011"
+    difficulty: "senior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeで「ラーニングモード」を有効にするCLAUDE.mdの設定はどれですか？"
+    options:
+      a: "## Learning Mode - Ask me questions before generating code"
+      b: "## Strict Mode - Never generate code directly"
+      c: "## Teaching Mode - Always explain before showing"
+      d: "## Quiz Mode - Test before implementing"
+    correct: "a"
+    explanation: |
+      CLAUDE.mdのラーニングモードは、コードを生成する前にClaudeが質問するよう促します：「どのようなアプローチを検討しましたか？」「具体的に何で詰まっていますか？」「解決策はどのようなものだと思いますか？」これにより、UVALプロトコルの理解ステップがワークフローに直接実装されます。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Claude Code for Learning"
+      anchor: "#claude-code-for-learning-not-just-producing"
+
+  - id: "11-012"
+    difficulty: "senior"
+    profiles: ["junior", "senior", "power"]
+    question: "毎日の学習を記録するために推奨されるフックイベントはどれですか？"
+    options:
+      a: "PreToolUse - 各コマンドの前"
+      b: "PostToolUse - 各編集の後"
+      c: "Stop - セッション終了時"
+      d: "Notification - アラート時"
+    correct: "c"
+    explanation: |
+      learning-capture.shフックはStopイベント（セッション終了）を使用して「今日学んだことを1つ教えてください」と尋ねます。これは~/claude-learnings.mdに自動的に記録されます。軽量（1つの質問のみ）なので、詳細な学習ジャーナルとは異なり、実際に使い続けることができます。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Hooks That Build Habits"
+      anchor: "#hooks-that-build-habits"
+
+  - id: "11-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "ガイドによると、「依存型」パターンの主なリスクは何ですか？"
+    options:
+      a: "同僚より遅い"
+      b: "雇用不能になる"
+      c: "取り残される"
+      d: "過労"
+    correct: "b"
+    explanation: |
+      依存型パターンのリスクは雇用不能になることです。サイン：理解せずにコピー＆ペーストする、AIのコードをデバッグできない、AIなしでは不安。面接で：基本的なことをホワイトボードで書けない、「なぜこのアプローチか？」に答えられない、基礎を調べようとする。説明できないコードを納品し、それが壊れると行き詰まります。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Pattern 1: Dependent"
+      anchor: "#pattern-1-dependent"
+
+  - id: "11-014"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "依存性を検出する週次自己監査の質問は何ですか？"
+    options:
+      a: "今週何行のコードを書いたか？"
+      b: "先月より速くなっているか？より賢くなっているか？"
+      c: "今週AIをどのくらい使ったか？"
+      d: "すべての締め切りを守ったか？"
+    correct: "b"
+    explanation: |
+      重要な質問は「先月より速くなっているか？より賢くなっているか？」です。速くなっているが賢くなっていない場合、依存性を構築しています。その他の週次質問：以前知らなかったことで学んだことは何か？AIなしでこれを行えたか？納品したすべてのものを理解していたか？
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Weekly Self-Audit"
+      anchor: "#weekly-self-audit"
+
+  - id: "11-015"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "「回避型」開発者（パターン2）に対して推奨されるアプローチは何ですか？"
+    options:
+      a: "純粋さを維持するためにAIを避け続ける"
+      b: "AIが生成したコードではなく、自分のコードのレビューからAIを使い始める"
+      c: "すぐに100% AI使用に切り替える"
+      d: "AIツールがより成熟するまで待つ"
+    correct: "b"
+    explanation: |
+      回避型開発者に対して、ガイドは段階的な採用を推奨します：AIが自分のコードをレビューすることから始める（自分がコントロールを維持）、次にAIが説明し自分が実装するコンセプトへ、そしてAI支援作業へと進む。これにより、理解を求める本能を尊重しながらAIの恩恵を得られます。純粋な回避は、賢くなることもなく遅くなることを意味します。
+    doc_reference:
+      file: "guide/learning-with-ai.md"
+      section: "Embracing AI Tools"
+      anchor: "#embracing-ai-tools"
+
+  - id: "11-016"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Addy OsmaniのエージェントコーディングにおけるThe '80% Problem'で特定された3つの失敗モードは何ですか？"
+    options:
+      a: "コンテキストの損失、トークンオーバーフロー、幻覚"
+      b: "過剰設計、仮定の伝播、迎合的な同意"
+      c: "遅い応答、間違った言語、テストの省略"
+      d: "メモリリーク、競合状態、デッドロック"
+    correct: "b"
+    explanation: |
+      Addy Osmaniの「80%問題」は3つの失敗モードを特定しています：
+
+      1. **過剰設計** - AIが不必要な複雑さを追加する（抽象化レイヤー、早期最適化）
+      2. **仮定の伝播** - 1つの誤った仮定がコードベース全体に波及する
+      3. **迎合的な同意** - AIが悪いアイデアに反論せず同意する
+
+      80%とは、AIが80%まで到達させてくれるが、残りの20%には深い人間の理解が必要であることを指します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Practitioner Insights"
+      anchor: "#practitioner-insights"
+
+  - id: "11-017"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "バイブコーディングの「コンテキストオーバーロード」の3つの症状は何ですか？"
+    options:
+      a: "メモリリーク、起動の遅さ、APIレート制限"
+      b: "大規模なコンテキストダンプ、5K行以上のプロンプト、パフォーマンスの低下"
+      c: "ファイルの損失、インポートの破損、テストの欠落"
+      d: "過剰なコミット、マージコンフリクト、ブランチの増殖"
+    correct: "b"
+    explanation: |
+      バイブコーディングにおけるコンテキストオーバーロードの症状：
+
+      1. **大規模なコンテキストダンプ** - コードベース全体をプロンプトに貼り付ける
+      2. **5K行以上のプロンプト** - 有効なコンテキストウィンドウの使用量を超える
+      3. **パフォーマンスの低下** - コンテキストが増えるにつれてClaudeの品質が低下する
+
+      修正方法：プログレッシブディスクロージャー（コンテキストを段階的に提供）、永続的なコンテキストにCLAUDE.mdを使用、フェーズ間で新しいセッションを開始する。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Vibe Coding Anti-Patterns"
+      anchor: "#vibe-coding-anti-patterns"

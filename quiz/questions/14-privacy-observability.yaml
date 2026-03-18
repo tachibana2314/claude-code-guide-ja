@@ -1,0 +1,196 @@
+category: "プライバシーと可観測性"
+category_id: 14
+source_file: "guide/data-privacy.md"
+
+questions:
+  - id: "14-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "Claude Codeの会話のデフォルトのデータ保持期間はどのくらいですか？"
+    options:
+      a: "30日"
+      b: "1年"
+      c: "5年"
+      d: "永久"
+    correct: "c"
+    explanation: |
+      デフォルトの保持期間は5年で、データはモデルのトレーニングに使用されます。claude.ai/settings/data-privacy-controlsでトレーニングをオプトアウトすることで、保持期間が30日に短縮されます（安全性監視のみ）。エンタープライズAPI（ZDR）は0日間の保持期間を提供します。
+    doc_reference:
+      file: "guide/data-privacy.md"
+      section: "TL;DR - Retention Summary"
+      anchor: "#tldr---retention-summary"
+
+  - id: "14-002"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeを使用するとAnthropic側に送信されるデータは何ですか？"
+    options:
+      a: "あなたのプロンプトのみ"
+      b: "プロンプト、Claudeが読んだファイル、MCPの結果、Bashの出力、エラーメッセージ"
+      c: "コピー＆ペーストしたコードスニペットのみ"
+      d: "ハッシュ化されたメタデータのみ"
+    correct: "b"
+    explanation: |
+      Claudeが見るものはすべて送信されます：プロンプト、Claudeが読んだファイル（除外しない限り.envを含む！）、MCPサーバーの結果（SQLクエリ、APIレスポンス）、Bashコマンドの出力、スタックトレースを含むエラーメッセージ。機密ファイルをブロックするにはpermissions.denyを使用してください。
+    doc_reference:
+      file: "guide/data-privacy.md"
+      section: "What Leaves Your Machine"
+      anchor: "#what-leaves-your-machine"
+
+  - id: "14-003"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "MCPを通じてデータベースを接続する際のリスクは何ですか？"
+    options:
+      a: "データベースが遅くなる可能性がある"
+      b: "クエリ結果（PII含む）がAnthropicに送信され、保持ポリシーに従って保存される"
+      c: "Claudeがテーブルを削除する可能性がある"
+      d: "MCPがトークンを使いすぎる"
+    correct: "b"
+    explanation: |
+      MCPがデータベースクエリを実行すると、すべての結果がAnthropicに送信されます：「SELECT * FROM orders」→ 顧客名、メールアドレス、住所を含む100行 → 保持ティアに従って保存。本番データベースは絶対に接続しないでください。匿名化されたデータを持つ開発/ステージング環境を使用してください。
+    doc_reference:
+      file: "guide/data-privacy.md"
+      section: "Risk 2: MCP Database Access"
+      anchor: "#risk-2-mcp-database-access"
+
+  - id: "14-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeのデータ保持期間を5年から30日に短縮するにはどうすればよいですか？"
+    options:
+      a: "~/.claudeフォルダーを削除する"
+      b: "claude.ai/settings/data-privacy-controlsで「モデルトレーニングを許可」をオフにする"
+      c: "シークレットモードを使用する"
+      d: "--no-retentionフラグを追加する"
+    correct: "b"
+    explanation: |
+      claude.ai/settings/data-privacy-controlsにアクセスし、「モデルトレーニングを許可」をオフにします。これにより保持期間が5年から30日（安全性監視のみ）に即座に短縮されます。エンタープライズAPI（ZDR）はHIPAA/GDPRコンプライアンスのために0日間の保持期間を提供します。
+    doc_reference:
+      file: "guide/data-privacy.md"
+      section: "Opt-Out of Training"
+      anchor: "#41-opt-out-of-training"
+
+  - id: "14-005"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "エンタープライズAPI（ZDR）のデータ保持ポリシーはどうなっていますか？"
+    options:
+      a: "30日間の保持"
+      b: "1年間の保持"
+      c: "0日間（リアルタイム処理のみ、データは保存されない）"
+      d: "デフォルトと同様に5年間"
+    correct: "c"
+    explanation: |
+      エンタープライズAPI（Zero Data Retention）は0日間の保持期間を持ちます。データはリアルタイムで処理され保存されません。HIPAA、GDPR、PCI-DSSコンプライアンスおよび政府契約に必要です。Anthropicとのエンタープライズ契約が必要です。
+    doc_reference:
+      file: "guide/data-privacy.md"
+      section: "Tier 3: Enterprise API (Zero Data Retention)"
+      anchor: "#tier-3-enterprise-api-zero-data-retention"
+
+  - id: "14-006"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ガイドが推奨するセッション検索ツールはどれですか？"
+    options:
+      a: "claude-conversation-extractor"
+      b: "session-search.sh（依存関係ゼロのbashスクリプト）"
+      c: "ran CLI（npm）"
+      d: "組み込みの/searchコマンド"
+    correct: "b"
+    explanation: |
+      session-search.shが推奨ツールです：依存関係ゼロ（bashのみ）、高速（一覧表示約10ms、検索約400ms）、すぐに使える「claude --resume」コマンドを表示。クイックアクセスのために「cs」エイリアスでインストールしてください。代替のPythonツールも存在しますが速度が遅いです。
+    doc_reference:
+      file: "guide/observability.md"
+      section: "Recommended: session-search.sh"
+      anchor: "#recommended-session-searchsh"
+
+  - id: "14-007"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "セッションロギングに使用されるフックイベントはどれですか？"
+    options:
+      a: "PreToolUse"
+      b: "PostToolUse"
+      c: "SessionStart"
+      d: "Notification"
+    correct: "b"
+    explanation: |
+      セッションロギングはPostToolUseフックを使用します。各ツールの完了後に実行され、ツール名、ファイルパス、プロジェクト、トークン推定値を記録します。session-logger.shスクリプトを使ってsettings.jsonで設定します。ログは~/.claude/logs/にJSONLファイルとして保存されます。
+    doc_reference:
+      file: "guide/observability.md"
+      section: "Register in Settings"
+      anchor: "#2-register-in-settings"
+
+  - id: "14-008"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "セッションロガーが使用するトークン推定方法はどれですか？"
+    options:
+      a: "APIが提供する正確なカウント"
+      b: "1トークンあたり約4文字（ヒューリスティック、若干過大評価）"
+      c: "1単語 = 1トークン"
+      d: "ファイルサイズのみに基づく"
+    correct: "b"
+    explanation: |
+      ロガーは1トークンあたり約4文字のヒューリスティックを使ってトークンを推定します。これは近似値であり、若干過大評価する傾向があります。Claude Code CLIは実際のAPIトークンメトリクスを公開していないため、推定値は実際の請求から約15〜25%の誤差があります。
+    doc_reference:
+      file: "guide/observability.md"
+      section: "Token Estimation Method"
+      anchor: "#token-estimation-method"
+
+  - id: "14-009"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "セッション監視でできないことは何ですか？"
+    options:
+      a: "ツールの使用回数を追跡する"
+      b: "ファイルアクセスパターンを特定する"
+      c: "正確なトークン数と実際のAPIコストを提供する"
+      d: "操作のタイムスタンプを記録する"
+    correct: "c"
+    explanation: |
+      監視でできないこと：正確なトークン数（CLIはAPIメトリクスを公開していない）、実際のAPIコスト（推定値のみ）、TTFTタイミング、リアルタイムストリーミングメトリクス、コンテキストウィンドウの使用状況。できること：ツールの使用回数の追跡、ファイルアクセスパターン、相対比較、操作タイミング。
+    doc_reference:
+      file: "guide/observability.md"
+      section: "What This Monitoring CANNOT Do"
+      anchor: "#what-this-monitoring-cannot-do"
+
+  - id: "14-010"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeのセッションログはローカルのどこに保存されますか？"
+    options:
+      a: "~/.config/claude/"
+      b: "~/.claude/projects/<project>/"
+      c: "/var/log/claude/"
+      d: "クラウドのみ"
+    correct: "b"
+    explanation: |
+      セッションは~/.claude/projects/<project>/にJSONLファイルとしてローカルに保存されます。これにより「claude --resume <id>」または最新セッションには「claude -c」でセッションを再開できます。session-logger.shからのカスタムログは~/.claude/logs/に保存されます（CLAUDE_LOG_DIRで設定可能）。
+    doc_reference:
+      file: "guide/observability.md"
+      section: "Native Commands"
+      anchor: "#native-commands"
+
+  - id: "14-011"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "gitコミットで「Co-Authored-By」と「Assisted-By」はどのように使い分けますか？"
+    options:
+      a: "AIが関与した場合は常にCo-Authored-Byを使用する"
+      b: "AIが大量のコードを生成した場合はCo-Authored-By、AIが助言やレビューのみを行った場合はAssisted-By"
+      c: "コミットでAIを一切帰属させない"
+      d: "すべてのコミットで両方を使用する"
+    correct: "b"
+    explanation: |
+      gitコミットにおけるAIのトレーサビリティ：
+
+      - **Co-Authored-By**: AIがコードの大部分を生成した場合（実装、リファクタリング）
+      - **Assisted-By**: AIが助言、レビュー、または軽微な変更の提案のみを行った場合
+
+      この区別はコードのオーナーシップ、監査証跡、実際に誰（または何）がコードを書いたかを理解する上で重要です。チームによっては、CLAUDE.mdに必須のコミット規約として追加することもあります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "AI Traceability"
+      anchor: "#ai-traceability"

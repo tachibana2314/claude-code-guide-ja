@@ -1,0 +1,306 @@
+category: "コマンド"
+category_id: 6
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "06-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeでカスタムコマンドを使用可能にするには、どこに配置すべきですか？"
+    options:
+      a: "~/.claude/commands/"
+      b: ".claude/commands/"
+      c: "/usr/local/claude/commands/"
+      d: ".claude/config/commands/"
+    correct: "b"
+    explanation: |
+      カスタムコマンドはプロジェクトディレクトリ内の `.claude/commands/` に配置します。
+
+      これにより、コードベースと一緒にコミットできるプロジェクト固有のコマンドが可能になります。
+      グローバルディレクトリ `~/.claude/` は個人設定のためで、プロジェクトコマンド向けではありません。
+
+      コマンドはサブディレクトリで整理されます：
+      - `.claude/commands/tech/` は開発ワークフロー用
+      - `.claude/commands/product/` はプロダクトワークフロー用
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.2 Creating Custom Commands"
+      anchor: "#62-creating-custom-commands"
+
+  - id: "06-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "`.claude/commands/tech/` にある `commit.md` という名前のカスタムコマンドを呼び出すにはどうすればよいですか？"
+    options:
+      a: "/commit"
+      b: "/tech-commit"
+      c: "/tech:commit"
+      d: "!tech/commit"
+    correct: "c"
+    explanation: |
+      カスタムコマンドは `/folder:filename`（.md拡張子なし）の形式を使用します。
+
+      したがって `.claude/commands/tech/commit.md` は `/tech:commit` になります。
+      この命名規則により、ドメインごとにコマンドを整理しながら呼び出しを直感的に保てます。
+
+      例：
+      - `.claude/commands/tech/pr.md` -> `/tech:pr`
+      - `.claude/commands/product/scope.md` -> `/product:scope`
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.2 Creating Custom Commands"
+      anchor: "#command-naming"
+
+  - id: "06-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "コマンドファイルでコマンドに渡された引数にアクセスするために使用される変数はどれですか？"
+    options:
+      a: "$ARGS"
+      b: "$INPUT"
+      c: "$ARGUMENTS"
+      d: "$PARAMS"
+    correct: "c"
+    explanation: |
+      `$ARGUMENTS` 変数にはコマンド呼び出しの後に渡されたテキストが含まれます。
+
+      例えば、`/tech:deploy production` を実行すると、`$ARGUMENTS` 変数には
+      `production` が含まれます。
+
+      これにより、ユーザー入力に基づいて適応できる動的なコマンドが可能になります。
+      コマンドでは引数の処理方法と引数が提供されない場合の動作を文書化すべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.2 Creating Custom Commands"
+      anchor: "#variable-interpolation"
+
+  - id: "06-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "カスタムコマンドを含む利用可能なすべてのコマンドを表示する組み込みコマンドはどれですか？"
+    options:
+      a: "/commands"
+      b: "/list"
+      c: "/help"
+      d: "/show"
+    correct: "c"
+    explanation: |
+      `/help` コマンドは組み込みとカスタムの両方を含む利用可能なすべてのコマンドを表示します。
+
+      組み込みコマンドには：
+      - `/clear` - 会話をクリア
+      - `/compact` - コンテキストを要約
+      - `/status` - セッション情報を表示
+      - `/plan` - プランモードに入る
+      - `/rewind` - 変更を元に戻す
+
+      `.claude/commands/` からのカスタムコマンドもここに表示されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.1 Slash Commands"
+      anchor: "#61-slash-commands"
+
+  - id: "06-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "ベストプラクティスによると、よく構成されたコマンドテンプレートにはどのようなセクションが含まれるべきですか？"
+    options:
+      a: "目的、ステップ、出力"
+      b: "目的、プロセス、引数、出力フォーマット、例、エラーハンドリング"
+      c: "名前、説明、コード"
+      d: "タイトル、本文、フッター"
+    correct: "b"
+    explanation: |
+      完全なコマンドテンプレートには以下が含まれるべきです：
+
+      1. **目的** - コマンドが何をするかの簡単な説明
+      2. **プロセス** - Claudeが従うべきステップバイステップの指示
+      3. **引数** - $ARGUMENTS の処理方法（提供された場合/されない場合）
+      4. **出力フォーマット** - 出力の期待される構造
+      5. **例** - 具体的な使用例
+      6. **エラーハンドリング** - エッジケースと失敗の処理方法
+
+      この包括的な構造により、一貫した信頼性の高いコマンド実行が保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.3 Command Template"
+      anchor: "#63-command-template"
+
+  - id: "06-006"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "安全な読み取り専用の探索のためにプランモードに入るコマンドはどれですか？"
+    options:
+      a: "/safe"
+      b: "/readonly"
+      c: "/plan"
+      d: "/explore"
+    correct: "c"
+    explanation: |
+      `/plan` コマンドはプランモードに入り、Claudeは変更を加えることなく
+      コードベースを分析・探索できます。
+
+      これに適した場面：
+      - 未知のコードベースの理解
+      - 変更前のアーキテクチャ分析
+      - リスクの高い操作の安全な探索
+
+      変更を加える準備ができたら `/execute` を使用してプランモードを終了します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.1 Slash Commands"
+      anchor: "#built-in-commands"
+
+  - id: "06-007"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "コミットコマンドの例では、推奨されるコミットメッセージフォーマットは何ですか？"
+    options:
+      a: "シンプルな説明"
+      b: "Conventional Commits：type(scope): description"
+      c: "日付 - 作成者 - メッセージ"
+      d: "JIRA-123: メッセージ"
+    correct: "b"
+    explanation: |
+      ガイドはConventional Commitsフォーマット `type(scope): description` を推奨しています。
+
+      一般的なタイプ：
+      - `feat`: 新機能
+      - `fix`: バグ修正
+      - `refactor`: コードの再構成
+      - `docs`: ドキュメント
+      - `test`: テストの変更
+      - `chore`: メンテナンス
+
+      これにより、変更ログやリリースに役立つ一貫した解析可能なコミット履歴が提供されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.4 Command Examples"
+      anchor: "#example-1-commit-command"
+
+  - id: "06-008"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "問題フレーマーコマンドが根本原因を見つけるために使用するテクニックは何ですか？"
+    options:
+      a: "SWOT分析"
+      b: "なぜなぜ分析（5 Whys Analysis）"
+      c: "パレート分析"
+      d: "フィッシュボーン図"
+    correct: "b"
+    explanation: |
+      問題フレーマーコマンドは「なぜなぜ分析（5 Whys Analysis）」テクニックを使用します。
+
+      「なぜ？」を5回尋ねて根本原因まで掘り下げます：
+      - なぜ1：最初の答え
+      - なぜ2：より深い答え
+      - なぜ3：さらに深く
+      - なぜ4：根本に近づく
+      - なぜ5：根本原因
+
+      コマンドはその後、問題を次のように再フレーム化します：「[ユーザー]が[結果]を達成できるように、どのように[アクション]できるか？」
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.4 Command Examples"
+      anchor: "#example-3-problem-framer-command"
+
+  - id: "06-009"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "`/rewind` コマンドは何をしますか？"
+    options:
+      a: "以前のgitコミットを復元する"
+      b: "現在のセッションでClaudeの最近の変更を元に戻す"
+      c: "会話履歴全体をクリアする"
+      d: "最後のコマンド実行をロールバックする"
+    correct: "b"
+    explanation: |
+      `/rewind` コマンドは現在のセッションでClaudeの最近の変更を元に戻します。
+
+      重要なポイント：
+      - Claudeが行ったコミットされていない変更にのみ機能する
+      - gitコミットは作成しない
+      - Claudeが間違いを犯して別のアプローチを試したいときに使用する
+
+      コミット済みの変更には代わりに `git revert` を使用してください。
+      キーボードショートカット `Esc×2`（Escapeをダブルタップ）でも巻き戻しがトリガーされます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.1 Slash Commands"
+      anchor: "#built-in-commands"
+
+  - id: "06-010"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "PRコマンドのエラーハンドリングで、ユーザーがフィーチャーブランチにいない場合はどうすべきですか？"
+    options:
+      a: "自動的にフィーチャーブランチを作成する"
+      b: "警告を表示しながら続行する"
+      c: "警告を表示：「最初にフィーチャーブランチを作成してください」"
+      d: "サイレントに終了する"
+    correct: "c"
+    explanation: |
+      PRコマンドの例によると、ユーザーがフィーチャーブランチにいない場合は
+      警告を表示すべきです：「最初にフィーチャーブランチを作成してください」。
+
+      同様に、ワーキングディレクトリがダーティな場合は尋ねるべきです：「最初に変更をコミットしますか？」
+
+      良いコマンド設計には次のような明確なエラーハンドリングが含まれます：
+      - 前提条件について警告する
+      - 修正アクションを提案する
+      - 偶発的なミスを防止する
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.4 Command Examples"
+      anchor: "#example-2-pr-command"
+
+  - id: "06-011"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "PRの作成ワークフローにおけるgitコマンドの推奨順序は何ですか？"
+    options:
+      a: "push、diff、PRの作成"
+      b: "status、branch、log、diff、必要ならpush、PRの作成"
+      c: "add、commit、push、PRの作成"
+      d: "checkout、status、push、PRの作成"
+    correct: "b"
+    explanation: |
+      推奨されるPRワークフローの順序：
+
+      1. `git status` - クリーンなワーキングディレクトリを確認
+      2. `git branch` - フィーチャーブランチ上にいることを確認
+      3. `git log main..HEAD` - すべてのコミットをレビュー
+      4. `git diff main...HEAD` - mainとのすべての変更を確認
+      5. `git push -u origin [branch]` - まだプッシュしていない場合はプッシュ
+      6. `gh pr create` - PRの作成
+
+      この徹底したプロセスにより、適切なコンテキストを持つ品質の高いPRが保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "6.4 Command Examples"
+      anchor: "#example-2-pr-command"
+
+  - id: "06-012"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeでファイルを参照するにはどうすればよいですか？"
+    options:
+      a: "#filename"
+      b: "@filename"
+      c: "!filename"
+      d: "$filename"
+    correct: "b"
+    explanation: |
+      `@filename` 構文はClaudeとの会話でファイルを参照します。
+
+      クイックアクション：
+      - `@file` - ファイルを参照
+      - `!command` - シェルコマンドを実行
+      - `Ctrl+C` - 操作をキャンセル
+      - `Ctrl+R` - 最後の操作を再試行
+
+      これにより、Claudeが分析するための特定のファイルを簡単にコンテキストに追加できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "10.1 Commands Table"
+      anchor: "#quick-actions"

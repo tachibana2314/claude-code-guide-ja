@@ -1,0 +1,310 @@
+category: "コアコンセプト"
+category_id: 2
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "02-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "/compact を使用すべきコンテキストの割合はいつですか？"
+    options:
+      a: "0〜50%"
+      b: "50〜70%"
+      c: "70〜90%"
+      d: "100%のみ"
+    correct: "c"
+    explanation: |
+      コンテキストが70〜90%（レッドゾーン）に達したら /compact を使用してください。コンテキストゾーン：グリーン（0〜50%）―自由に作業する；イエロー（50〜75%）―選択的に使用し始める；レッド（75〜90%）―/compact を使用；クリティカル（90%以上）―/clearを使用するかエラーのリスクを取る。70%で /compact を使用するとコンテキストの使用量が約50%削減されながら重要なコンテキストが保持されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#context-zones"
+
+  - id: "02-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claudeのコンテキストウィンドウのサイズはどれくらいですか？"
+    options:
+      a: "50,000トークン"
+      b: "100,000トークン"
+      c: "200,000トークン"
+      d: "500,000トークン"
+    correct: "c"
+    explanation: |
+      ClaudeのコンテキストウィンドウはRAMのようなものです―いっぱいになると速度が低下したり失敗したりします。このコンテキストにはすべてのメッセージ、読み取られたファイル、コマンド出力、ツール結果が含まれます。効果的なコンテキスト管理は「Claude Codeで最も重要なコンセプト」と説明されています。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#the-context-budget"
+
+  - id: "02-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "ステータスラインの「Ctx(u): 45%」は何を示していますか？"
+    options:
+      a: "予算の45%が残っている"
+      b: "コンテキストの45%を使用した"
+      c: "ファイルの45%が読み込まれている"
+      d: "Claudeが45%確信している"
+    correct: "b"
+    explanation: |
+      ステータスラインの指標「Ctx(u): 45%」は、コンテキストウィンドウの45%を使用したことを示します。完全なステータスライン形式は：`Claude Code | Ctx(u): 45% | Cost: $0.23 | Session: 1h 23m`。これを監視することで、コンテキスト関連の問題が発生する前に /compact または /clear を使用するタイミングを知ることができます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#reading-the-statusline"
+
+  - id: "02-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "/compact と /clear の違いは何ですか？"
+    options:
+      a: "/compact は速く、/clear はより徹底的"
+      b: "/compact はコンテキストを要約する（重要な情報を保持）、/clear は完全に新しく始める（すべてのコンテキストを失う）"
+      c: "/compact はファイルをクリアし、/clear は会話をクリアする"
+      d: "同じことをする"
+    correct: "b"
+    explanation: |
+      /compact は会話を要約し、重要なコンテキストを保持しながら使用量を約50%削減します。コンテキストが不足してきたときに使用します。/clear は完全に新しく始め、すべてのコンテキストを失います―トピックを変更するときやコンテキストが著しく肥大化しているときに使用します。継続性を維持する必要があるかどうかに基づいて選択してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#context-recovery-strategies"
+
+  - id: "02-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "最もコンテキストトークンを消費するアクションはどれですか？"
+    options:
+      a: "小さいファイルを読む（〜500トークン）"
+      b: "単純なコマンドを実行する（〜1Kトークン）"
+      c: "大きいファイルを読む、またはマルチファイル検索（〜5K以上のトークン）"
+      d: "短いメッセージを送る"
+    correct: "c"
+    explanation: |
+      大きなファイルの読み取り（5K以上のトークン）とマルチファイル検索（3K以上のトークン）が最もコンテキストを消費します。小さいファイルは約500トークン、コマンドの実行は約1Kトークンかかります。長い会話は時間とともに蓄積されます。最適化するには、クエリを具体的にし、ファイル全体ではなく「calculateTotal関数を読む」のようにシンボル参照を使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#what-consumes-context"
+
+  - id: "02-006"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "コンテキスト管理における「ラスト20%ルール」とは何ですか？"
+    options:
+      a: "会話の最後の20%を常に保持する"
+      b: "マルチファイル操作、修正、セッション終了時のサマリー生成のためにコンテキストの約20%を予約する"
+      c: "定期的にコンテキストの20%を削除する"
+      d: "利用可能なコンテキストの20%のみを使用する"
+    correct: "b"
+    explanation: |
+      ラスト20%ルールは、コンテキストの約20%を次のために予約することを推奨します：セッション終了時のマルチファイル操作、最後の修正、サマリー/チェックポイントドキュメントの生成。このバッファにより、コンテキストが埋まっても作業を適切に完了できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#context-inspection"
+
+  - id: "02-007"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "「コンテキストポイズニング」（コンテキストブリーディングとも呼ばれる）とは何ですか？"
+    options:
+      a: "コンテキスト使用量が100%に達したとき"
+      b: "一つのタスクからの情報が別のタスクを汚染するとき"
+      c: "Claudeが指示を忘れるとき"
+      d: "ファイルが破損するとき"
+    correct: "b"
+    explanation: |
+      コンテキストポイズニングは、一つのタスクからの情報が別のタスクを汚染するときに発生します。例としては：スタイルの滲み（青いボタンのスタイルが無関係なフォームに適用される）、指示の汚染（相反するルールが混乱を引き起こす）、時間的混乱（Claudeが古いファイル名を使用する）。明確なタスク境界を使用し、優先順位を明確にすることで防止してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#context-poisoning-bleeding"
+
+  - id: "02-008"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeの7ステップインタラクションループとは何ですか？"
+    options:
+      a: "計画、コーディング、テスト、デプロイ、監視、修正、繰り返し"
+      b: "説明、分析、提案、レビュー、決定、検証、コミット"
+      c: "読む、書く、編集する、実行する、デバッグする、テストする、プッシュする"
+      d: "尋ねる、待つ、承認する、実行する、確認する、修正する、完了"
+    correct: "b"
+    explanation: |
+      インタラクションループは：1）説明（DESCRIBE）―必要なことを説明する、2）分析（ANALYZE）―Claudeがコードベースを探索する、3）提案（PROPOSE）―Claudeが変更を提案する（差分）、4）レビュー（REVIEW）―読んで評価する、5）決定（DECIDE）―承認/拒否/変更する、6）検証（VERIFY）―テストを実行し、動作を確認する、7）コミット（COMMIT）―変更を保存する（オプション）。重要な洞察：あなたは常に主導権を握っています。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.1 The Interaction Loop"
+      anchor: "#21-the-interaction-loop"
+
+  - id: "02-009"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "プランモードを終了して変更を開始するにはどうすればよいですか？"
+    options:
+      a: "/edit"
+      b: "/execute"
+      c: "/start"
+      d: "/exit-plan"
+    correct: "b"
+    explanation: |
+      /execute を使用してプランモードを終了し、変更の実装を開始します。プランモード中、Claudeは読み取りと分析のみ可能で、変更は許可されません。Claudeの「このプランを実装する準備はできていますか？」というプロンプトに応答して切り替えることもできます。このステージングアプローチにより、実行前にプランを理解できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.3 Plan Mode"
+      anchor: "#exiting-plan-mode"
+
+  - id: "02-010"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "OpusPlanモードとは何ですか？"
+    options:
+      a: "プレミアムサブスクリプション層"
+      b: "計画にOpus（優れた推論）を使用し、実装にSonnet（コスト効率が高い）を使用する"
+      c: "デバッグモード"
+      d: "Claudeなしで計画する方法"
+    correct: "b"
+    explanation: |
+      OpusPlanは計画にOpus（優れた推論能力）を使用し、実装に自動的にSonnetに切り替えます（よりコスト効率が高い）。`/model opusplan` で有効にします。これにより、Opusの品質の計画を維持しながら、Sonnetの速度による実行でトークンを節約できます。限られたOpusトークンを持つProサブスクライバーに特に価値があります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.3 Plan Mode"
+      anchor: "#opusplan-mode"
+
+  - id: "02-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "コンテキスト枯渇の症状は何ですか？"
+    options:
+      a: "Claudeの入力が遅くなる"
+      b: "応答が短くなる、CLAUDE.mdの指示を忘れる、以前の会話との矛盾"
+      c: "エラーメッセージが表示される"
+      d: "コストが劇的に増加する"
+    correct: "b"
+    explanation: |
+      コンテキスト枯渇の症状：通常より短い応答（警告）、CLAUDE.mdの指示を忘れる（深刻）、以前の会話との矛盾（クリティカル）、すでに議論したコードに関するエラー（クリティカル）、すでに読んだファイルに対する「そのファイルにアクセスできません」（クリティカル）。クリティカルな症状が現れたら、すぐに新しいセッションを開始してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#context-depletion-symptoms"
+
+  - id: "02-012"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "/rewind は何をしますか？"
+    options:
+      a: "gitコミットを元に戻す"
+      b: "現在のセッション内でClaudeのファイル変更を元に戻す"
+      c: "会話履歴に戻る"
+      d: "ディスクから削除されたファイルを復元する"
+    correct: "b"
+    explanation: |
+      /rewind はClaudeが行ったファイルの変更を元に戻します。複数ファイルにわたって機能しますが、Claudeの変更のみ（手動の編集ではない）、現在のセッション内のみ、gitコミットは自動的に元に戻しません。リスクの高い操作には、まずgitチェックポイントを作成してください：「この実験的なアプローチを試す前に、現在の内容をコミットしましょう。」
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.4 Rewind"
+      anchor: "#24-rewind"
+
+  - id: "02-013"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "プロジェクトに関してClaudeがアクセスできないものは何ですか？"
+    options:
+      a: "ファイル構造とコードの内容"
+      b: "gitの状態とブランチ"
+      c: "ランタイム状態、外部サービス、隠しファイル"
+      d: "CLAUDE.mdのプロジェクトルール"
+    correct: "c"
+    explanation: |
+      Claudeが知っていること：ファイル構造、コードの内容、gitの状態、プロジェクトルール（CLAUDE.md）。Claudeが知らないこと：ランタイム状態（実行中のプロセスを見ることができない）、外部サービス（データベースに直接アクセスできない）、あなたの意図（明確な指示が必要）、隠しファイル（デフォルトで.gitignoreを尊重する）。このメンタルモデルを理解することで、効果的なコミュニケーションができます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Mental Model"
+      anchor: "#what-claude-doesnt-know"
+
+  - id: "02-014"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「健全性チェックテクニック」の目的は何ですか？"
+    options:
+      a: "コードが正しくコンパイルされることを確認する"
+      b: "ClaudeがCLAUDE.md設定を正しく読み込んだことを確認する"
+      c: "メモリリークをチェックする"
+      d: "テストカバレッジを検証する"
+    correct: "b"
+    explanation: |
+      健全性チェックテクニックは、Claudeが設定を読み込んだことを確認します。CLAUDE.mdに識別可能な情報（名前、プロジェクト名、技術スタックなど）を追加し、「私の名前は何ですか？どのプロジェクトに取り組んでいますか？」とClaudeに尋ねます。正しい回答は設定が読み込まれていることを確認します。高度なチェックには、長いCLAUDE.mdファイル全体に複数のチェックポイントを追加してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#sanity-check-technique"
+
+  - id: "02-015"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "XML構造化プロンプトを使用すべき場合はいつですか？"
+    options:
+      a: "複雑さに関わらずすべてのプロンプトに対して"
+      b: "複数ステップの機能、コンテキストを持つバグ調査、特定の基準を持つコードレビューに対して"
+      c: "単純な1行のリクエストのみ"
+      d: "APIと作業するときのみ"
+    correct: "b"
+    explanation: |
+      XML構造化プロンプトは次の場合に使用します：リクエストに3つ以上の異なる側面がある（指示+コンテキスト+制約）、あいまいさが誤解を引き起こす場合、再利用可能なテンプレートを作成する場合、または複雑な階層に対して。単純な1行のリクエストや素早い誤字修正には使用しないでください―オーバーヘッドがメリットを上回ります。<instruction>、<context>、<constraints>などのタグはClaudeが異なる側面を理解するのに役立ちます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.6 Structured Prompting with XML Tags"
+      anchor: "#when-to-use-xml-structured-prompts"
+
+  - id: "02-016"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「セッションハンドオフパターン」は何に使用されますか？"
+    options:
+      a: "チームメンバー間でセッションを転送する"
+      b: "セッション間の継続性を維持するために状態、決定、次のステップを文書化する"
+      c: "コードをバックアップする"
+      d: "会話履歴をエクスポートする"
+    correct: "b"
+    explanation: |
+      セッションハンドオフパターンは、セッション間のギャップを橋渡しするドキュメントを作成します。含まれる内容：達成されたこと、現在の状態、行われた決定、次のステップ、次のセッションのためのコンテキスト。作業終了時、コンテキスト制限前、フォーカスエリアを切り替えるとき、または中断されたときにハンドオフを作成します。`claudedocs/handoffs/handoff-YYYY-MM-DD.md` に保存してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#session-handoff-pattern"
+
+  - id: "02-017"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Claude Code 1時間セッションの典型的なコストはいくらですか？"
+    options:
+      a: "$0.01〜$0.05"
+      b: "$0.10〜$0.50"
+      c: "$1.00〜$5.00"
+      d: "$10.00〜$20.00"
+    correct: "b"
+    explanation: |
+      典型的な1時間のセッションは使用パターンによって$0.10〜$0.50かかります。ガイドはコスト予算を提供しています：クイックタスク（5〜10分）$0.05〜$0.10、機能開発（1〜2時間）$0.20〜$0.50、深いリファクタリング（半日）$1.00〜$2.00。あなたの時間が1時間$30の価値があるなら、30分節約するために$0.50を費やすことで60倍のROIが得られます―過度に最適化しないでください！
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.2 Context Management"
+      anchor: "#cost-awareness--optimization"
+
+  - id: "02-018"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "自動プランモードとは何で、どのように有効にしますか？"
+    options:
+      a: "デフォルトで常にオンになっている自動計画"
+      b: "ツール実行の前にClaudeにプランを提示させ、明示的なユーザー承認を待たせる設定"
+      c: "プロジェクト計画を自動生成するモード"
+      d: "エンタープライズユーザー向けのプレミアム機能"
+    correct: "b"
+    explanation: |
+      自動プランモードにより、ClaudeはANYツールを実行する前にプランを提示し、明示的なユーザー承認を待ちます。`~/.claude/auto-plan-mode.txt` で設定し、`claude --append-system-prompt "$(cat ~/.claude/auto-plan-mode.txt)"` で起動します。プランが実行前に検証されるため、76%少ないトークンでより良い結果が得られます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.3 Plan Mode"
+      anchor: "#auto-plan-mode"

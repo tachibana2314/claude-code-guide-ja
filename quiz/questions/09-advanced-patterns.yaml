@@ -1,0 +1,1066 @@
+category: "高度なパターン"
+category_id: 9
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "09-001"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "「トリニティ」パターンの3つのコンポーネントは何ですか？"
+    options:
+      a: "Git、VSCode、ターミナル"
+      b: "プランモード、拡張思考、Sequential Thinking"
+      c: "Serena、Context7、Playwright"
+      d: "エージェント、スキル、コマンド"
+    correct: "b"
+    explanation: |
+      トリニティはClaude Codeの最も強力なパターンで、以下を組み合わせます：
+
+      1. **プランモード** - 変更なしの安全な探索
+      2. **拡張思考** - 深い分析（Opus 4.5でデフォルトで有効）
+      3. **Sequential Thinking（MCP）** - 構造化された多段階推論
+
+      これらを組み合わせることで、アクションを取る前の最大限の理解が提供されます。
+      アーキテクチャの決定、複雑なデバッグ、レガシーモダナイゼーションに使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.1 The Trinity"
+      anchor: "#91-the-trinity"
+
+  - id: "09-002"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Claude Code（Opus 4.5以降）で思考モードを切り替えるにはどうすればよいですか？"
+    options:
+      a: "プロンプトに「ultrathink」キーワードを使用する"
+      b: "Alt+T（macOSではOption+T）"
+      c: "--think CLIフラグ"
+      d: "/thinkingコマンド"
+    correct: "b"
+    explanation: |
+      Opus 4.5（v2.0.67以降）では、思考モードは最大バジェットでデフォルトで有効になっています。
+
+      **思考モードの制御：**
+      | 方法 | アクション | 持続性 |
+      |------|----------|--------|
+      | **Alt+T** | オン/オフ切り替え | セッション |
+      | **/config** | グローバルで有効/無効 | 永続 |
+
+      **注意**：「ultrathink」などのキーワードは現在装飾的なものにすぎず、思考動作を制御しなくなりました。
+
+      単純なタスクには Alt+T で思考を無効にしてください（速く、安価になります）。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.1 Extended Thinking"
+      anchor: "#extended-thinking-opus-45"
+
+  - id: "09-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "CI/CD用にインタラクティブなプロンプトなしでClaude Codeを実行するCLIフラグはどれですか？"
+    options:
+      a: "--ci"
+      b: "--headless"
+      c: "--batch"
+      d: "--automated"
+    correct: "b"
+    explanation: |
+      `--headless` フラグはインタラクティブなプロンプトなしでClaude Codeを実行します：
+
+      ```bash
+      # 基本的なヘッドレス実行
+      claude --headless "テストを実行して結果を報告してください"
+
+      # タイムアウト付き
+      claude --headless --timeout 300 "プロジェクトをビルドしてください"
+      ```
+
+      CI/CD統合、自動化パイプライン、スクリプト化されたワークフローに不可欠です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.3 CI/CD Integration"
+      anchor: "#headless-mode"
+
+  - id: "09-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "プロンプトを付けてClaude Codeにコンテンツをパイプするにはどうすればよいですか？"
+    options:
+      a: "claude | cat file.txt -p 'analyze'"
+      b: "cat file.txt | claude -p 'analyze this code'"
+      c: "claude < file.txt --prompt 'analyze'"
+      d: "file.txt > claude -p 'analyze'"
+    correct: "b"
+    explanation: |
+      `-p` フラグを使用した標準的なUnixパイピングを使用します：
+
+      ```bash
+      cat file.txt | claude -p 'このコードを分析してください'
+      git diff | claude -p 'この変更を説明してください'
+      npm test 2>&1 | claude -p 'テストの失敗を要約してください'
+      ```
+
+      これにより、自動化されたコード分析のための強力なシェル統合が可能になります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.3 CI/CD Integration"
+      anchor: "#unix-piping-workflows"
+
+  - id: "09-005"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「エンジンを吹かす」パターンとは何ですか？"
+    options:
+      a: "テストを並列で実行する"
+      b: "品質向上のための書き込み・批評・改善のサイクルを複数ラウンド繰り返す"
+      c: "タスク間でClaude Codeを再起動する"
+      d: "より高いコンピューティングモデルを使用する"
+    correct: "b"
+    explanation: |
+      「エンジンを吹かす」パターンは品質向上のために複数ラウンドの批評を使用します：
+
+      ```
+      ラウンド1: [初期実装]
+      批評: [問題点]
+      改善: [より良いバージョン]
+
+      ラウンド2: [改善された実装]
+      批評: [まだ問題のある点]
+      改善: [さらに良いバージョン]
+
+      ラウンド3: [最終実装]
+      最終確認: [検証]
+      ```
+
+      通常、品質の高い作業には3ラウンドが推奨されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.2 Composition Patterns"
+      anchor: "#the-rev-the-engine-pattern"
+
+  - id: "09-006"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "スクリプト用に構造化されたJSONをClaudeから取得する出力フォーマットフラグはどれですか？"
+    options:
+      a: "--format json"
+      b: "--output-format json"
+      c: "--json"
+      d: "--structured"
+    correct: "b"
+    explanation: |
+      `--output-format` を使用して応答フォーマットを制御します：
+
+      | フォーマット | ユースケース |
+      |------------|------------|
+      | `text` | 人間が読めるデフォルト出力 |
+      | `json` | 機械が解析可能な構造化データ |
+      | `stream-json` | 大きな出力のリアルタイムストリーミング |
+
+      例：
+      ```bash
+      git log --oneline -10 | claude -p 'コミットを分類してください' --output-format json
+      ```
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.3 CI/CD Integration"
+      anchor: "#output-format-control"
+
+  - id: "09-007"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ガイドによると「バイブコーディング」とは何ですか？"
+    options:
+      a: "音楽を聴きながらコーディングすること"
+      b: "実装にコミットする前に自然な会話を通じた迅速なプロトタイピング"
+      c: "AIを使ってランダムなコードを生成すること"
+      d: "リラックスした環境でコーディングすること"
+    correct: "b"
+    explanation: |
+      バイブコーディングは自然な会話を通じた迅速なプロトタイピングです。
+
+      バイブコーディングを行う場面：
+      - 早期探索：アプローチが機能するかテストする
+      - 概念実証：本格的な実装前のクイック検証
+      - 学習：新しいライブラリやパターンを理解する
+
+      ルール：
+      - 本番コードではない―探索のみ
+      - 自由に捨てる
+      - 学習に集中する
+      - 明確にシグナルを送る：「これはバイブコード、本番用ではない」
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.8 Vibe Coding & Skeleton Projects"
+      anchor: "#vibe-coding"
+
+  - id: "09-008"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "PRを作成する前の「検証ゲートパターン」とは何ですか？"
+    options:
+      a: "テストを実行するだけ"
+      b: "ビルド -> リント -> テスト -> 型チェック -> 次にPRを作成"
+      c: "先にPRを作成して、次に問題を修正する"
+      d: "手動レビューのみ"
+    correct: "b"
+    explanation: |
+      検証ゲートパターンはPR作成前にすべてのチェックが通過することを保証します：
+
+      ```
+      ビルド -> リント -> テスト -> 型チェック -> 次にPRを作成
+      ```
+
+      どのステップでも失敗した場合：
+      - 即座に停止する
+      - 何が失敗したかとその理由を報告する
+      - 修正を提案する
+      - PR作成には進まない
+
+      これにより無駄なCIサイクルとレビュー時間が防止されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.3 CI/CD Integration"
+      anchor: "#verify-gate-pattern"
+
+  - id: "09-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "「ミラーとしてのTodo指示」の重要なインサイトは何ですか？"
+    options:
+      a: "Todoは追跡のためだけ"
+      b: "Todoとして書いたことがClaudeの指示になる"
+      c: "Todoは柔軟性のためにあいまいにすべき"
+      d: "常に箇条書きを使用する"
+    correct: "b"
+    explanation: |
+      ミラー原則：Todoとして書いたことがClaudeの指示になります。
+
+      悪い例（あいまいなTodo -> あいまいな実行）：
+      「バグを修正する」
+
+      良い例（具体的なTodo -> 正確な実行）：
+      「getUserByIdのユーザーが見つからない場合のnullポインターを修正する―例外をスローする代わりにnullを返す」
+
+      よく作られたTodoはClaudeの実行を精度をもって導きます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.6 Todo as Instruction Mirrors"
+      anchor: "#the-mirror-principle"
+
+  - id: "09-010"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「継続的改善マインドセット」によると、手動介入のたびに何を尋ねるべきですか？"
+    options:
+      a: "これは私のせいか？"
+      b: "このエラーや手動修正が次回避けられるようにプロセスをどう改善できるか？"
+      c: "誰がこれに責任があるのか？"
+      d: "別のAIを使うべきか？"
+    correct: "b"
+    explanation: |
+      手動介入のたびに尋ねてください：
+      「このエラーや手動修正が次回避けられるようにプロセスをどう改善できるか？」
+
+      改善パイプライン：
+      1. lintルールでキャッチできるか？ -> lintルールを追加
+      2. 規約/ドキュメントに入れられるか？ -> CLAUDE.mdやADRに追加
+      3. どちらでもない？ -> エッジケースとして受け入れる
+
+      メタスキル：コードを修正する代わりに、コードを生成するシステムを修正する。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.10 Continuous Improvement Mindset"
+      anchor: "#the-key-question"
+
+  - id: "09-011"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "スケルトンプロジェクトとは何ですか？"
+    options:
+      a: "コードのないプロジェクト"
+      b: "本格的な実装前にパターンを確立する最小限の動作するテンプレート"
+      c: "非推奨のプロジェクト"
+      d: "プロジェクトのアウトラインドキュメント"
+    correct: "b"
+    explanation: |
+      スケルトンプロジェクトはパターンを確立する最小限の動作するテンプレートです。
+
+      スケルトンの原則：
+      1. **動作すること**：初日から `pnpm dev` が動作する
+      2. **1つの完全な垂直展開**：1つの機能のフルスタック
+      3. **機能ではなくパターン**：HOWを示すが、WHATではない
+      4. **最小限の依存関係**：必要なものだけ
+
+      進行：スケルトン（1日目）-> MVP（1週目）-> 完全（1ヶ月目）
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.8 Vibe Coding & Skeleton Projects"
+      anchor: "#skeleton-projects"
+
+  - id: "09-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "OpusPlanモードとは何ですか？"
+    options:
+      a: "すべてにOpusのみを使用する"
+      b: "計画にOpus、実行にSonnet"
+      c: "特別なデバッグモード"
+      d: "AIなしで計画する"
+    correct: "b"
+    explanation: |
+      OpusPlanモードはモデルの強みを組み合わせます：
+      - **計画**：高レベルの思考にOpus
+      - **実行**：実装にSonnet
+
+      これにより戦略的思考とコスト効率の高い実行が提供されます。
+
+      ```bash
+      /model opusplan
+      Shift+Tab x 2  # プランモードに入る（Opus）
+      # アーキテクチャを設計...
+      Shift+Tab      # プランモードを終了（Sonnet）
+      # プランを実装...
+      ```
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.13 Cost Optimization Strategies"
+      anchor: "#model-selection-matrix"
+
+  - id: "09-013"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "--dangerously-skip-permissions を使用すべきでない場合はいつですか？"
+    options:
+      a: "CI/CDパイプラインで"
+      b: "本番システムまたは機密性の高いコードベースで"
+      c: "自動テストのために"
+      d: "Dockerコンテナ内で"
+    correct: "b"
+    explanation: |
+      本番システムや機密性の高いコードベースでは `--dangerously-skip-permissions` を絶対に使用しないでください。
+
+      安全な使用：
+      - 分離された環境でのCI/CDパイプライン
+      - 限定されたスコープでの自動テスト
+      - 開発コンテナ
+
+      安全でない使用：
+      - 本番システム
+      - シークレットを持つコードベース
+      - 機密データのある環境
+
+      このフラグはすべての権限プロンプトをバイパスし、セキュリティリスクを生み出します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.11 Common Pitfalls & Best Practices"
+      anchor: "#security-pitfalls"
+
+  - id: "09-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "効果的なリクエストのためにガイドが推奨するプロンプトフォーマットは何ですか？"
+    options:
+      a: "シンプルな自然言語"
+      b: "WHAT、WHERE、HOW、VERIFY"
+      c: "件名、本文、フッター"
+      d: "タイトル、説明、受け入れ基準"
+    correct: "b"
+    explanation: |
+      推奨されるプロンプトフォーマット：
+
+      - **WHAT**：具体的な成果物
+      - **WHERE**：ファイルパス/場所
+      - **HOW**：制約/アプローチ
+      - **VERIFY**：成功基準
+
+      例：
+      ```
+      WHAT: ログインフォームに入力検証を追加する
+      WHERE: src/components/LoginForm.tsx、src/schemas/auth.ts
+      HOW: Zodスキーマ検証を使用し、インラインでエラーを表示
+      VERIFY: 空のメールがエラーを表示、無効なフォーマットがエラーを表示
+      ```
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.11 Common Pitfalls & Best Practices"
+      anchor: "#effective-prompt-format"
+
+  - id: "09-015"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "Claude Codeの推奨される学習進行はどれですか？"
+    options:
+      a: "一度にすべてを学ぶ"
+      b: "高度な機能から始める"
+      c: "1週目：基本コマンド -> 2週目：CLAUDE.md -> 3週目：エージェント -> 2ヶ月目以降：MCPサーバー"
+      d: "すぐにMCPサーバーにスキップする"
+    correct: "c"
+    explanation: |
+      ガイドは段階的な学習を推奨しています：
+
+      1. **1週目**：基本コマンド、コンテキスト管理
+      2. **2週目**：CLAUDE.md、権限
+      3. **3週目**：エージェントとコマンド
+      4. **2ヶ月目以降**：MCPサーバー、高度なパターン
+
+      シンプルでリスクの低いタスクから始めて、段階的に複雑さを増やしてください。
+      これにより、圧倒されることなく確固たる基礎が構築されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.11 Common Pitfalls & Best Practices"
+      anchor: "#learning--adoption-pitfalls"
+
+  - id: "09-016"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "分離されたコンテキストで複数の機能を同時に作業できるgitワークフローはどれですか？"
+    options:
+      a: "Git stash"
+      b: "Git worktrees"
+      c: "Gitブランチのみ"
+      d: "Gitサブモジュール"
+    correct: "b"
+    explanation: |
+      Git worktreeは同じリポジトリから複数の作業ディレクトリを作成します。
+
+      利点：
+      - 複数の機能を同時に作業
+      - 各worktreeに独立したClaude Codeコンテキスト
+      - stash/切り替え操作が不要
+      - 開発中の並列テスト
+
+      ```bash
+      git worktree add ../myproject-hotfix hotfix
+      git worktree add ../myproject-feature-a feature-a
+      ```
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.12 Git Best Practices & Workflows"
+      anchor: "#git-worktrees-for-parallel-development"
+
+  - id: "09-017"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "SDD（スペック駆動開発）とその主要な主張は何ですか？"
+    options:
+      a: "スピードベース開発―最速のアプローチ"
+      b: "スペック駆動開発―1つのよく構造化されたイテレーションは8つの非構造化されたものに相当"
+      c: "標準駆動開発―業界標準に従う"
+      d: "順次駆動開発―線形ワークフロー"
+    correct: "b"
+    explanation: |
+      SDD（スペック駆動開発）はコードの前に仕様を意味します。主要な主張：1つのよく構造化されたイテレーションは8つの非構造化されたものに相当します。CLAUDE.mdがあなたのスペックファイルです。APIとコントラクトに最適。Claudeとの適合性高（⭐⭐⭐）。
+    doc_reference:
+      file: "guide/methodologies.md"
+      section: "Tier 2: Specification & Architecture"
+      anchor: "#tier-2-specification--architecture"
+
+  - id: "09-018"
+    difficulty: "intermediate"
+    profiles: ["senior", "power"]
+    question: "BDD（振る舞い駆動開発）がテストシナリオに使用するフォーマットは何ですか？"
+    options:
+      a: "Arrange-Act-Assert"
+      b: "Given-When-Then（Gherkin）"
+      c: "Setup-Execute-Verify"
+      d: "Input-Process-Output"
+    correct: "b"
+    explanation: |
+      BDDはGiven-When-Thenフォーマット（Gherkin）を使用します。BDDはテストを超えています―コラボレーションプロセスです：（1）開発者/ビジネスとのDiscovery、（2）例を用いたFormulation、（3）Cucumberによるオートメーション。例：在庫が0の製品がある状態（Given） -> 顧客が購入を試みたとき（When） -> システムが拒否する（Then）。
+    doc_reference:
+      file: "guide/methodologies.md"
+      section: "Tier 3: Behavior & Acceptance"
+      anchor: "#tier-3-behavior--acceptance"
+
+  - id: "09-019"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "TDDサイクルの3つのステップは何ですか？"
+    options:
+      a: "計画・開発・テスト"
+      b: "レッド・グリーン・リファクタリング"
+      c: "書く・実行する・修正する"
+      d: "設計・コード・レビュー"
+    correct: "b"
+    explanation: |
+      古典的なTDDサイクル：（1）レッド―失敗するテストを書く、（2）グリーン―通過する最小限のコード、（3）リファクタリング―テストがグリーンを維持しながら整理。Claudeを使う場合：「まだ存在しない失敗するテストを書いてください」と明示する。TDDはコアワークフロー（⭐⭐⭐）。
+    doc_reference:
+      file: "guide/methodologies.md"
+      section: "Tier 5: Implementation"
+      anchor: "#tier-5-implementation"
+
+  - id: "09-020"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "メソドロジーリファレンスに文書化されている開発メソドロジーはいくつですか？"
+    options:
+      a: "5つのメソドロジー"
+      b: "10のメソドロジー"
+      c: "15のメソドロジー"
+      d: "20のメソドロジー"
+    correct: "c"
+    explanation: |
+      6層ピラミッドに整理された15のメソドロジー：Tier 1（戦略的―BMAD）、Tier 2（仕様―SDD、Doc駆動、Req駆動、DDD）、Tier 3（振る舞い―BDD、ATDD、CDD）、Tier 4（機能―FDD、コンテキストエンジニアリング）、Tier 5（実装―TDD、評価駆動、マルチエージェント）、Tier 6（最適化）。
+    doc_reference:
+      file: "guide/methodologies.md"
+      section: "The 15 Methodologies"
+      anchor: "#the-15-methodologies"
+
+  - id: "09-021"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "メソドロジーとしての「コンテキストエンジニアリング」とは何ですか？"
+    options:
+      a: "チームコンテキストのエンジニアリング"
+      b: "コンテキストをファーストクラスの設計要素として扱う：プログレッシブ開示、メモリ管理、動的リフレッシュ"
+      c: "コンテキストメニューの構築"
+      d: "環境変数の管理"
+    correct: "b"
+    explanation: |
+      コンテキストエンジニアリングはコンテキストを設計要素として扱います。主要概念：プログレッシブ開示（エージェントに段階的に発見させる）、メモリ管理（会話メモリと永続メモリ）、動的リフレッシュ（応答前にTODOリストを書き直す）。長いセッションでのClaudeとの適合性高（⭐⭐⭐）。
+    doc_reference:
+      file: "guide/methodologies.md"
+      section: "Tier 4: Feature Delivery"
+      anchor: "#tier-4-feature-delivery"
+
+  - id: "09-022"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「メカニックスタッキング」の5つの層は何ですか？"
+    options:
+      a: "プランモード、拡張思考、エンジンを吹かす、スプロールロール、パーミュテーション"
+      b: "プランモード、Sequential Thinking、Context7、Serena、Playwright"
+      c: "CLAUDE.md、プランモード、拡張思考、MCPサーバー、フック"
+      d: "プランモード、拡張思考、エンジンを吹かす、マルチエージェント、フック"
+    correct: "a"
+    explanation: |
+      メカニックスタッキングはClaude Codeの力を最大化するための5つのテクニックを重ねます：
+
+      1. **プランモード** - 変更なしの安全な探索
+      2. **拡張思考** - 深い内部推論
+      3. **エンジンを吹かす** - 段階的なウォームアッププロンプト
+      4. **スプロールロール** - アーキテクト/実装者/レビュアーを分離
+      5. **パーミュテーション** - 体系的な変化テスト
+
+      各層は前の層の効果を複合的に高めます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Mechanic Stacking"
+      anchor: "#mechanic-stacking"
+
+  - id: "09-023"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Claude Codeの「パーミュテーションフレームワーク」とは何ですか？"
+    options:
+      a: "UIバリアントのA/Bテスト"
+      b: "CLAUDE.md駆動の体系的な変化テスト：次元を定義し、バリアントを生成し、実装し、評価する"
+      c: "ベンチマーク用のランダムコード生成"
+      d: "自動化されたリグレッションテストスイート"
+    correct: "b"
+    explanation: |
+      パーミュテーションフレームワークはCLAUDE.mdを使用して体系的な変化テストを推進します。ワークフロー：変化の次元を定義する（例：アルゴリズムの選択、データ構造、キャッシュ戦略）、すべての組み合わせを生成する、各バリアントを実装する、メトリクスで評価する。これにより最初のアプローチを選ぶのではなく、解決策の空間を体系的に探索できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Permutation Frameworks"
+      anchor: "#permutation-frameworks"
+
+  - id: "09-024"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "開発者をClaudeインスタンスのオーケストレーターとして説明するメンタルモデルは何ですか？"
+    options:
+      a: "パイプラインマネージャー"
+      b: "エージェントスーパーバイザー"
+      c: "あなたがメインスレッド―開発者がエージェントにタスクをディスパッチするCPUスケジューラーの比喩"
+      d: "タスクルーター"
+    correct: "c"
+    explanation: |
+      「あなたがメインスレッド」はCPUスケジューラーの比喩を使用します：開発者はメインスレッドであり、Claudeインスタンス（ワーカースレッド）に作業をディスパッチします。あなたは優先順位、コンテキストスイッチ、同期を管理します。重要なインサイト：コードを書かない―コードを書くエージェントを管理する。これにより、スキルはコーディングからオーケストレーションに移行します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "You Are the Main Thread"
+      anchor: "#you-are-the-main-thread"
+
+  - id: "09-025"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "タスクリストの項目が実際に行われた作業から一貫して逸脱する場合、ガイドは何を推奨しますか？"
+    options:
+      a: "タスクリストを削除して最初からやり直す"
+      b: "各タスクにより詳細な情報を追加する"
+      c: "逸脱パターンを診断として使用する：広すぎる = 細分化、狭すぎる = 立ち止まる、間違った優先順位 = 目標と再調整"
+      d: "逸脱を無視して続ける"
+    correct: "c"
+    explanation: |
+      タスクリストの逸脱は失敗ではなく診断です。パターンが問題を明らかにします：
+
+      - **広すぎる**タスク → より小さな部分に分解する
+      - **狭すぎる**タスク → 立ち止まってより大きく考える
+      - **間違った優先順位** → 実際の目標とタスクを再調整する
+      - **一貫したドリフト** → 問題のメンタルモデルが間違っている
+
+      逸脱をノイズではなくシグナルとして使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Task Management Patterns"
+      anchor: "#task-management-patterns"
+
+  - id: "09-026"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "コードレビューで確立されたパターンを主張するための「出現ルール」は何ですか？"
+    options:
+      a: "5回以上の出現 = 確立、2〜5回 = 新興、2回未満 = 未確立"
+      b: "10回以上の出現 = 確立、3〜10回 = 新興、3回未満 = 未確立"
+      c: "出現回数ではなくファイル数に基づく"
+      d: "20回以上の出現 = 確立、5〜20回 = 新興、5回未満 = 未確立"
+    correct: "b"
+    explanation: |
+      コードレビューの幻覚防止セーフガードは出現ルールを定義します：
+
+      - **10回以上の出現** = 確立されたパターン（参照しても安全）
+      - **3〜10回の出現** = 新興パターン（慎重に言及）
+      - **3回未満の出現** = 確立されたパターンではない（そうだと主張しない）
+
+      これにより、Claudeがいくつかの例から「確立された慣習」を幻覚するのを防ぎます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Anti-Hallucination Safeguards"
+      anchor: "#anti-hallucination-safeguards"
+
+  - id: "09-027"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "マルチエージェントコードレビューの3つの専門化されたエージェントは何ですか？"
+    options:
+      a: "セキュリティレビュアー、パフォーマンスアナリスト、UXレビュアー"
+      b: "リンター、型チェッカー、テストランナー"
+      c: "一貫性監査官、SOLIDアナリスト、防御的コード監査官"
+      d: "ジュニアレビュアー、シニアレビュアー、アーキテクトレビュアー"
+    correct: "c"
+    explanation: |
+      マルチエージェントPRレビューは3つの専門化されたエージェントを使用します：
+
+      1. **一貫性監査官** - 命名規則、インポートパターン、コードスタイルの準拠をチェック
+      2. **SOLIDアナリスト** - アーキテクチャ原則、依存性注入、単一責任を確認
+      3. **防御的コード監査官** - エラーハンドリング、入力検証、エッジケースを検証
+
+      各エージェントには幻覚防止セーフガード（出現ルール、ファイルスコープの主張）があります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Multi-Agent PR Review"
+      anchor: "#multi-agent-pr-review"
+
+  - id: "09-028"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Addy Osmaniの「80%問題」によると「理解の負債」とは何ですか？"
+    options:
+      a: "ドキュメント負債―欠けているドキュメント"
+      b: "出荷したが完全に理解していないコード―技術的負債とは異なる"
+      c: "レビュー負債―レビューされていないPR"
+      d: "設計負債―スキップした設計フェーズ"
+    correct: "b"
+    explanation: |
+      理解の負債とは出荷したが完全に理解していないコードです。技術的負債（理解しているが最適ではないと知っているコード）とは異なります。AIが生成したコードでは理解の負債が静かに増加します：深い理解なしに提案を受け入れます。修正：常にWHATだけでなくWHYを説明できるようにする。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Practitioner Insights"
+      anchor: "#practitioner-insights"
+
+  - id: "09-029"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "複合メモリとしてのCLAUDE.mdの「4ステップサイクル」（Boris Cherny）は何ですか？"
+    options:
+      a: "書く、テスト、デプロイ、監視"
+      b: "計画、実行、レビュー、コミット"
+      c: "エラー、ルール、読む、繰り返さない"
+      d: "尋ねる、実装する、検証する、出荷する"
+    correct: "c"
+    explanation: |
+      CLAUDE.mdを複合メモリとして捉えるBoris Chernyのメンタルモデル：
+
+      1. **エラー** - Claudeが間違いを犯す
+      2. **ルール** - それを防ぐルールをCLAUDE.mdに追加する
+      3. **読む** - Claudeはすべてのセッション開始時にCLAUDE.mdを読む
+      4. **繰り返さない** - 間違いは二度と繰り返されない
+
+      目標：Claudeに同じ間違いを2度修正させない。CLAUDE.mdは時間とともに複合的に成長します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Boris Cherny Mental Models"
+      anchor: "#boris-cherny-mental-models"
+
+  - id: "09-030"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Claude Code v2.1.32以降でエージェントチームを有効にするにはどうすればよいですか？"
+    options:
+      a: "/agent-teamsコマンドを使用する"
+      b: "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 を設定するか settings.json に追加する"
+      c: "skills.sh からagent-teamsプラグインをインストールする"
+      d: "--teams CLIフラグを使用する"
+    correct: "b"
+    explanation: |
+      エージェントチームには実験的な機能フラグが必要です。2つの方法があります：
+
+      1. **環境変数**：`export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+      2. **設定ファイル**：`{"experimental": {"agentTeams": true}}` を ~/.claude/settings.json に追加
+
+      また、Opus 4.6モデル以上が最低条件として必要です。この機能は実験的（研究プレビュー）です。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Setup & Configuration"
+      anchor: "#3-setup--configuration"
+
+  - id: "09-031"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "マルチインスタンスワークフローの代わりにエージェントチームを使用すべき場合はいつですか？"
+    options:
+      a: "常に―エージェントチームの方が優れている"
+      b: "共有コードベースでの調整が必要な場合（読み取り中心の分析）"
+      c: "タスクが完全に独立している場合（別のプロジェクト）"
+      d: "予算が厳しい場合（エージェントチームの方が安価）"
+    correct: "b"
+    explanation: |
+      **エージェントチーム** = 共有コードベースでの自動調整（gitベース）
+      最適な場合：読み取り中心のタスク（コードレビュー、バグトレース、分析）
+
+      **マルチインスタンス** = 手動オーケストレーション、独立したタスク
+      最適な場合：別のプロジェクト、共有状態なし、調整不要
+
+      重要：調整が重要な場合はチームを使用し、調整なしの並列化にはマルチインスタンスを使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.20 Agent Teams"
+      anchor: "#920-agent-teams-multi-agent-coordination"
+
+  - id: "09-032"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "エージェントチームの主な制限は何ですか？"
+    options:
+      a: "2つ以上のエージェントを生成できない"
+      b: "読み取り中心のタスクはうまく機能するが、書き込み中心のタスクはマージコンフリクトのリスクがある"
+      c: "macOSでのみ機能する"
+      d: "高価なハードウェアが必要"
+    correct: "b"
+    explanation: |
+      **重要な制限**：読み取り中心 > 書き込み中心のトレードオフ
+
+      ✅ 良い：コードレビュー（エージェントが読んで分析して報告する）
+      ✅ 良い：バグトレース（エージェントがログを読んで実行をトレース）
+      ⚠️ リスク：共有型のリファクタリング（マージコンフリクト）
+      ❌ 悪い：複数のエージェントが同じファイルを変更する
+
+      軽減策：重複しないファイルセットを割り当て、インターフェースファーストアプローチを使用する。
+      トークンコストも大きく（3倍以上の乗数）。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Limitations & Gotchas"
+      anchor: "#6-limitations--gotchas"
+
+  - id: "09-033"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "エージェントチームに必要な最低限のClaudeモデルは何ですか？"
+    options:
+      a: "Haiku"
+      b: "Sonnet 4.5"
+      c: "Opus 4.5"
+      d: "Opus 4.6"
+    correct: "d"
+    explanation: |
+      エージェントチームには**Opus 4.6以上**が必要です（2026年2月にv2.1.32でリリース）。
+
+      理由：
+      - 各エージェントには100万トークンのコンテキストウィンドウが必要
+      - gitベースの調整には高度な推論が必要
+      - チームリーダーが複数のチームメートからの発見を統合する必要がある
+
+      下位モデル（Sonnet、Haiku）はエージェントチームを生成できません。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Prerequisites"
+      anchor: "#prerequisites"
+
+  - id: "09-034"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "エージェントチームのアーキテクチャにおける「チームリーダー」の役割は何ですか？"
+    options:
+      a: "チームメートが観察する間、すべてのタスクを実行する"
+      b: "タスクを分解し、チームメートを生成し、発見を統合する"
+      c: "コストを監視してトークンの過剰使用を防ぐ"
+      d: "手動でマージコンフリクトを解決する"
+    correct: "b"
+    explanation: |
+      **チームリーダー**（メインセッション）の責任：
+
+      1. **タスクを分解**する：サブタスクに
+      2. **チームメートセッションを生成**する：各セッションは100万トークンのコンテキストを持つ
+      3. **発見を統合**する：すべてのエージェント完了後
+
+      **チームメート**は割り当てられたタスクを独立して処理し、チームリーダーに報告します。
+      ナビゲーション：Shift+上/下でエージェントを切り替えます。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Architecture Deep-Dive"
+      anchor: "#2-architecture-deep-dive"
+
+  - id: "09-035"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "エージェントチームで検証された本番メトリクスはどれですか？"
+    options:
+      a: "Fountain：50%速いスクリーニング、CRED：2倍の実行速度"
+      b: "GitHub：10倍のPRレビュー、Vercel：99%の稼働率"
+      c: "Anthropic：100%バグフリーなコード生成"
+      d: "Meta：5倍の開発者生産性"
+    correct: "a"
+    explanation: |
+      **検証された本番メトリクス**（2026年エージェントコーディングトレンドレポート）：
+
+      - **Fountain**（労働力管理）：50%速いスクリーニング、40%オンボーディング改善、2倍のコンバージョン
+      - **CRED**（1500万ユーザー、金融サービス）：開発ライフサイクル全体で2倍の実行速度
+      - **Anthropicリサーチ**：自律的なCコンパイラー完成（人間の介入なし）
+
+      これらは複雑な読み取り中心のタスクに対してエージェントチームが本番で機能することを検証します。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Production Use Cases"
+      anchor: "#4-production-use-cases"
+
+  - id: "09-036"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "エージェントチーム（3エージェント）の典型的なトークンコスト乗数はどれくらいですか？"
+    options:
+      a: "シングルエージェントと同じ（オーバーヘッドなし）"
+      b: "1.5倍（最小限のオーバーヘッド）"
+      c: "3倍以上（各エージェントが独立したモデル推論を実行）"
+      d: "10倍（指数関数的コスト）"
+    correct: "c"
+    explanation: |
+      **トークンコスト乗数：3エージェントで3倍以上**
+
+      理由：
+      - 各エージェントが**独立したモデル推論**を実行
+      - 3エージェント = 3倍の入力トークン、3倍の出力トークン
+      - エージェントごとのコンテキスト読み込み（100万トークン × 3）
+      - 調整のオーバーヘッド（チームリーダーの統合）
+
+      節約された時間 > コスト増加の場合（本番の問題、重要な分析）に正当化されます。
+      予算が限られているプロジェクトはシングルエージェントを使用すべきです。
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Cost Trade-offs"
+      anchor: "#cost-trade-offs"
+
+  - id: "09-037"
+    difficulty: "intermediate"
+    profiles: ["intermediate", "senior", "power"]
+    question: "50のファイルにわたって関数名を変更する必要があります。最も適切なモデルと努力レベルはどれですか？"
+    options:
+      a: "Opus、effort: max―大規模な名前変更には深い推論が必要"
+      b: "Sonnet、effort: high―大きなスコープには慎重な分析が必要"
+      c: "Haiku、effort: low―機械的な検索・置換、設計上の決定なし"
+      d: "Sonnet、effort: medium―任意のマルチファイル操作の安全なデフォルト"
+    correct: "c"
+    explanation: |
+      **Haiku + low effort** は名前変更のような機械的なタスクに正しい選択です。
+
+      重要な質問：このタスクは推論、設計上の決定、または判断を必要とするか？
+      - 名前変更 = 検索・置換。パターンは分かっており、アプローチは決定済み。
+      - 分析を必要とするエッジケースはない。
+      - Haikuは入力トークンでOpusよりも60倍安価。
+
+      ここでOpusを使用することは、結果を変えない推論にトークンを無駄にします。
+      深さが結果を変えるタスクのためにOpusを節約してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model Selection & Thinking Guide"
+      anchor: "#25-model-selection--thinking-guide"
+
+  - id: "09-038"
+    difficulty: "intermediate"
+    profiles: ["intermediate", "senior", "power"]
+    question: "エージェントのYAMLフロントマターの `model: haiku` は何をしますか？"
+    options:
+      a: "エージェントのコミュニケーションスタイルをより簡潔にする"
+      b: "エージェントがすべてのサブエージェント生成にHaikuを使用するように強制する"
+      c: "セッションのデフォルトの代わりにHaikuモデルでエージェントを実行するよう設定する"
+      d: "ツール呼び出しを削減するコスト節約モードを有効にする"
+    correct: "c"
+    explanation: |
+      エージェントフロントマターの `model: haiku` はセッションのデフォルトを上書きして
+      **その特定のエージェントに使用されるモデル**を設定します。
+
+      これがプランナー/実装者パターンを実装する方法です：
+      ```yaml
+      # planner.md
+      model: opus    # 戦略のための深い推論
+
+      # implementer.md
+      model: haiku   # 機械的な実行のためのコスト効率
+      ```
+
+      各エージェントはその設定されたモデルで独立して実行されます。
+      セッションモデル（デフォルトのSonnet）は影響を受けません。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model per Agent Patterns"
+      anchor: "#model-per-agent-patterns"
+
+  - id: "09-039"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Opus 4.6において `effort` パラメーターは実際に何を制御しますか？"
+    options:
+      a: "思考トークンバジェットのみ（拡張推論のためのトークン数）"
+      b: "全体的な計算バジェット：思考、ツール呼び出し、テキストの冗長性、分析の深さ"
+      c: "応答あたりのツール呼び出しの最大数"
+      d: "低信頼度の出力をフィルタリングする品質ゲート"
+    correct: "b"
+    explanation: |
+      `effort` は**全体的な計算バジェット**を制御します―思考だけではありません。
+
+      `effort: low` の場合：
+      - より少ないツール呼び出し（可能な場合は操作を組み合わせる）
+      - アクション前の説明的な前置きなし
+      - 簡潔な応答
+
+      `effort: high` の場合：
+      - 詳細な説明を伴うより多くのツール呼び出し
+      - 実行前にプランを説明
+      - 包括的な分析とサマリー
+
+      これは思考が無効（Alt+T オフ）の場合でも `effort` が動作に影響することを意味します。
+      これは総合的な効率ダイヤルであり、思考トグルではありません。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-040"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "`effort: low` のツール使用への観察可能な影響は何ですか？"
+    options:
+      a: "Claudeはツールの使用を拒否してメモリからのみ応答する"
+      b: "Claudeはツール操作を組み合わせて呼び出しを最小化し、説明的な前置きをスキップする"
+      c: "Claudeは応答あたり最大3つのツール呼び出しに制限する"
+      d: "Claudeは読み取りツールのみを使用し、書き込みや編集ツールは使用しない"
+    correct: "b"
+    explanation: |
+      `effort: low` の場合、Claudeは効率のために最適化します：
+
+      **ツール使用**：通常は別々の呼び出しになる操作を組み合わせます。
+      読む → 分析する → 読む → 分析するの代わりに、単一のターゲットを絞った読み取りを行うことがあります。
+
+      **前置きなし**：「ファイルを読んで理解します...」という導入をスキップします。
+      アクションは説明なしに直接行われます。
+
+      **結果**：透明性を必要としないタスクのより速く、安価な実行。
+      自動化パイプラインのサブエージェント、分類タスク、ルックアップに最適。
+
+      `low` に適したタスクの例：`"src/ 全体で getUserById を findUserById に名前変更する"`
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-041"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "プランナー/実装者エージェントパターンでは、各役割にどのモデルを使用すべきですか？"
+    options:
+      a: "プランナー：Sonnet、実装者：Haiku"
+      b: "プランナー：Opus、実装者：Sonnet"
+      c: "プランナー：Opus、実装者：Haiku"
+      d: "両方：Sonnet（一貫性がコストより重要）"
+    correct: "c"
+    explanation: |
+      **プランナー：Opus** ― 戦略には深い推論が必要。
+      計画エラーはすべての実装ステップに複合的に影響します。
+      計画段階でキャッチされた間違ったアーキテクチャの決定 = 修正に数分。
+      実装後に同じエラーを発見 = 数日。
+
+      **実装者：Haiku** ― 機械的な実行。
+      アプローチはすでにプランナーによって決定されています。
+      設計上の決定がない = 深い推論が不要。
+      HaikuはOpusの入力トークンより60倍安価。
+
+      **Haikuでは不十分な場合**：実装が判断を必要とする場合は、
+      実装者は決定するのではなく停止して報告すべき―またはSonnetを代わりに使用する。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model per Agent Patterns"
+      anchor: "#model-per-agent-patterns"
+
+  - id: "09-042"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Opus 4.6のAdaptive Thinking（適応的思考）とは何で、Opus 4.5の思考とどう違いますか？"
+    options:
+      a: "Adaptive Thinkingにより、モデルは複雑さに基づいて応答する言語を選択できる"
+      b: "モデルはクエリの複雑さに基づいて推論の深さを動的に割り当て、固定の budget_tokens パラメーターを置き換える"
+      c: "思考は長い推論チェーンのために複数のAPI呼び出しに分割される"
+      d: "Adaptive ThinkingはOpus 4.5 v2.0.67以降と同様に常に最大深度でオン"
+    correct: "b"
+    explanation: |
+      **Opus 4.6 Adaptive Thinking** は固定の `budget_tokens` アプローチを置き換えます。
+
+      | バージョン | 思考制御 |
+      |---------|---------|
+      | Opus 4.5（v2.0.67以前） | キーワードトリガー、固定バジェット（4K/10K/32K） |
+      | Opus 4.5（v2.0.67以降） | Alt+Tで切り替え、最大バジェットで常時オン |
+      | **Opus 4.6** | `effort` パラメーターによる動的な深さ |
+
+      Adaptive Thinkingにより、モデルはクエリが必要とする推論量を決定します：
+      - 単純なルックアップ → 最小限の推論の深さ
+      - マルチシステムアーキテクチャ分析 → 最大の深さ
+
+      `budget_tokens` はOpus 4.6では**非推奨**であり、使用するとエラーが返されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-043"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "`effort: max` を使用すべき場合はいつで、Sonnetで使用するとどうなりますか？"
+    options:
+      a: "複雑なタスクに使用する；SonnetはサイレントにA `effort: high` にダウングレードする"
+      b: "Opus 4.6でのクロスシステム推論にのみ使用する；他のモデルではAPIエラーが返される"
+      c: "最大思考トークンが欲しい場合に使用する；すべてのモデルで機能するがコストが高い"
+      d: "バッチ操作に使用する；Sonnetはツール呼び出しを並列化するために使用する"
+    correct: "b"
+    explanation: |
+      **`effort: max` はOpus 4.6専用です。**
+
+      使用する場面―以下を必要とするタスク：
+      - クロスシステムの競合状態分析
+      - マルチサービスの依存関係トレース
+      - 費用がかかるか不可能な元に戻せない決定
+      - コードベース全体にわたる敵対的セキュリティ推論
+
+      例：
+      ```
+      "order-service、inventory-service、notification-service 間での
+       マイクロサービスイベントパイプラインの競合状態を分析してください"
+      ```
+
+      **他のモデル**（Sonnet、Haiku、Opus 4.5）では：APIがエラーを返します。
+      サイレントにダウングレードされません。別のeffortレベルを明示的に使用する必要があります。
+
+      `effort: high` はデフォルトであり、パラメーターをサポートするモデル全体で機能します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"

@@ -1,0 +1,338 @@
+category: "メモリと設定"
+category_id: 3
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "03-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "CLAUDE.mdファイルの正しい優先順位（高い順）は何ですか？"
+    options:
+      a: "グローバル > プロジェクト > ローカル"
+      b: "ローカル（.claude/CLAUDE.md）> プロジェクト（/project/CLAUDE.md）> グローバル（~/.claude/CLAUDE.md）"
+      c: "プロジェクト > ローカル > グローバル"
+      d: "すべてのCLAUDE.mdファイルは同じ優先順位"
+    correct: "b"
+    explanation: |
+      優先順位は：ローカル（.claude/CLAUDE.md）> プロジェクト（/project/CLAUDE.md）> グローバル（~/.claude/CLAUDE.md）。より具体的なものがより一般的なものより優先されます。ローカルのオーバーライドは個人的なもの（gitignore対象）、プロジェクト設定はチームで共有（コミット済み）、グローバル設定はすべてのプロジェクトに適用されます。この階層により、必要な場合に個人の好みがチームの慣習を上書きできます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.4 Precedence Rules"
+      anchor: "#claudemd-precedence"
+
+  - id: "03-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "バージョン管理を通じてチームと共有するためのチーム規約はどこに保存すべきですか？"
+    options:
+      a: "~/.claude/CLAUDE.md"
+      b: "/project/.claude/CLAUDE.md"
+      c: "/project/CLAUDE.md"
+      d: "/project/.claude/settings.local.json"
+    correct: "c"
+    explanation: |
+      チームの規約は `/project/CLAUDE.md`（プロジェクトルート）に保存すべきです。このファイルはgitにコミットされ、チームと共有されます。ローカルのオーバーライドは `/project/.claude/CLAUDE.md`（gitignore対象）に保存し、個人のグローバルな好みは `~/.claude/CLAUDE.md` に保存します。この分離により、チームの標準が適用される一方で個人のカスタマイズが可能になります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.1 Memory Files (CLAUDE.md)"
+      anchor: "#level-2-project-projectclaudemd"
+
+  - id: "03-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "settings.local.jsonの目的は何ですか？"
+    options:
+      a: "チームのフック設定を保存する"
+      b: "プロジェクト全体の設定を定義する"
+      c: "個人の権限オーバーライド（gitignore対象）"
+      d: "チームのMCPサーバーを設定する"
+    correct: "c"
+    explanation: |
+      settings.local.jsonは個人の権限オーバーライドを保存し、gitignore対象です。チームの設定に影響を与えることなく、個人のワークフロー用にどのツールを自動許可、拒否、または確認を求めるかをカスタマイズできます。例えば、チームが特定の操作に確認を必要とする場合でも、すべてのgitコマンドを許可することができます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#settingslocaljson-personal-permissions"
+
+  - id: "03-004"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "カスタムエージェント、コマンド、フック、スキルが含まれているフォルダーはどれですか？"
+    options:
+      a: "~/.claude/"
+      b: "/project/CLAUDE.md"
+      c: "/project/.claude/"
+      d: "/project/config/"
+    correct: "c"
+    explanation: |
+      プロジェクト内の `.claude/` フォルダーには：agents/（カスタムエージェント定義）、commands/（カスタムスラッシュコマンド）、hooks/（イベント駆動スクリプト）、skills/（知識モジュール）、rules/（自動読み込みの規約）、設定ファイルが含まれます。これはすべての拡張機能のためのプロジェクトのClaude Code設定ディレクトリです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.2 The .claude/ Folder Structure"
+      anchor: "#full-structure"
+
+  - id: "03-005"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "'deny'カテゴリーにリストされているツールの権限動作は何ですか？"
+    options:
+      a: "毎回確認を求める"
+      b: "確認なしに自動承認"
+      c: "完全にブロック"
+      d: "ログに記録するが許可する"
+    correct: "c"
+    explanation: |
+      'deny'カテゴリーのツールは完全にブロックされます―Claudeはそれらをまったく使用できません。3つの権限動作は：'allow'（確認なしに自動承認）、'deny'（完全にブロック）、'ask'（確認を求める）。例えば、「Bash(rm -rf *)」を拒否することで偶発的な破壊的操作を防ぎます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#permission-behavior"
+
+  - id: "03-006"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "マルチツールAIセットアップのための「単一の信頼できる情報源パターン」とは何ですか？"
+    options:
+      a: "プロジェクトごとに1つのAIツールのみを使用する"
+      b: "docs/conventions/ に規約を保存し、すべてのAIツール設定からそれらを参照する"
+      c: "同じルールを各AIツールの設定にコピーする"
+      d: "各AIツールに独自のルールを定義させる"
+    correct: "b"
+    explanation: |
+      単一の信頼できる情報源パターンは、規約を `/docs/conventions/`（coding-standards.md、architecture.md、testing.mdなど）に保存し、CLAUDE.md、CodeRabbit、その他のツールからそれらを参照します。これにより、あるツールが承認したコードを別のツールがフラグを立てるという矛盾を防ぎます。すべてのツールが1つのソースから同じ標準を適用します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.1 Memory Files (CLAUDE.md)"
+      anchor: "#single-source-of-truth-pattern"
+
+  - id: "03-007"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "プロジェクトレベルのCLAUDE.mdファイルに含めるべき内容は何ですか？"
+    options:
+      a: "個人の好みのみ"
+      b: "技術スタック、コード規約、アーキテクチャパターン、共通コマンド"
+      c: "APIキーとシークレット"
+      d: "gitの履歴"
+    correct: "b"
+    explanation: |
+      プロジェクトのCLAUDE.mdには含めるべき内容：技術スタック（フレームワーク、バージョン）、コード規約（命名、パターン）、アーキテクチャ（フォルダー構造、レイヤー）、共通コマンド（開発、テスト、lint）。これによりClaudeにプロジェクトのコンテキストが提供されます。APIキーやシークレットは絶対に含めないでください。例を含めて簡潔に保ち、規約が変更されたら更新してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.1 Memory Files (CLAUDE.md)"
+      anchor: "#level-2-project-projectclaudemd"
+
+  - id: "03-008"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "権限パターン 'Bash(git *)' は何にマッチしますか？"
+    options:
+      a: "正確なコマンド 'git' のみ"
+      b: "任意のgitコマンド"
+      c: "アスタリスクで始まるgitコマンド"
+      d: "グロブパターンを持つgitコマンド"
+    correct: "b"
+    explanation: |
+      パターン 'Bash(git *)' は任意のgitコマンドにマッチします。権限パターンはワイルドカードを使用します：'Bash(git *)' は任意のgitコマンドにマッチ、'Bash(pnpm *)' は任意のpnpmコマンドにマッチ、'mcp__serena__*' はすべてのSerena MCPツールにマッチします。'Bash(git status *)' のように特定のパターンを使用して、git statusのみにマッチさせることもできます。注意：古い ':*' サフィックス構文は非推奨です、代わりにスペースを使用してください（例：'Bash(git:*)' ではなく 'Bash(git *)'）。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#permission-patterns"
+
+  - id: "03-009"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "「ダイナミックメモリ」（プロファイルスイッチング）とは何ですか？"
+    options:
+      a: "セッション間でClaudeが記憶する能力"
+      b: "特定のタスク用にCLAUDE.mdを一時的に変更し、その後復元する"
+      c: "自動メモリ圧縮"
+      d: "デバイス間でメモリを同期する"
+    correct: "b"
+    explanation: |
+      ダイナミックメモリとは、特定のタスク用にCLAUDE.mdを一時的に変更し、その後復元することを意味します。テクニックには：git stash（元のもののstash、変更、復元）、プロファイルライブラリ（~/.claude/profiles/ にsecurity-audit.md、debugging.mdなどのプロファイルを保持）、またはパラレルインスタンス（異なるworktreeで異なるCLAUDE.md）が含まれます。スクリプトでプロファイルを切り替えます：`claude-profile security-audit`。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#dynamic-memory-profile-switching"
+
+  - id: "03-010"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: ".claude/rules/ ディレクトリ内のファイルはどうなりますか？"
+    options:
+      a: "手動でインポートする必要がある"
+      b: "自動的に読み込まれて結合される"
+      c: "CLAUDE.mdを上書きする"
+      d: "参照されない限り無視される"
+    correct: "b"
+    explanation: |
+      `.claude/rules/` 内のファイルは自動的に読み込まれて結合されます。code-conventions.md、git-workflow.md、architecture.mdなどの複数のファイルを作成できます―すべて手動インポートなしに自動的に読み込まれます。これにより、Claudeが従うプロジェクト規約のモジュール的な整理が可能になります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.4 Precedence Rules"
+      anchor: "#rules-auto-loading"
+
+  - id: "03-011"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "gitignoreにすべきものはどれですか？"
+    options:
+      a: "/project/CLAUDE.md"
+      b: ".claude/agents/"
+      c: ".claude/settings.local.json と .claude/CLAUDE.md"
+      d: ".claude/hooks/"
+    correct: "c"
+    explanation: |
+      gitignoreにすべきファイル：.claude/CLAUDE.md（個人のローカル指示）と .claude/settings.local.json（個人の権限）。コミットすべきファイル：agents/、commands/、hooks/、skills/、rules/、settings.json。この分離により、チーム設定を共有しながら個人のカスタマイズが可能です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.2 The .claude/ Folder Structure"
+      anchor: "#what-goes-where"
+
+  - id: "03-012"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "'allowedTools' 設定は権限カテゴリーとどのように異なりますか？"
+    options:
+      a: "同じです"
+      b: "~/.claude/settings.json でツール固有のパターンを使用した細かい制御を提供する"
+      c: "MCPツールにのみ機能する"
+      d: "管理者権限が必要"
+    correct: "b"
+    explanation: |
+      ~/.claude/settings.json の allowedTools 設定は特定のパターンで細かい制御を提供します。例：'Read' はすべての読み取りを許可、'Bash(git status *)' はgit statusのみを許可、'Bash(pnpm *)' はpnpmコマンドを許可。初心者（非常に制限的）から上級者まで段階的な権限レベルを設定できます。--dangerously-skip-permissions は絶対に使用しないでください。注意：「すべての使用」には括弧なしのツール名を使用してください（例：'Read(*)' ではなく 'Read'）。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#allowedtools-configuration-alternative"
+
+  - id: "03-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "macOS/Linuxのグローバル設定パスはどこですか？"
+    options:
+      a: "/etc/claude/"
+      b: "~/.claude/"
+      c: "/usr/local/claude/"
+      d: "~/.config/claude/"
+    correct: "b"
+    explanation: |
+      macOS/Linuxでは、グローバル設定パスは ~/.claude/ です。Windowsでは、%USERPROFILE%\.claude\ または C:\Users\YourName\.claude\ です。このディレクトリにはグローバルCLAUDE.md、設定、そしてダイナミックメモリスイッチング用の profiles/ サブディレクトリが含まれます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "1.1 Installation"
+      anchor: "#platform-specific-paths"
+
+  - id: "03-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "allowedTools における3つの段階的な権限レベルは何ですか？"
+    options:
+      a: "管理者、ユーザー、ゲスト"
+      b: "初心者（非常に制限的）、中級者、上級者"
+      c: "読み取り、書き込み、実行"
+      d: "低、中、高"
+    correct: "b"
+    explanation: |
+      3つの段階的な権限レベルは：初心者（非常に制限的―Read、Grep、Globのみ）、中級者（Bash git/pnpm、TodoRead/Writeを追加）、上級者（Edit、Write、WebFetch、Taskを追加）。制限的なものから始めて、慣れてきたら拡張してください。これにより学習中の事故を防ぎます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#progressive-permission-levels"
+
+  - id: "03-015"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "--dangerously-skip-permissions を絶対に使用すべきでない理由は何ですか？"
+    options:
+      a: "非推奨だから"
+      b: "rm -rf、mainへのforce push、DROP TABLEのような破壊的な操作につながる可能性があるから"
+      c: "コストが高くなるから"
+      d: "遅くなるから"
+    correct: "b"
+    explanation: |
+      --dangerously-skip-permissions を使用してはいけません。破壊的な操作につながる可能性があるからです。恐ろしい話の例：パスエラーで `rm -rf node_modules` に続いて `rm -rf .` を実行、意図せず main に `git push --force` する、不適切に生成されたマイグレーションで `DROP TABLE users` を実行する、資格情報を含む .env ファイルを削除する。代わりに常に細かい allowedTools を使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#-warning-never-use---dangerously-skip-permissions"
+
+  - id: "03-016"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "グローバルCLAUDE.mdには何を含めるべきですか？"
+    options:
+      a: "プロジェクト固有のコード規約"
+      b: "すべてのプロジェクトに適用される個人の好み（コミュニケーションスタイル、好みのツール、安全ルール）"
+      c: "チームメンバーの連絡先情報"
+      d: "gitのコミット履歴"
+    correct: "b"
+    explanation: |
+      グローバルCLAUDE.md（~/.claude/CLAUDE.md）にはすべてのプロジェクトに適用される個人の好みを含めるべきです：コミュニケーションスタイル（簡潔にする、コード例を使用する）、好みのツール（JavaScriptよりTypeScript、npmよりpnpm）、安全ルール（常にテストを実行する、force pushしない）。プロジェクト固有の設定はプロジェクトのCLAUDE.mdに入れます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.1 Memory Files (CLAUDE.md)"
+      anchor: "#level-1-global-claudeclaudemd"
+
+  - id: "03-017"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "settings.json（settings.local.json ではない）には何が保存されますか？"
+    options:
+      a: "個人の権限"
+      b: "リポジトリにコミットされるフック設定"
+      c: "APIキー"
+      d: "コスト追跡データ"
+    correct: "b"
+    explanation: |
+      settings.json にはフック設定が保存され、チーム共有のためにリポジトリにコミットされます。PreToolUse、PostToolUse、UserPromptSubmit イベントのフックを定義し、マッチャーとフックスクリプトを指定します。個人の権限オーバーライドは settings.local.json（gitignore対象）に入ります。この分離により、チームの自動化を維持しながら個人の好みを尊重できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "3.3 Settings & Permissions"
+      anchor: "#settingsjson-team-configuration"
+
+  - id: "03-018"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "包括的な品質チェックのためにガイドが推奨する検証ドメインの数はいくつですか？"
+    options:
+      a: "3ドメイン（lint、テスト、ビルド）"
+      b: "8ドメイン：フロントエンド、バックエンド、型、スタイル、パフォーマンス、アクセシビリティ、セキュリティ、UX"
+      c: "5ドメイン：構文、ロジック、パフォーマンス、セキュリティ、スタイル"
+      d: "12ドメイン：可能なすべてのチェックをカバー"
+    correct: "b"
+    explanation: |
+      Boris Chernyの検証ループは、包括的な品質のために8つのドメインを推奨しています：
+
+      1. フロントエンド（UIが正しくレンダリングされる）
+      2. バックエンド（APIが正しく応答する）
+      3. 型（TypeScript/型チェックが通る）
+      4. スタイル（lintが通る）
+      5. パフォーマンス（パフォーマンスの低下がない）
+      6. アクセシビリティ（WCAG準拠）
+      7. セキュリティ（脆弱性がない）
+      8. UX（ユーザーフローが端から端まで機能する）
+
+      CLAUDE.mdには変更の種類ごとにどのドメインをチェックするかを定義すべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Verification Loops"
+      anchor: "#verification-loops"
+
+  - id: "03-019"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "「フレッシュコンテキストパターン」とは何で、いつ使用すべきですか？"
+    options:
+      a: "テスト前にブラウザのキャッシュをクリアする"
+      b: "蓄積されたノイズを避けるために実装フェーズ後にクリーンなコンテキストで新しいセッションを開始する"
+      c: "gitをクリーンな状態にリセットする"
+      d: ".claudeフォルダーを削除して最初からやり直す"
+    correct: "b"
+    explanation: |
+      フレッシュコンテキストパターンは、探索フェーズと実装フェーズの間に新しいClaude Codeセッションを開始することを意味します。探索中、コンテキストにはノイズが蓄積されます（行き詰まり、拒否されたアプローチ、デバッグ出力）。フレッシュなセッションにより、実装に純粋に集中したクリーンなコンテキストがClaudeに提供され、出力品質が向上します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Fresh Context Pattern"
+      anchor: "#fresh-context-pattern"

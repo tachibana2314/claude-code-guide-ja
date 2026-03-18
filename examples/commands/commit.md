@@ -1,17 +1,17 @@
 ---
 name: commit
-description: "ステージされた変更に対してConventional Commitメッセージを生成"
+description: "ステージされた変更に対して Conventional Commit メッセージを生成する"
 ---
 
 # Conventional Commit
 
-ステージされた変更を分析し、Conventional Commitメッセージを生成する。
+ステージされた変更に対して Conventional Commit メッセージを生成します。
 
 ## 手順
 
-1. `git diff --cached` でステージされた変更を確認
-2. 変更の性質を分析
-3. 以下のフォーマットに従ってコミットメッセージを生成
+1. `git diff --cached` でステージされた変更を確認する
+2. 変更の性質を分析する
+3. 以下のフォーマットに従ってコミットメッセージを生成する
 
 ## コミットフォーマット
 
@@ -35,16 +35,39 @@ description: "ステージされた変更に対してConventional Commitメッ�
 
 ### ルール
 - subject: 命令形、末尾にピリオドなし、最大50文字
-- body: WHATとWHYを説明（HOWではなく）
-- footer: 破壊的変更、Issue参照
+- body: WHAT と WHY を説明（HOW ではなく）
+- footer: 破壊的変更、Issue 参照
 
 ## 例
 
 ```
-feat(auth): パスワードリセット機能を追加
+feat(auth): add password reset functionality
 
-メール認証付きのパスワードリセットフローを実装。
-ユーザーがリセットリンクをリクエストし、新しいパスワードを設定可能に。
+Implement password reset flow with email verification.
+Users can now request a reset link and set new password.
 
 Closes #123
 ```
+
+```
+fix(api): prevent race condition in order processing
+
+Add mutex lock to ensure orders are processed sequentially.
+This fixes duplicate charge issues reported by users.
+
+Fixes #456
+```
+
+```
+refactor(cart): extract pricing logic to separate module
+
+No functional changes. Improves testability and
+separates concerns for future discount feature.
+```
+
+## 実行
+
+ステージされた変更を分析した後、コミットメッセージを提案します。
+`git commit -m "..."` を実行する前に確認を求めます。
+
+$ARGUMENTS

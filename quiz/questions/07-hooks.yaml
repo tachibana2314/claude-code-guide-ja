@@ -1,0 +1,435 @@
+category: "フック"
+category_id: 7
+source_file: "guide/ultimate-guide.md"
+
+questions:
+  - id: "07-001"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "操作をブロックするためにフックが返すべき終了コードはどれですか？"
+    options:
+      a: "0"
+      b: "1"
+      c: "2"
+      d: "255"
+    correct: "c"
+    explanation: |
+      フックの終了コードには特定の意味があります：
+
+      - **終了コード0**：成功―操作の続行を許可
+      - **終了コード2**：ブロック―操作の実行を防止
+      - **その他のコード**：エラー―エラーをログに記録して続行
+
+      これは危険なコマンドを防ぐ必要があるセキュリティフックにとって重要です。
+      例えば、`rm -rf /` を検出したフックは実行をブロックするために `exit 2` を実行すべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#exit-codes"
+
+  - id: "07-002"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ツールが実行される前に発生するフックイベントはどれですか？"
+    options:
+      a: "BeforeToolUse"
+      b: "PreToolUse"
+      c: "ToolStart"
+      d: "OnToolCall"
+    correct: "b"
+    explanation: |
+      `PreToolUse` イベントはどのツールが実行される前にも発生します。
+
+      Claude Codeは17のフックイベントをサポートしています：
+      - **PreToolUse**：ツール実行前（セキュリティ検証）
+      - **PostToolUse**：ツール成功後（フォーマット、ログ記録）
+      - **PostToolUseFailure**：ツール失敗後（エラーログ）
+      - **UserPromptSubmit**：ユーザーがメッセージを送信するとき（コンテキスト強化）
+      - **Notification**：Claudeが通知を送信するとき
+      - **SessionStart/SessionEnd**：セッションライフサイクルイベント
+      - **Stop**：Claudeが応答を終了するとき
+      - **PermissionRequest**：権限ダイアログが表示されるとき
+      - **SubagentStart/SubagentStop**：サブエージェントライフサイクル
+      - **TeammateIdle/TaskCompleted**：エージェントチームイベント
+      - **ConfigChange**：セッション中の設定ファイルの変更
+      - **WorktreeCreate/WorktreeRemove**：ワークツリーライフサイクル
+      - **PreCompact**：コンテキスト圧縮の前
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.1 The Event System"
+      anchor: "#event-types"
+
+  - id: "07-003"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "フックはClaude Codeからどのように入力データを受け取りますか？"
+    options:
+      a: "コマンドライン引数として"
+      b: "stdinへのJSONとして"
+      c: "環境変数として"
+      d: "一時ファイルから"
+    correct: "b"
+    explanation: |
+      フックはイベントに関する情報を含むJSONデータをstdinで受け取ります。
+
+      入力構造の例（共通フィールド + イベント固有フィールド）：
+      ```json
+      {
+        "session_id": "abc123",
+        "transcript_path": "/home/user/.claude/projects/.../transcript.jsonl",
+        "cwd": "/project",
+        "permission_mode": "default",
+        "hook_event_name": "PreToolUse",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "git status"
+        }
+      }
+      ```
+
+      すべてのイベントに送信される共通フィールド：`session_id`、`transcript_path`、`cwd`、`permission_mode`、`hook_event_name`。
+
+      フックは通常、`INPUT=$(cat)` に続いてJSONの抽出に `jq` を使用してこれを解析します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#hook-input-stdin-json"
+
+  - id: "07-004"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "フック登録（settings.json）の `matcher` フィールドは何を指定しますか？"
+    options:
+      a: "監視するファイル拡張子"
+      b: "どのツールがフックをトリガーするかの正規表現パターン"
+      c: "ユーザーの権限レベル"
+      d: "出力フォーマットの要件"
+    correct: "b"
+    explanation: |
+      `matcher` フィールドはどのツールがフックをトリガーするかを決定する正規表現パターンです。
+
+      設定の例：
+      ```json
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [{"type": "command", "command": "./hooks/security-check.sh"}]
+      }
+      ```
+
+      このフックはBash、Edit、またはWriteツールに対してトリガーされます。
+      特定のツールにマッチするか、`.*` を使用してすべてのツールにマッチさせることができます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#configuration-fields"
+
+  - id: "07-005"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "`UserPromptSubmit` フックイベントの最良のユースケースは何ですか？"
+    options:
+      a: "危険なコマンドをブロックする"
+      b: "コードを自動フォーマットする"
+      c: "すべてのプロンプトにgitステータスなどのコンテキストを追加する"
+      d: "通知音を再生する"
+    correct: "c"
+    explanation: |
+      `UserPromptSubmit` イベントはコンテキスト強化に最適です。
+
+      イベントごとのユースケース：
+      - **UserPromptSubmit**：コンテキストを追加（gitステータス、現在のブランチ、ステージされたファイル）
+      - **PreToolUse**：セキュリティ検証（危険なコマンドをブロック）
+      - **PostToolUse**：フォーマット、ログ記録、品質チェック
+      - **SessionStart**：環境を初期化、CLAUDE.mdにインジェクションがないかスキャン
+      - **Notification**：音声アラート、デスクトップ通知
+
+      コンテキストエンリッチャーの例は、gitブランチ、最後のコミット、ステージ済み/未ステージのファイル情報を追加します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.3 Hook Templates"
+      anchor: "#template-3-userpromptsubmit-context-enricher"
+
+  - id: "07-006"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "操作を続行させる終了コードはどれですか？"
+    options:
+      a: "1"
+      b: "0"
+      c: "2"
+      d: "-1"
+    correct: "b"
+    explanation: |
+      終了コード0は成功を意味し、操作の続行を許可します。
+
+      終了コードシステム：
+      - **0**：成功―操作を許可
+      - **2**：ブロック―操作を防止
+      - **その他**：エラー―ログに記録して続行
+
+      操作を許可したい場合は常にフックを `exit 0` で終了し、
+      ブロックしたい場合は `exit 2` で終了してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#exit-codes"
+
+  - id: "07-007"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "セキュリティフックが通常ブロックすべきコマンドはどれですか？"
+    options:
+      a: "git status、npm test"
+      b: "rm -rf /、sudo rm、git push --force origin main"
+      c: "cd、ls、pwd"
+      d: "npm install、pip install"
+    correct: "b"
+    explanation: |
+      セキュリティフックは次のような危険な操作をブロックすべきです：
+
+      - `rm -rf /` または `rm -rf ~` - ファイルシステムの破壊
+      - `sudo rm` - 特権での削除
+      - `git push --force origin main` - 保護されたブランチへのforce push
+      - `npm publish` - 誤ったパッケージ公開
+      - `> /dev/sda` または `dd if=` - 直接ディスク操作
+
+      `git status`、`npm test`、`ls` などの安全なコマンドは許可すべきです。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.4 Security Hooks"
+      anchor: "#recommended-security-rules"
+
+  - id: "07-008"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "フックがClaudeにメッセージを送り返すために返すべきJSON構造は何ですか？"
+    options:
+      a: '{"message": "text"}'
+      b: '{"systemMessage": "text", "hookSpecificOutput": {...}}'
+      c: '{"response": "text"}'
+      d: '{"output": "text"}'
+    correct: "b"
+    explanation: |
+      フックはstdoutに特定のフィールドを持つJSONを返します：
+
+      ```json
+      {
+        "systemMessage": "Claudeに表示されるメッセージ",
+        "hookSpecificOutput": {
+          "additionalContext": "追加情報"
+        }
+      }
+      ```
+
+      - `systemMessage`：Claudeにコンテキストとして表示される
+      - `hookSpecificOutput`：追加の構造化データ
+
+      これにより、フックはClaudeが応答で使用できるコンテキストを提供できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#hook-output"
+
+  - id: "07-009"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "「理解」が必要なタスクと「パターンベース」のタスクに対して推奨されるアプローチは何ですか？"
+    options:
+      a: "両方ともbashスクリプトを使用すべき"
+      b: "両方ともAIエージェントを使用すべき"
+      c: "パターンベースにはbashスクリプト；理解が必要なものにはAIエージェント"
+      d: "パターンベースにはAIエージェント；理解が必要なものにはbashスクリプト"
+    correct: "c"
+    explanation: |
+      ガイドでは適切なツールを選択することを推奨しています：
+
+      **Bashスクリプトを使用する場合：**
+      - タスクが決定論的（ブランチを作成、プッシュ）
+      - パターンベース（正規表現でシークレットをチェック）
+      - 高速、予測可能、トークンコストなし
+
+      **AIエージェントを使用する場合：**
+      - 解釈が必要（コードレビューの品質）
+      - コンテキスト依存の決定
+      - 理解と判断が必要
+
+      ルール：「正規表現で書けるなら、bashスクリプトを使用してください。」
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.1 The Event System"
+      anchor: "#shell-scripts-vs-ai-agents-when-to-use-what"
+
+  - id: "07-010"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "ツールが実行を完了した後に発生するフックイベントはどれですか？"
+    options:
+      a: "AfterToolUse"
+      b: "PostToolUse"
+      c: "ToolComplete"
+      d: "OnToolDone"
+    correct: "b"
+    explanation: |
+      `PostToolUse` イベントはどのツールが実行を完了した後にも発生します。
+
+      PostToolUse の一般的なユースケース：
+      - 編集後にコードを自動フォーマット
+      - ファイル変更後にlinterを実行
+      - 監査のためにツールの使用をログに記録
+      - コード変更後にテストをトリガー
+
+      自動フォーマッターテンプレートはEdit/Write操作後にPrettierを実行するためにPostToolUseを使用します。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.1 The Event System"
+      anchor: "#event-types"
+
+  - id: "07-011"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "デプロイ前にセキュリティフックをテストするにはどうすればよいですか？"
+    options:
+      a: "Claude Codeを実行して動作を期待する"
+      b: "テストJSONをフックスクリプトにパイプして終了コードを確認する"
+      c: "本番環境にデプロイして監視する"
+      d: "セキュリティフックはテストできない"
+    correct: "b"
+    explanation: |
+      テストJSONの入力をパイプして終了コードを確認することでフックをテストします：
+
+      ```bash
+      # ブロックされたコマンドでテスト
+      echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' | ./hooks/security-blocker.sh
+      echo "終了コード: $?"  # 2であるべき
+
+      # 安全なコマンドでテスト
+      echo '{"tool_name":"Bash","tool_input":{"command":"git status"}}' | ./hooks/security-blocker.sh
+      echo "終了コード: $?"  # 0であるべき
+      ```
+
+      これにより、デプロイ前にフックが危険なコマンドを正しくブロックすることが保証されます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.4 Security Hooks"
+      anchor: "#testing-security-hooks"
+
+  - id: "07-012"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Windowsでは、実行ポリシーの制限を避けるためにフックをどのように呼び出すべきですか？"
+    options:
+      a: "管理者として実行"
+      b: "powershell -ExecutionPolicy Bypass -File script.ps1 を使用"
+      c: "すべてのセキュリティ設定を無効にする"
+      d: "バッチファイルのみに変換する"
+    correct: "b"
+    explanation: |
+      WindowsのフックはPowerShellの完全な呼び出しを使用すべきです：
+
+      ```json
+      {
+        "type": "command",
+        "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/security-check.ps1"
+      }
+      ```
+
+      これにより、スクリプトの実行をブロックする可能性があるデフォルトの実行ポリシーをバイパスします。
+      バッチファイル（.cmd）も、よりシンプルなフックの代替として使用できます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.3 Hook Templates"
+      anchor: "#windows-hook-templates"
+
+  - id: "07-013"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "アクティビティロガーフックの例はログを保存するために何を使用しますか？"
+    options:
+      a: "SQLiteデータベース"
+      b: "プレーンテキストファイル"
+      c: "JSONL（JSON Lines）ファイル"
+      d: "CSVファイル"
+    correct: "c"
+    explanation: |
+      アクティビティロガーフックはJSONL形式（JSON Lines）でログを保存します。
+
+      主な機能：
+      - `~/.claude/logs/activity-YYYY-MM-DD.jsonl` にログを記録
+      - 各エントリにはタイムスタンプ、ツール名、セッションIDが含まれる
+      - 7日以上古いログを自動クリーンアップ
+      - JSON構築に `jq` を使用
+
+      JSOALはログファイルに最適です。各行が有効なJSONオブジェクトであり、
+      追加と解析が容易です。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.5 Hook Examples"
+      anchor: "#example-1-activity-logger"
+
+  - id: "07-014"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "設定でのフックのデフォルトタイムアウトはどれくらいですか？"
+    options:
+      a: "1000ms（1秒）"
+      b: "5000ms（5秒）"
+      c: "30000ms（30秒）"
+      d: "デフォルトのタイムアウトなし"
+    correct: "b"
+    explanation: |
+      フック設定の例では5000ms（5秒）のタイムアウトが示されています。
+
+      ```json
+      {
+        "type": "command",
+        "command": ".claude/hooks/security-check.sh",
+        "timeout": 5000
+      }
+      ```
+
+      これにより、フックがClaude Codeを無期限にブロックするのを防ぎます。
+      フォーマットなどの長い操作には、10000msに増やすことがあります。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "7.2 Creating Hooks"
+      anchor: "#hook-registration-settingsjson"
+
+  - id: "07-015"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "フックを非同期で実行させる設定パラメーターは何ですか（v2.1.0以降）？"
+    options:
+      a: "background: true"
+      b: "async: true"
+      c: "nonblocking: true"
+      d: "mode: async"
+    correct: "b"
+    explanation: |
+      Claude Code v2.1.0以降、フックは設定に `async: true` をサポートします。これにより、Claudeの実行をブロックせずにフックが起動されます。ログ、通知、分析フックで、結果を待たずに続行できる場合に役立ちます。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Hook Execution Model"
+      anchor: "#hook-execution-model"
+
+  - id: "07-016"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "同期フックと比較した非同期フックの3つの制限は何ですか？"
+    options:
+      a: "stdinにアクセスできない、ファイルを書き込めない、環境変数を読み取れない"
+      b: "終了コードフィードバックなし（ブロック不可）、additionalContextが返されない、ブロック機能なし"
+      c: "ネットワークを使用できない、プロセスを生成できない、ファイルを読み取れない"
+      d: "1秒のタイムアウトに制限される、stderrのキャプチャなし、引数渡しなし"
+    correct: "b"
+    explanation: |
+      非同期フックはコントロールを速度と引き換えにします：
+
+      1. **終了コードフィードバックなし** - 成功/失敗に基づいてClaudeをブロックできない
+      2. **additionalContextなし** - コンテキストを会話に戻せない
+      3. **ブロック機能なし** - 発火して忘れるのみ
+
+      非重要な操作（ログ記録、テレメトリー）には非同期を使用してください。セキュリティゲート、フォーマット、検証には同期を使用してください。
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Hook Execution Model"
+      anchor: "#hook-execution-model"
