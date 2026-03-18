@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 完全ガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F9F5EE; --bg-warm: #F3EDE4; --surface: #FFFFFF; --surface-hover: #FAF7F2;
+    --border: #E5DDD0; --border-light: #EDE7DB; --text: #1A1612; --text-secondary: #6B5D4F; --text-muted: #9B8E7E;
+    --accent: #D97706; --accent-light: #F59E0B; --accent-bg: #FEF3C7; --accent-border: #FDE68A;
+    --claude-orange: #DA7756; --claude-warm: #C4642A;
+    --red: #DC2626; --red-bg: #FEF2F2; --red-border: #FECACA;
+    --green: #059669; --green-bg: #ECFDF5; --green-border: #A7F3D0;
+    --blue: #2563EB; --blue-bg: #EFF6FF; --blue-border: #BFDBFE;
+    --orange-bg: #FFF7ED; --orange-border: #FED7AA;
+    --purple: #7C3AED; --purple-bg: #F5F3FF; --purple-border: #DDD6FE;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04); --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+    --radius: 12px; --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .header { background: linear-gradient(180deg, #2D1F14 0%, #1A1612 100%); color: #F9F5EE; padding: 3.5rem 2rem 3rem; text-align: center; position: relative; }
+  .header::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 40px; background: var(--bg); border-radius: 24px 24px 0 0; }
+  .header-logo { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+  .header-logo svg { width: 28px; height: 28px; }
+  .header-logo span { font-size: 0.9rem; font-weight: 500; color: rgba(249,245,238,0.6); letter-spacing: 0.05em; text-transform: uppercase; }
+  .header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; color: #F9F5EE; }
+  .header p { color: rgba(249,245,238,0.6); font-size: 0.95rem; }
+  .header .badge-row { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; position: relative; z-index: 1; }
+  .header .badge { display: inline-block; padding: 0.3rem 0.8rem; background: rgba(249,245,238,0.08); border: 1px solid rgba(249,245,238,0.15); border-radius: 99px; font-size: 0.8rem; color: rgba(249,245,238,0.7); }
+  .progress-container { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.7rem 2rem; display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow-sm); }
+  .progress-label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 5px; background: var(--border-light); border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--claude-orange), var(--accent-light)); border-radius: 3px; width: 0%; transition: width 0.5s ease; }
+  .progress-text { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; min-width: 70px; text-align: right; font-variant-numeric: tabular-nums; }
+  .nav { display: flex; gap: 0.4rem; padding: 1rem 2rem; overflow-x: auto; background: var(--bg); flex-wrap: wrap; justify-content: center; max-width: 960px; margin: 0 auto; }
+  .nav-btn { padding: 0.5rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 99px; color: var(--text-secondary); cursor: pointer; font-size: 0.82rem; font-weight: 500; transition: all 0.15s; white-space: nowrap; font-family: inherit; }
+  .nav-btn:hover { border-color: var(--claude-orange); color: var(--claude-warm); background: var(--surface-hover); }
+  .nav-btn.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+  .main { max-width: 800px; margin: 0 auto; padding: 0.5rem 1.5rem 4rem; }
+  .domain-section { display: none; animation: fadeIn 0.25s ease; }
+  .domain-section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .domain-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .domain-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+  .domain-subtitle { color: var(--text-secondary); font-size: 0.92rem; }
+  .task { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.8rem; overflow: hidden; transition: all 0.15s; box-shadow: var(--shadow-sm); }
+  .task:hover { box-shadow: var(--shadow); }
+  .task-header { padding: 1rem 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .task-header h3 { font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; }
+  .task-num { background: var(--text); color: var(--bg); font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .task-arrow { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.25s; }
+  .task.open .task-arrow { transform: rotate(180deg); }
+  .task-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .task.open .task-body { max-height: 20000px; }
+  .task-content { padding: 0 1.2rem 1.2rem; }
+  .card { padding: 1rem 1.1rem; border-radius: var(--radius-sm); margin: 0.8rem 0; border: 1px solid; }
+  .card h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
+  .card h4 .icon { font-size: 1rem; }
+  .card.concept { background: var(--blue-bg); border-color: var(--blue-border); }
+  .card.concept h4 { color: var(--blue); }
+  .card.anti-pattern { background: var(--red-bg); border-color: var(--red-border); }
+  .card.anti-pattern h4 { color: var(--red); }
+  .card.best-practice { background: var(--green-bg); border-color: var(--green-border); }
+  .card.best-practice h4 { color: var(--green); }
+  .card.exam-trap { background: var(--orange-bg); border-color: var(--orange-border); }
+  .card.exam-trap h4 { color: var(--claude-warm); }
+  .card.info { background: var(--purple-bg); border-color: var(--purple-border); }
+  .card.info h4 { color: var(--purple); }
+  ul { padding-left: 1.2rem; margin: 0.4rem 0; }
+  li { margin-bottom: 0.3rem; font-size: 0.92rem; }
+  li::marker { color: var(--text-muted); }
+  p { margin: 0.4rem 0; font-size: 0.92rem; }
+  strong { color: var(--text); font-weight: 600; }
+  code { background: var(--bg-warm); padding: 0.12rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: 'JetBrains Mono', monospace; color: var(--claude-warm); border: 1px solid var(--border-light); }
+  pre { background: #1A1612; border-radius: var(--radius-sm); padding: 1rem 1.2rem; overflow-x: auto; margin: 0.8rem 0; font-size: 0.82rem; line-height: 1.7; }
+  pre code { background: none; padding: 0; color: #E8DFD3; border: none; }
+  .kw { color: #DA7756; } .str { color: #7EC699; } .cmt { color: #7A6E60; } .fn { color: #E8B66D; }
+  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.85rem; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+  th, td { padding: 0.55rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border-light); }
+  th { background: var(--bg-warm); font-weight: 600; color: var(--text); font-size: 0.82rem; }
+  td { background: var(--surface); } tr:last-child td { border-bottom: none; }
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem; margin-bottom: 0.8rem; box-shadow: var(--shadow-sm); }
+  .quiz-q p.q-text { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.8rem; line-height: 1.6; }
+  .quiz-q label { display: block; padding: 0.55rem 0.9rem; margin: 0.25rem 0; border: 1px solid var(--border-light); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; font-size: 0.88rem; line-height: 1.5; }
+  .quiz-q label:hover { background: var(--bg-warm); border-color: var(--border); }
+  .quiz-q input[type="radio"] { display: none; }
+  .quiz-q input[type="radio"]:checked + label { background: var(--accent-bg); border-color: var(--accent); color: var(--claude-warm); font-weight: 500; }
+  .quiz-q .explanation { display: none; margin-top: 0.8rem; padding: 0.9rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.6; }
+  .quiz-q .explanation.correct { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--text); }
+  .quiz-q .explanation.wrong { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--text); }
+  .quiz-submit { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.8rem; background: var(--text); color: var(--bg); border: none; border-radius: 99px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: opacity 0.15s; font-family: inherit; }
+  .quiz-submit:hover { opacity: 0.85; }
+  .score-display { display: none; margin-top: 1.2rem; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); }
+  .score-num { font-size: 2.2rem; font-weight: 700; color: var(--claude-warm); letter-spacing: -0.02em; }
+  .score-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem; }
+  .score-msg { margin-top: 0.8rem; font-size: 0.92rem; color: var(--text-secondary); }
+  .checklist-section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .checklist-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding: 0.6rem 0.8rem; padding-left: 2.2rem; position: relative; cursor: pointer; user-select: none; border-radius: var(--radius-sm); font-size: 0.9rem; transition: background 0.1s; }
+  .checklist li:hover { background: var(--bg-warm); }
+  .checklist li::before { content: ''; position: absolute; left: 0.6rem; top: 0.75rem; width: 15px; height: 15px; border: 2px solid var(--border); border-radius: 4px; transition: all 0.15s; }
+  .checklist li.checked::before { background: var(--claude-orange); border-color: var(--claude-orange); }
+  .checklist li.checked::after { content: '\2713'; position: absolute; left: 0.78rem; top: 0.52rem; color: #fff; font-size: 0.72rem; font-weight: 700; }
+  .checklist li.checked { color: var(--text-muted); text-decoration: line-through; }
+  .footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-light); margin-top: 2rem; }
+  .footer a { color: var(--claude-orange); text-decoration: none; } .footer a:hover { text-decoration: underline; }
+  .build-exercise { background: linear-gradient(135deg, #2D1F14, #1A1612); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; color: #F9F5EE; }
+  .build-exercise h4 { color: #DA7756; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .build-exercise ul { padding-left: 1.2rem; } .build-exercise li { color: #E8DFD3; font-size: 0.88rem; margin-bottom: 0.3rem; } .build-exercise p { color: #E8DFD3; font-size: 0.88rem; }
+  @media (max-width: 768px) { .header { padding: 2.5rem 1rem 2rem; } .header h1 { font-size: 1.5rem; } .main { padding: 0.5rem 1rem 3rem; } .nav { padding: 0.5rem 1rem; gap: 0.3rem; } .nav-btn { font-size: 0.75rem; padding: 0.4rem 0.7rem; } .task-content { padding: 0 1rem 1rem; } .card { padding: 0.8rem 0.9rem; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#DA7756" opacity="0.2"/><path d="M12 6c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2s2-.9 2-2V8c0-1.1-.9-2-2-2zm-4 3c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1zm8 0c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1z" fill="#DA7756"/></svg>
+    <span>Ultimate Guide</span>
+  </div>
+  <h1>Claude Code 完全ガイド</h1>
+  <p>CLI ツールの全機能を網羅した日本語リファレンス</p>
+  <div class="badge-row">
+    <span class="badge">全9セクション</span>
+    <span class="badge">15問 クイズ</span>
+    <span class="badge">チートシート付き</span>
+  </div>
+</div>
+
+<div class="progress-container">
+  <span class="progress-label">学習進捗</span>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 20</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab(0)">はじめに</button>
+  <button class="nav-btn" onclick="showTab(1)">コア概念</button>
+  <button class="nav-btn" onclick="showTab(2)">設定 &amp; メモリ</button>
+  <button class="nav-btn" onclick="showTab(3)">エージェント &amp; スキル</button>
+  <button class="nav-btn" onclick="showTab(4)">MCP &amp; ツール</button>
+  <button class="nav-btn" onclick="showTab(5)">ワークフロー</button>
+  <button class="nav-btn" onclick="showTab(6)">セキュリティ</button>
+  <button class="nav-btn" onclick="showTab(7)">チートシート</button>
+  <button class="nav-btn" onclick="showTab(8)">クイズ</button>
+</div>
+
+<div class="main">
+
+<!-- ==================== TAB 0: はじめに ==================== -->
+<div class="domain-section active" id="tab0">
+<div class="domain-header">
+  <h2 class="domain-title">はじめに</h2>
+  <p class="domain-subtitle">Claude Code のインストールから最初のワークフロー、パーミッションモデルまでの基礎知識</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">1.1</span> Claude Code とは</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> 概要</h4>
+  <p>Claude Code は Anthropic が提供する公式 CLI ツールです。ターミナルから直接 Claude を呼び出し、コードベース全体を理解・編集・実行できるエージェント型の開発支援ツールです。</p>
+  <ul>
+    <li><strong>オーケストレーション層</strong>: Claude Code はモデルとファイルシステムの間に位置するオーケストレーション層として機能する</li>
+    <li><strong>エージェントループ</strong>: 内部では <code>while(tool_call)</code> ループを実行し、モデルが自律的にツールを選択・実行する</li>
+    <li><strong>ツール統合</strong>: Bash、ファイル読み書き、検索などのツールをモデルが自由に使用できる</li>
+    <li><strong>IDE 統合</strong>: VS Code や JetBrains に拡張機能として組み込み可能</li>
+  </ul></div>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 設計哲学</h4>
+  <p><strong>「スキャフォルディングを減らし、モデルを信頼する」</strong> — Claude Code は複雑なパイプラインや分類器を使わず、モデル自身に判断を委ねるシンプルな設計を採用しています。DAG（有向非巡回グラフ）もクラシファイアも RAG も使わず、モデルが全てを決定します。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">1.2</span> インストール</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <p>Node.js 18 以上が必要です。以下のコマンドでグローバルインストールします。</p>
+  <pre><code><span class="cmt"># グローバルインストール</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="cmt"># インストール確認</span>
+claude --version
+
+<span class="cmt"># 初回起動（認証フロー開始）</span>
+claude</code></pre>
+  <div class="card info"><h4><span class="icon">&#9733;</span> 認証方法</h4>
+  <ul>
+    <li><strong>Anthropic アカウント</strong>: ブラウザ経由で OAuth 認証</li>
+    <li><strong>API キー</strong>: <code>ANTHROPIC_API_KEY</code> 環境変数を設定</li>
+    <li><strong>Amazon Bedrock</strong>: <code>--provider bedrock</code> フラグで接続</li>
+    <li><strong>Google Vertex AI</strong>: <code>--provider vertex</code> フラグで接続</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">1.3</span> 最初のワークフロー</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> 基本フロー</h4>
+  <p>Claude Code の基本的な使用フローは以下の4ステップです:</p>
+  <ol>
+    <li><strong>claude</strong> を起動 — ターミナルでプロジェクトディレクトリに移動し <code>claude</code> を実行</li>
+    <li><strong>プロンプト</strong>を入力 — やりたいことを自然言語で記述</li>
+    <li><strong>レビュー</strong> — Claude が提案するファイル変更やコマンドを確認</li>
+    <li><strong>承認</strong> — 問題なければ承認して実行</li>
+  </ol></div>
+  <pre><code><span class="cmt"># プロジェクトディレクトリで起動</span>
+<span class="kw">cd</span> my-project
+claude
+
+<span class="cmt"># ワンショットモード（対話なし）</span>
+claude <span class="str">"src/api.ts のエラーハンドリングを改善して"</span>
+
+<span class="cmt"># パイプモード（CI/CD 用）</span>
+<span class="kw">echo</span> <span class="str">"テストを書いて"</span> | claude -p</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">1.4</span> パーミッションモード</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <p>Claude Code は安全性を確保するため、複数のパーミッションモードを提供しています。<code>Shift+Tab</code> でモードを切り替えられます。</p>
+  <table>
+    <tr><th>モード</th><th>説明</th><th>用途</th></tr>
+    <tr><td><strong>Default</strong></td><td>読み取りは自動許可、書き込み・実行は都度確認</td><td>通常の開発作業</td></tr>
+    <tr><td><strong>acceptEdits</strong></td><td>ファイル編集を自動許可、Bash コマンドは都度確認</td><td>信頼できるコード編集</td></tr>
+    <tr><td><strong>Plan Mode</strong></td><td>読み取り専用。計画のみ立案し実行しない</td><td>調査・設計フェーズ</td></tr>
+    <tr><td><strong>dontAsk</strong></td><td>許可リストのツールを自動承認</td><td>繰り返し作業</td></tr>
+    <tr><td><strong>bypassPermissions</strong></td><td>全ツールを自動承認（Docker 推奨）</td><td>CI/CD、サンドボックス環境</td></tr>
+  </table>
+  <div class="card exam-trap"><h4><span class="icon">!</span> 注意点</h4>
+  <p><code>bypassPermissions</code> はローカル開発では使用しないでください。必ず Docker 等のサンドボックス環境で使用すること。セキュリティリスクが非常に高いモードです。</p></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 1: コア概念 ==================== -->
+<div class="domain-section" id="tab1">
+<div class="domain-header">
+  <h2 class="domain-title">コア概念</h2>
+  <p class="domain-subtitle">マスターループ、コアツール、コンテキスト管理 — Claude Code の内部動作を理解する</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.1</span> マスターループ</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> while(tool_call) ループ</h4>
+  <p>Claude Code の中核は極めてシンプルな <code>while(tool_call)</code> ループです。DAG（有向非巡回グラフ）もクラシファイアも RAG も使用せず、モデルが全てを決定します。</p>
+  <ul>
+    <li>モデルにプロンプトとツール定義を送信</li>
+    <li><code>stop_reason</code> を検査: <code>"tool_use"</code> ならツール実行 → 結果を履歴に追加 → 再送信</li>
+    <li><code>stop_reason</code> が <code>"end_turn"</code> なら完了</li>
+    <li>モデルがどのツールをいつ使うか自律的に判断する</li>
+  </ul></div>
+  <pre><code><span class="cmt"># Claude Code の内部ループ（簡略化）</span>
+<span class="kw">while</span> True:
+    response = <span class="fn">call_model</span>(messages, tools)
+    <span class="kw">if</span> response.stop_reason == <span class="str">"end_turn"</span>:
+        <span class="kw">break</span>  <span class="cmt"># 完了</span>
+    <span class="kw">for</span> block <span class="kw">in</span> response.content:
+        <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
+            result = <span class="fn">execute_tool</span>(block)
+            messages.append(response)
+            messages.append(<span class="fn">tool_result</span>(result))</code></pre>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> stop_reason によるループ制御</h4>
+  <p><code>stop_reason</code> は2つの値を取ります:</p>
+  <ul>
+    <li><code>end_turn</code> — モデルがタスク完了と判断。ループを終了する。</li>
+    <li><code>tool_use</code> — モデルがツール呼び出しを要求。ツールを実行し結果を返す。</li>
+  </ul>
+  <p><strong>重要:</strong> テキスト内容や自然言語で完了を判定してはいけない。<code>stop_reason</code> のみが信頼できる終了条件。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.2</span> 8つのコアツール</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <p>Claude Code はモデルに以下の8つのコアツールを提供します。モデルはタスクに応じてこれらを自律的に選択します。</p>
+  <table>
+    <tr><th>ツール</th><th>機能</th><th>用途</th></tr>
+    <tr><td><code>Bash</code></td><td>シェルコマンド実行</td><td>ビルド、テスト、git操作、任意のCLI</td></tr>
+    <tr><td><code>Read</code></td><td>ファイル読み取り</td><td>ソースコード閲覧、設定確認</td></tr>
+    <tr><td><code>Edit</code></td><td>部分的なファイル編集</td><td>既存ファイルの修正（差分ベース）</td></tr>
+    <tr><td><code>Write</code></td><td>ファイル全体の書き込み</td><td>新規ファイル作成、全面書き換え</td></tr>
+    <tr><td><code>Grep</code></td><td>正規表現検索</td><td>コード内のパターン検索</td></tr>
+    <tr><td><code>Glob</code></td><td>ファイルパターンマッチ</td><td>ファイル名でのファイル検索</td></tr>
+    <tr><td><code>Task</code></td><td>サブエージェント生成</td><td>独立した調査・実行タスクの委譲</td></tr>
+    <tr><td><code>TodoWrite</code></td><td>TODO リスト管理</td><td>タスク進捗の追跡</td></tr>
+  </table>
+  <div class="card info"><h4><span class="icon">&#9733;</span> Grep vs Glob の使い分け</h4>
+  <ul>
+    <li><strong>Grep</strong>: ファイル<em>内容</em>を検索（「この関数を呼んでいる箇所は？」）</li>
+    <li><strong>Glob</strong>: ファイル<em>名</em>を検索（「*.test.ts ファイルはどこに？」）</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.3</span> 200K トークンバジェット</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> コンテキストウィンドウの構造</h4>
+  <p>Claude Code は 200K トークンのコンテキストウィンドウを以下の要素で共有します:</p>
+  <ul>
+    <li><strong>システムプロンプト</strong> — ツール定義、CLAUDE.md の内容、パーミッション設定</li>
+    <li><strong>会話履歴</strong> — ユーザーメッセージとアシスタントレスポンスの全履歴</li>
+    <li><strong>ツール結果</strong> — ファイル内容、コマンド出力、検索結果など</li>
+    <li><strong>レスポンスバッファ</strong> — モデルが応答を生成するための余白</li>
+  </ul></div>
+  <div class="card exam-trap"><h4><span class="icon">!</span> コンテキスト管理の重要性</h4>
+  <p>大きなファイルを読み込んだり、長い出力を持つコマンドを実行すると、コンテキストウィンドウが急速に消費されます。これが Claude Code の最大の制約であり、効果的な使用にはコンテキスト管理が不可欠です。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.4</span> サブエージェント（Task ツール）</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> サブエージェント = 分離</h4>
+  <p><code>Task</code> ツールで生成されるサブエージェントは以下の特徴があります:</p>
+  <ul>
+    <li><strong>独自のコンテキスト</strong>: メインエージェントのコンテキストを汚さずに作業できる</li>
+    <li><strong>depth=1</strong>: サブエージェントはさらにサブエージェントを生成できない（1階層のみ）</li>
+    <li><strong>結果の要約</strong>: サブエージェントの出力は要約されてメインエージェントに返される</li>
+    <li><strong>メモリ非共有</strong>: 親エージェントの会話履歴にはアクセスできない</li>
+  </ul></div>
+  <pre><code><span class="cmt"># サブエージェントの使用例（内部的な動作）</span>
+<span class="cmt"># メインエージェントが Task ツールを呼び出すと:</span>
+<span class="cmt"># 1. 新しいコンテキストでサブエージェントが起動</span>
+<span class="cmt"># 2. 指定されたプロンプトに基づいて作業</span>
+<span class="cmt"># 3. 結果を要約してメインに返却</span>
+<span class="cmt"># 4. メインのコンテキストは要約分しか消費しない</span></code></pre>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> サブエージェントの活用場面</h4>
+  <ul>
+    <li>大量のファイルを調査する必要がある場合（調査結果のみ受け取る）</li>
+    <li>独立した小タスク（テスト作成、リファクタリングなど）</li>
+    <li>メインのコンテキストを節約したい場合</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">2.5</span> 自動コンパクション</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> コンテキスト自動管理</h4>
+  <p>コンテキストウィンドウの使用率が <strong>75-92%</strong> に達すると、Claude Code は自動的にコンパクション（圧縮）を実行します。</p>
+  <ul>
+    <li>古い会話履歴を要約して圧縮</li>
+    <li>重要な情報（ファイルパス、決定事項など）は保持</li>
+    <li>ツール結果の詳細は要約に置き換え</li>
+  </ul></div>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 手動コンパクション</h4>
+  <p><code>/compact</code> コマンドで手動でもコンパクションを実行できます。コンテキストの使用率が高くなってきたら、重要な作業の前に手動で実行するとよいでしょう。</p></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 2: 設定 & メモリ ==================== -->
+<div class="domain-section" id="tab2">
+<div class="domain-header">
+  <h2 class="domain-title">設定 &amp; メモリ</h2>
+  <p class="domain-subtitle">CLAUDE.md、.claude/ フォルダ、settings.json — プロジェクトとユーザーレベルの設定管理</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">3.1</span> CLAUDE.md ヒエラルキー</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> 3レベルの CLAUDE.md</h4>
+  <p>CLAUDE.md はプロジェクトの指示書として機能し、3つのレベルで階層的に読み込まれます。</p></div>
+  <table>
+    <tr><th>レベル</th><th>パス</th><th>用途</th><th>Git管理</th></tr>
+    <tr><td><strong>企業/ユーザー</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>個人のグローバル設定・スタイル</td><td>いいえ</td></tr>
+    <tr><td><strong>プロジェクト（共有）</strong></td><td><code>./CLAUDE.md</code></td><td>チーム共有のプロジェクトルール</td><td>はい</td></tr>
+    <tr><td><strong>プロジェクト（個人）</strong></td><td><code>./.claude/CLAUDE.local.md</code></td><td>個人のプロジェクト固有設定</td><td>いいえ</td></tr>
+  </table>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> CLAUDE.md のベストプラクティス</h4>
+  <ul>
+    <li>コーディング規約、テスト方針、アーキテクチャの決定事項を記載</li>
+    <li>簡潔に書く（冗長な説明はコンテキストを浪費）</li>
+    <li>チーム共有の規約は <code>./CLAUDE.md</code> に、個人の好みは <code>.claude/CLAUDE.local.md</code> に</li>
+  </ul></div>
+  <pre><code><span class="cmt"># CLAUDE.md の例</span>
+<span class="cmt"># プロジェクトルール</span>
+
+<span class="cmt">## コーディング規約</span>
+- TypeScript を使用、any 型は禁止
+- テストは vitest で書く
+- コミットメッセージは Conventional Commits 形式
+
+<span class="cmt">## アーキテクチャ</span>
+- src/api/ に API ルートを配置
+- src/lib/ に共有ユーティリティ
+- src/components/ に React コンポーネント</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">3.2</span> .claude/ フォルダ構造</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <pre><code>.claude/
+  ├── CLAUDE.local.md    <span class="cmt"># 個人用プロジェクト設定（gitignore）</span>
+  ├── settings.json      <span class="cmt"># プロジェクト共有設定</span>
+  ├── settings.local.json<span class="cmt"># 個人用設定（gitignore）</span>
+  ├── agents/            <span class="cmt"># カスタムエージェント定義</span>
+  │   ├── code-reviewer.md
+  │   └── test-writer.md
+  ├── skills/            <span class="cmt"># スキル定義</span>
+  │   └── deploy/
+  │       └── SKILL.md
+  ├── commands/          <span class="cmt"># カスタムコマンド</span>
+  │   └── fix-lint.md
+  └── rules/             <span class="cmt"># パス固有ルール</span>
+      └── test-rules.md</code></pre>
+  <div class="card info"><h4><span class="icon">&#9733;</span> settings.json vs settings.local.json</h4>
+  <ul>
+    <li><code>settings.json</code>: チーム共有の設定（Git 管理）。許可ツール、MCP サーバー、フック定義など</li>
+    <li><code>settings.local.json</code>: 個人の設定（.gitignore 対象）。個人の API キーやローカル環境固有の設定</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">3.3</span> @import 構文とパスルール</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> @import で外部ファイルを参照</h4>
+  <p>CLAUDE.md 内で <code>@import</code> を使うと、他のマークダウンファイルを読み込めます。</p></div>
+  <pre><code><span class="cmt"># CLAUDE.md 内での @import 使用例</span>
+@import docs/coding-standards.md
+@import docs/api-conventions.md</code></pre>
+  <div class="card concept"><h4><span class="icon">&#9670;</span> .claude/rules/ による glob パターンルール</h4>
+  <p><code>.claude/rules/</code> ディレクトリにマークダウンファイルを配置し、フロントマターで glob パターンを指定すると、特定のファイルパスに対してのみルールを適用できます。</p></div>
+  <pre><code><span class="cmt"># .claude/rules/test-rules.md</span>
+---
+globs: **/*.test.ts, **/*.spec.ts
+---
+
+テストファイルでは以下のルールに従うこと:
+- describe/it 形式で記述
+- モックは vi.mock() を使用
+- アサーションは expect() を使用</code></pre>
+  <pre><code><span class="cmt"># .claude/rules/api-rules.md</span>
+---
+globs: src/api/**/*.ts
+---
+
+API ルートでは:
+- Zod でリクエストバリデーション
+- エラーは AppError クラスでラップ
+- レスポンスは統一フォーマット</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">3.4</span> メモリレベル</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>レベル</th><th>場所</th><th>スコープ</th><th>例</th></tr>
+    <tr><td><strong>プロジェクト</strong></td><td><code>.claude/</code></td><td>このプロジェクトのみ</td><td>コーディング規約、アーキテクチャ</td></tr>
+    <tr><td><strong>パーソナル</strong></td><td><code>~/.claude/</code></td><td>全プロジェクト共通</td><td>エディタ設定、個人的なスタイル</td></tr>
+  </table>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> /memory コマンド</h4>
+  <p><code>/memory</code> コマンドを使うと、現在読み込まれている CLAUDE.md のソースとその優先順位をデバッグできます。メモリ関連の問題が発生した場合にまず使うべきコマンドです。</p></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 3: エージェント & スキル ==================== -->
+<div class="domain-section" id="tab3">
+<div class="domain-header">
+  <h2 class="domain-title">エージェント &amp; スキル</h2>
+  <p class="domain-subtitle">カスタムエージェント、スキル、コマンド、フックの定義と使い分け</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.1</span> カスタムエージェント</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> .claude/agents/ ディレクトリ</h4>
+  <p>カスタムエージェントは <code>.claude/agents/</code> にマークダウンファイルとして定義します。フロントマターで名前、説明、モデル、使用可能ツールを指定します。</p></div>
+  <pre><code><span class="cmt"># .claude/agents/code-reviewer.md</span>
+---
+name: コードレビュアー
+description: コードの品質、セキュリティ、パフォーマンスをレビュー
+model: claude-sonnet-4-6
+tools:
+  - Read
+  - Grep
+  - Glob
+---
+
+あなたはコードレビューの専門家です。
+以下の観点でレビューしてください:
+1. コード品質とベストプラクティス
+2. セキュリティの脆弱性
+3. パフォーマンスの問題
+4. テストカバレッジの不足</code></pre>
+  <div class="card info"><h4><span class="icon">&#9733;</span> 主要エージェント例</h4>
+  <table>
+    <tr><th>エージェント</th><th>用途</th><th>推奨ツール</th></tr>
+    <tr><td><strong>code-reviewer</strong></td><td>コードレビュー</td><td>Read, Grep, Glob</td></tr>
+    <tr><td><strong>test-writer</strong></td><td>テスト自動生成</td><td>Read, Write, Bash</td></tr>
+    <tr><td><strong>security-auditor</strong></td><td>セキュリティ監査</td><td>Read, Grep, Glob</td></tr>
+    <tr><td><strong>refactoring-specialist</strong></td><td>リファクタリング</td><td>Read, Edit, Grep, Bash</td></tr>
+  </table></div>
+  <p>エージェントは <code>@agent-name</code> で呼び出せます:</p>
+  <pre><code><span class="cmt"># エージェントの呼び出し</span>
+@code-reviewer src/api/users.ts をレビューして</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.2</span> スキル</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> .claude/skills/ ディレクトリ</h4>
+  <p>スキルは特定の手順やワークフローをカプセル化したものです。<code>SKILL.md</code> にフロントマター付きで定義します。</p></div>
+  <pre><code><span class="cmt"># .claude/skills/deploy/SKILL.md</span>
+---
+context: fork
+allowed-tools:
+  - Bash
+  - Read
+argument-hint: "デプロイ先の環境名 (staging|production)"
+---
+
+# デプロイ手順
+
+1. テストを実行: `npm test`
+2. ビルド: `npm run build`
+3. 環境変数を確認
+4. デプロイコマンドを実行</code></pre>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> context: fork の意味</h4>
+  <p><code>context: fork</code> を指定すると、スキルの実行がサブエージェント内で行われ、冗長な出力がメインの会話コンテキストに流れ込むのを防ぎます。メインの会話がクリーンに保たれるため、出力が多いスキルには積極的に使用しましょう。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.3</span> コマンド</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> カスタムコマンド（スラッシュコマンド）</h4>
+  <p>コマンドは <code>/command-name</code> で呼び出せる再利用可能なプロンプトです。</p></div>
+  <table>
+    <tr><th>スコープ</th><th>パス</th><th>共有</th></tr>
+    <tr><td><strong>プロジェクト</strong></td><td><code>.claude/commands/</code></td><td>チームで共有（Git管理）</td></tr>
+    <tr><td><strong>パーソナル</strong></td><td><code>~/.claude/commands/</code></td><td>個人のみ</td></tr>
+  </table>
+  <pre><code><span class="cmt"># .claude/commands/fix-lint.md</span>
+ESLint エラーを全て修正してください。
+1. `npm run lint` でエラーを確認
+2. 各エラーを適切に修正
+3. `npm run lint` で修正を確認
+4. 残りのエラーがあれば繰り返す</code></pre>
+  <p>使用方法:</p>
+  <pre><code><span class="cmt"># コマンドの呼び出し</span>
+/fix-lint</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.4</span> フック</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> settings.json でのフック定義</h4>
+  <p>フックはツール実行の前後に自動実行されるスクリプトです。セキュリティチェックや自動フォーマットに使用します。</p></div>
+  <pre><code><span class="cmt">// .claude/settings.json</span>
+{
+  <span class="str">"hooks"</span>: {
+    <span class="str">"PreToolUse"</span>: [
+      {
+        <span class="str">"tool"</span>: <span class="str">"Bash"</span>,
+        <span class="str">"command"</span>: <span class="str">"bash .claude/hooks/validate-command.sh"</span>
+      }
+    ],
+    <span class="str">"PostToolUse"</span>: [
+      {
+        <span class="str">"tool"</span>: <span class="str">"Write"</span>,
+        <span class="str">"command"</span>: <span class="str">"bash .claude/hooks/auto-format.sh"</span>
+      }
+    ]
+  }
+}</code></pre>
+  <div class="card info"><h4><span class="icon">&#9733;</span> フックのタイミング</h4>
+  <ul>
+    <li><strong>PreToolUse</strong>: ツール実行<em>前</em>に実行。危険なコマンドのブロックに使用。</li>
+    <li><strong>PostToolUse</strong>: ツール実行<em>後</em>に実行。フォーマット、バリデーションに使用。</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">4.5</span> 判断ガイド: どれを使うべきか</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>機能</th><th>用途</th><th>コンテキスト</th><th>呼び出し方</th></tr>
+    <tr><td><strong>エージェント</strong></td><td>特定の役割・ペルソナ</td><td>独自のモデル・ツール設定</td><td><code>@agent-name</code></td></tr>
+    <tr><td><strong>スキル</strong></td><td>手順・ワークフロー</td><td>fork 可能（分離）</td><td><code>/skill-name</code></td></tr>
+    <tr><td><strong>コマンド</strong></td><td>再利用プロンプト</td><td>メインコンテキスト内</td><td><code>/command-name</code></td></tr>
+    <tr><td><strong>フック</strong></td><td>自動チェック・変換</td><td>ツール実行の前後</td><td>自動（設定ベース）</td></tr>
+  </table>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 選択の指針</h4>
+  <ul>
+    <li>特定の専門家の視点が必要 → <strong>エージェント</strong></li>
+    <li>複数ステップの手順を標準化したい → <strong>スキル</strong></li>
+    <li>よく使うプロンプトを保存したい → <strong>コマンド</strong></li>
+    <li>毎回自動で実行したいチェック → <strong>フック</strong></li>
+  </ul></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 4: MCP & ツール ==================== -->
+<div class="domain-section" id="tab4">
+<div class="domain-header">
+  <h2 class="domain-title">MCP &amp; ツール</h2>
+  <p class="domain-subtitle">Model Context Protocol による外部ツール統合、設定方法、コミュニティサーバー</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.1</span> MCP とは</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> Model Context Protocol</h4>
+  <p>MCP（Model Context Protocol）は、LLM と外部ツール・データソースを接続するためのオープンプロトコルです。Claude Code はMCPクライアントとして機能し、外部の MCP サーバーが提供するツールを使用できます。</p>
+  <ul>
+    <li><strong>統一インターフェース</strong>: 異なるサービスでも同じプロトコルで統合</li>
+    <li><strong>双方向通信</strong>: ツール呼び出しだけでなく、リソース（コンテンツカタログ）も提供</li>
+    <li><strong>セキュリティ</strong>: ツールごとの許可制御が可能</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.2</span> MCP 設定</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> 設定ファイルの配置</h4>
+  <table>
+    <tr><th>ファイル</th><th>スコープ</th><th>用途</th></tr>
+    <tr><td><code>.mcp.json</code></td><td>プロジェクト</td><td>プロジェクト固有の MCP サーバー</td></tr>
+    <tr><td><code>~/.claude.json</code></td><td>ユーザー</td><td>全プロジェクト共通の MCP サーバー</td></tr>
+  </table></div>
+  <pre><code><span class="cmt">// .mcp.json の例</span>
+{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"github"</span>: {
+      <span class="str">"command"</span>: <span class="str">"npx"</span>,
+      <span class="str">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@modelcontextprotocol/server-github"</span>],
+      <span class="str">"env"</span>: {
+        <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"${GITHUB_TOKEN}"</span>
+      }
+    },
+    <span class="str">"filesystem"</span>: {
+      <span class="str">"command"</span>: <span class="str">"npx"</span>,
+      <span class="str">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@modelcontextprotocol/server-filesystem"</span>, <span class="str">"/path/to/dir"</span>]
+    }
+  }
+}</code></pre>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 環境変数の展開</h4>
+  <p><code>${GITHUB_TOKEN}</code> のような構文で環境変数を参照できます。シークレットをファイルに直接書かずに済むため、セキュリティが向上します。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.3</span> コミュニティ MCP サーバー</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>サーバー</th><th>機能</th><th>パッケージ</th></tr>
+    <tr><td><strong>GitHub</strong></td><td>PR、Issue、リポジトリ操作</td><td><code>@modelcontextprotocol/server-github</code></td></tr>
+    <tr><td><strong>Slack</strong></td><td>メッセージ送受信、チャンネル管理</td><td><code>@modelcontextprotocol/server-slack</code></td></tr>
+    <tr><td><strong>Filesystem</strong></td><td>ファイルシステムアクセス</td><td><code>@modelcontextprotocol/server-filesystem</code></td></tr>
+    <tr><td><strong>Database</strong></td><td>SQL クエリ実行</td><td>各DB用の MCP サーバー</td></tr>
+    <tr><td><strong>Jira</strong></td><td>チケット管理</td><td>コミュニティ製サーバー</td></tr>
+  </table>
+  <div class="card exam-trap"><h4><span class="icon">!</span> Build vs Use の判断</h4>
+  <ul>
+    <li><strong>既存サーバーを使用</strong>: 一般的なサービス（GitHub, Slack等）にはコミュニティサーバーを使用</li>
+    <li><strong>カスタムサーバーを構築</strong>: 社内システムや独自 API への接続が必要な場合</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">5.4</span> tool_choice とリソース</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> tool_choice オプション</h4>
+  <table>
+    <tr><th>値</th><th>動作</th><th>用途</th></tr>
+    <tr><td><code>auto</code></td><td>モデルが自由にツール選択（デフォルト）</td><td>通常のエージェントループ</td></tr>
+    <tr><td><code>any</code></td><td>モデルは必ず何かのツールを使用</td><td>ツール使用を強制したい場合</td></tr>
+    <tr><td><code>forced</code>（特定ツール名）</td><td>指定したツールを必ず使用</td><td>特定の操作を強制したい場合</td></tr>
+  </table></div>
+  <div class="card info"><h4><span class="icon">&#9733;</span> MCP リソース</h4>
+  <p>MCP サーバーはツールだけでなく「リソース」も提供できます。リソースはコンテンツカタログとして機能し、モデルが参照できるドキュメントやデータを提供します。ツールが「アクション」なら、リソースは「情報源」です。</p></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 5: ワークフロー ==================== -->
+<div class="domain-section" id="tab5">
+<div class="domain-header">
+  <h2 class="domain-title">ワークフロー</h2>
+  <p class="domain-subtitle">TDD、仕様駆動開発、Plan Mode、CI/CD 統合、デュアルインスタンスパターン</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.1</span> TDD with Claude Code</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> Red-Green-Refactor</h4>
+  <p>Claude Code を使ったテスト駆動開発の流れ:</p>
+  <ol>
+    <li><strong>Red</strong>: 「この関数のテストを書いて。まだ実装していないので失敗するはず」</li>
+    <li><strong>Green</strong>: 「テストが通る最小限の実装を書いて」</li>
+    <li><strong>Refactor</strong>: 「テストを維持しながらリファクタリングして」</li>
+  </ol></div>
+  <pre><code><span class="cmt"># TDD ワークフロー例</span>
+<span class="cmt"># Step 1: テスト作成</span>
+&gt; src/utils/validate.ts の email バリデーション関数の
+  テストを書いて。関数はまだ未実装。
+
+<span class="cmt"># Step 2: 実装</span>
+&gt; テストが全て通る実装を書いて
+
+<span class="cmt"># Step 3: リファクタリング</span>
+&gt; テストを壊さずにリファクタリングして</code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.2</span> 仕様駆動開発 (Spec-First)</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 設計 → 仕様 → 実装</h4>
+  <ul>
+    <li><strong>Step 1</strong>: Plan Mode で設計を議論（ファイルは変更しない）</li>
+    <li><strong>Step 2</strong>: 仕様をマークダウンまたはテストとして記述</li>
+    <li><strong>Step 3</strong>: 仕様に基づいて実装</li>
+  </ul>
+  <p>このアプローチにより、Claude が意図と異なる方向に進むリスクを大幅に軽減できます。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.3</span> Plan Mode 駆動開発</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> Plan Mode の活用法</h4>
+  <p>Plan Mode（<code>Shift+Tab</code> で切替）は読み取り専用モードです。以下のフローで使用します:</p>
+  <ol>
+    <li><strong>調査フェーズ</strong>: Plan Mode でコードベースを調査・理解</li>
+    <li><strong>計画フェーズ</strong>: 変更計画を立案・レビュー</li>
+    <li><strong>実行フェーズ</strong>: 通常モードに切り替えて実装</li>
+  </ol></div>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> インタビューパターン</h4>
+  <p>Claude に質問を促すパターンも効果的です: 「この機能を実装する前に、確認したいことがあれば質問して」。Claude が要件の曖昧さを特定し、より良い実装に繋がります。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.4</span> 反復的改善</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 効果的なプロンプトの原則</h4>
+  <ul>
+    <li><strong>具体例 &gt; 散文</strong>: 「良いエラーメッセージを書いて」より「"User not found (id: 123)" のような形式で」</li>
+    <li><strong>テスト駆動</strong>: 期待する動作をテストで定義してから実装を依頼</li>
+    <li><strong>小さな単位</strong>: 大きなタスクは分割して段階的に依頼</li>
+    <li><strong>フィードバックループ</strong>: 結果を確認し、修正を繰り返す</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.5</span> CI/CD 統合</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> パイプモード (-p フラグ)</h4>
+  <p><code>-p</code> フラグを使うと、Claude Code を非対話モードで実行できます。CI/CD パイプラインでの自動化に最適です。</p></div>
+  <pre><code><span class="cmt"># CI/CD での使用例</span>
+
+<span class="cmt"># コードレビュー自動化</span>
+claude -p <span class="str">"このPRの変更をレビューして"</span> --output-format json
+
+<span class="cmt"># テスト生成</span>
+claude -p <span class="str">"変更されたファイルのテストを生成して"</span>
+
+<span class="cmt"># セキュリティチェック</span>
+claude -p <span class="str">"セキュリティ上の問題がないか確認して"</span></code></pre>
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> CI/CD のベストプラクティス</h4>
+  <ul>
+    <li><code>--output-format json</code> で構造化出力を取得し、パイプラインで処理</li>
+    <li>レビュー用に独立したインスタンスを使用（開発インスタンスとは分離）</li>
+    <li>コスト管理のために <code>max_tokens</code> を適切に設定</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.6</span> デュアルインスタンスパターン</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card info"><h4><span class="icon">&#9733;</span> 計画と実行の分離</h4>
+  <p>2つの Claude Code インスタンスを同時に使用するパターン:</p>
+  <ul>
+    <li><strong>インスタンス 1（Plan Mode）</strong>: 設計・計画・レビューに使用</li>
+    <li><strong>インスタンス 2（通常モード）</strong>: 実際のコード変更に使用</li>
+  </ul>
+  <p>これにより、計画のコンテキストと実行のコンテキストを分離でき、それぞれのコンテキストウィンドウを効率的に使用できます。</p></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">6.7</span> コンテキスト使用率の目安</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>使用率</th><th>状態</th><th>推奨アクション</th></tr>
+    <tr><td style="color: var(--green); font-weight: 600;">0-50%</td><td>安全</td><td>通常通り作業を継続</td></tr>
+    <tr><td style="color: var(--accent); font-weight: 600;">50-70%</td><td>注意</td><td>大きなファイル読み込みに注意</td></tr>
+    <tr><td style="color: var(--claude-orange); font-weight: 600;">70-90%</td><td>警告</td><td><code>/compact</code> を実行して圧縮</td></tr>
+    <tr><td style="color: var(--red); font-weight: 600;">90%+</td><td>危険</td><td><code>/clear</code> で新しいセッションを開始</td></tr>
+  </table>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 6: セキュリティ ==================== -->
+<div class="domain-section" id="tab6">
+<div class="domain-header">
+  <h2 class="domain-title">セキュリティ</h2>
+  <p class="domain-subtitle">脅威モデル、MCP サーバー検証、サンドボックス、フックベースのセキュリティ</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.1</span> 脅威カテゴリ</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card anti-pattern"><h4><span class="icon">&#10005;</span> 主要な脅威</h4>
+  <table>
+    <tr><th>脅威</th><th>説明</th><th>対策</th></tr>
+    <tr><td><strong>プロンプトインジェクション</strong></td><td>悪意のある指示がデータに埋め込まれ、モデルの動作を変える</td><td>入力検証、フックでの検出</td></tr>
+    <tr><td><strong>データ流出</strong></td><td>機密データが外部に送信される</td><td>ネットワーク制限、コマンド監視</td></tr>
+    <tr><td><strong>MCP ラグプル</strong></td><td>信頼していた MCP サーバーが悪意のある更新を配信</td><td>バージョン固定、コードレビュー</td></tr>
+  </table></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.2</span> MCP サーバー検証チェックリスト</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 導入前の確認事項</h4>
+  <ul>
+    <li>ソースコードが公開されているか確認</li>
+    <li>npm / GitHub でのダウンロード数・スター数を確認</li>
+    <li>最終更新日が最近であることを確認</li>
+    <li>ツール定義を読み、不要な権限がないか確認</li>
+    <li>環境変数で渡す認証情報を最小限にする</li>
+    <li>バージョンを固定し、自動更新を避ける</li>
+    <li>可能であればサンドボックス内でテスト</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.3</span> サンドボックス分離</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card concept"><h4><span class="icon">&#9670;</span> Docker によるサンドボックス</h4>
+  <p>本番環境や CI/CD では Docker コンテナ内で Claude Code を実行することを推奨します。</p></div>
+  <pre><code><span class="cmt"># Dockerfile 例</span>
+<span class="kw">FROM</span> node:20-slim
+<span class="kw">RUN</span> npm install -g @anthropic-ai/claude-code
+<span class="kw">WORKDIR</span> /workspace
+<span class="kw">COPY</span> . .
+<span class="kw">CMD</span> [<span class="str">"claude"</span>, <span class="str">"-p"</span>, <span class="str">"--dangerously-skip-permissions"</span>]</code></pre>
+  <div class="card exam-trap"><h4><span class="icon">!</span> サンドボックスの利点</h4>
+  <ul>
+    <li>ファイルシステムアクセスをコンテナ内に制限</li>
+    <li>ネットワークアクセスを制御可能</li>
+    <li><code>bypassPermissions</code> を安全に使用可能</li>
+    <li>ホストシステムへの影響を完全に排除</li>
+  </ul></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.4</span> フックベースのセキュリティ</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <pre><code><span class="cmt">// 危険なコマンドをブロックするフック</span>
+<span class="cmt">// .claude/hooks/dangerous-actions-blocker.sh</span>
+#!/bin/bash
+<span class="kw">INPUT</span>=$(<span class="fn">cat</span>)
+<span class="kw">COMMAND</span>=$(<span class="kw">echo</span> <span class="str">"$INPUT"</span> | jq -r '.tool_input.command // empty')
+
+<span class="cmt"># 危険なパターンをチェック</span>
+<span class="kw">if</span> <span class="kw">echo</span> <span class="str">"$COMMAND"</span> | grep -qE <span class="str">'rm -rf /|curl.*\|.*sh|wget.*\|.*bash'</span>; <span class="kw">then</span>
+  <span class="kw">echo</span> <span class="str">'{"decision": "block", "reason": "危険なコマンドパターンを検出"}'</span>
+  <span class="kw">exit</span> 0
+<span class="kw">fi</span>
+<span class="kw">echo</span> <span class="str">'{"decision": "allow"}'</span></code></pre>
+  <pre><code><span class="cmt">// プロンプトインジェクション検出フック</span>
+<span class="cmt">// .claude/hooks/prompt-injection-detector.sh</span>
+#!/bin/bash
+<span class="kw">INPUT</span>=$(<span class="fn">cat</span>)
+<span class="kw">CONTENT</span>=$(<span class="kw">echo</span> <span class="str">"$INPUT"</span> | jq -r '.tool_input.content // empty')
+
+<span class="cmt"># インジェクションパターンをチェック</span>
+<span class="kw">if</span> <span class="kw">echo</span> <span class="str">"$CONTENT"</span> | grep -qiE <span class="str">'ignore previous|disregard|new instructions'</span>; <span class="kw">then</span>
+  <span class="kw">echo</span> <span class="str">'{"decision": "block", "reason": "プロンプトインジェクションの可能性"}'</span>
+  <span class="kw">exit</span> 0
+<span class="kw">fi</span>
+<span class="kw">echo</span> <span class="str">'{"decision": "allow"}'</span></code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">7.5</span> 本番環境の安全対策</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 本番環境のガイドライン</h4>
+  <ul>
+    <li><strong>ガードレール</strong>: フックで危険な操作をブロック</li>
+    <li><strong>レビューゲート</strong>: 重要な変更には人間のレビューを必須に</li>
+    <li><strong>ロールバック</strong>: Git のバージョン管理を活用し、問題時にすぐ戻せるようにする</li>
+    <li><strong>最小権限</strong>: 必要最小限のパーミッションのみ許可</li>
+    <li><strong>監査ログ</strong>: 全てのツール実行をログに記録</li>
+  </ul></div>
+  <div class="card concept"><h4><span class="icon">&#9670;</span> パーミッションモデル</h4>
+  <p>Claude Code のパーミッションは階層的に機能します:</p>
+  <ul>
+    <li><strong>読み取り操作</strong>（Read, Grep, Glob）: デフォルトで許可</li>
+    <li><strong>書き込み操作</strong>（Edit, Write）: 確認が必要</li>
+    <li><strong>実行操作</strong>（Bash）: 最も厳格な確認が必要</li>
+  </ul></div>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 7: チートシート ==================== -->
+<div class="domain-section" id="tab7">
+<div class="domain-header">
+  <h2 class="domain-title">チートシート</h2>
+  <p class="domain-subtitle">コマンド、ショートカット、ファイル構造、ワークフローのクイックリファレンス</p>
+</div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.1</span> 主要スラッシュコマンド</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>コマンド</th><th>説明</th></tr>
+    <tr><td><code>/help</code></td><td>ヘルプを表示</td></tr>
+    <tr><td><code>/compact</code></td><td>会話履歴を要約して圧縮</td></tr>
+    <tr><td><code>/clear</code></td><td>会話をクリアして新しいセッション開始</td></tr>
+    <tr><td><code>/memory</code></td><td>読み込み済みメモリ（CLAUDE.md）をデバッグ表示</td></tr>
+    <tr><td><code>/config</code></td><td>設定の確認・変更</td></tr>
+    <tr><td><code>/cost</code></td><td>現在のセッションのトークン使用量とコスト</td></tr>
+    <tr><td><code>/doctor</code></td><td>環境の問題を診断</td></tr>
+    <tr><td><code>/init</code></td><td>プロジェクトの CLAUDE.md を初期化</td></tr>
+    <tr><td><code>/login</code></td><td>認証情報を更新</td></tr>
+    <tr><td><code>/logout</code></td><td>ログアウト</td></tr>
+    <tr><td><code>/permissions</code></td><td>パーミッション設定を表示</td></tr>
+    <tr><td><code>/review</code></td><td>コードレビューを実行</td></tr>
+    <tr><td><code>/status</code></td><td>現在のセッション状態を表示</td></tr>
+    <tr><td><code>/vim</code></td><td>vim モードの切り替え</td></tr>
+  </table>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.2</span> キーボードショートカット</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>ショートカット</th><th>機能</th></tr>
+    <tr><td><code>Shift+Tab</code></td><td>パーミッションモードの切り替え</td></tr>
+    <tr><td><code>Ctrl+C</code></td><td>現在の生成を中断</td></tr>
+    <tr><td><code>Ctrl+D</code></td><td>セッションを終了</td></tr>
+    <tr><td><code>Esc</code></td><td>入力行をクリア / 実行を中止</td></tr>
+    <tr><td><code>Up/Down</code></td><td>入力履歴をブラウズ</td></tr>
+  </table>
+  <div class="card info"><h4><span class="icon">&#9733;</span> IDE ショートカット</h4>
+  <table>
+    <tr><th>IDE</th><th>ショートカット</th><th>機能</th></tr>
+    <tr><td><strong>VS Code</strong></td><td><code>Alt+K</code></td><td>Claude Code パネルを開く</td></tr>
+    <tr><td><strong>JetBrains</strong></td><td><code>Cmd+Option+K</code></td><td>Claude Code パネルを開く</td></tr>
+  </table></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.3</span> ファイル参照</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>構文</th><th>説明</th><th>例</th></tr>
+    <tr><td><code>@path</code></td><td>ファイルやディレクトリを参照</td><td><code>@src/api/users.ts</code></td></tr>
+    <tr><td><code>@agent-name</code></td><td>カスタムエージェントを呼び出し</td><td><code>@code-reviewer</code></td></tr>
+    <tr><td><code>!command</code></td><td>シェルコマンドの出力を添付</td><td><code>!git diff HEAD~1</code></td></tr>
+  </table>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.4</span> .claude/ フォルダ構造まとめ</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <pre><code>プロジェクトルート/
+├── CLAUDE.md                <span class="cmt"># チーム共有ルール（Git管理）</span>
+├── .mcp.json                <span class="cmt"># プロジェクト MCP 設定</span>
+└── .claude/
+    ├── CLAUDE.local.md      <span class="cmt"># 個人用ルール</span>
+    ├── settings.json        <span class="cmt"># 共有設定（フック等）</span>
+    ├── settings.local.json  <span class="cmt"># 個人用設定</span>
+    ├── agents/              <span class="cmt"># カスタムエージェント</span>
+    ├── skills/              <span class="cmt"># スキル定義</span>
+    ├── commands/            <span class="cmt"># プロジェクトコマンド</span>
+    └── rules/               <span class="cmt"># パス固有ルール</span>
+
+~/ (ホーム)
+├── .claude/
+│   ├── CLAUDE.md            <span class="cmt"># グローバル個人ルール</span>
+│   ├── settings.json        <span class="cmt"># グローバル設定</span>
+│   └── commands/            <span class="cmt"># 個人コマンド</span>
+└── .claude.json             <span class="cmt"># グローバル MCP 設定</span></code></pre>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.5</span> 典型的なワークフロー手順</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <div class="card best-practice"><h4><span class="icon">&#10003;</span> 新機能開発の標準フロー</h4>
+  <ol>
+    <li><code>claude</code> を起動</li>
+    <li><strong>Plan Mode</strong> に切り替えて調査・計画</li>
+    <li>計画をレビューし、必要に応じて修正</li>
+    <li><strong>通常モード</strong>に切り替えて実装を依頼</li>
+    <li>各ファイル変更を確認・承認</li>
+    <li><code>テストを実行して</code> で動作確認</li>
+    <li><code>コミットして</code> で変更をコミット</li>
+    <li>コンテキストが膨らんだら <code>/compact</code></li>
+  </ol></div>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.6</span> パーミッションモード早見表</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>モード</th><th>Read</th><th>Edit/Write</th><th>Bash</th><th>推奨場面</th></tr>
+    <tr><td><strong>Default</strong></td><td>自動</td><td>確認</td><td>確認</td><td>通常開発</td></tr>
+    <tr><td><strong>acceptEdits</strong></td><td>自動</td><td>自動</td><td>確認</td><td>信頼できる編集</td></tr>
+    <tr><td><strong>Plan Mode</strong></td><td>自動</td><td>不可</td><td>不可</td><td>調査・計画</td></tr>
+    <tr><td><strong>dontAsk</strong></td><td>自動</td><td>許可リスト</td><td>許可リスト</td><td>反復作業</td></tr>
+    <tr><td><strong>bypass</strong></td><td>自動</td><td>自動</td><td>自動</td><td>Docker内のみ</td></tr>
+  </table>
+</div></div></div>
+
+<div class="task" onclick="toggleTask(this)"><div class="task-header"><h3><span class="task-num">8.7</span> メモリ &amp; 設定の2レベル構造</h3><span class="task-arrow">&#9660;</span></div>
+<div class="task-body"><div class="task-content">
+  <table>
+    <tr><th>項目</th><th>プロジェクトレベル</th><th>ユーザーレベル</th></tr>
+    <tr><td><strong>ルール</strong></td><td><code>./CLAUDE.md</code></td><td><code>~/.claude/CLAUDE.md</code></td></tr>
+    <tr><td><strong>個人ルール</strong></td><td><code>.claude/CLAUDE.local.md</code></td><td>-</td></tr>
+    <tr><td><strong>設定</strong></td><td><code>.claude/settings.json</code></td><td><code>~/.claude/settings.json</code></td></tr>
+    <tr><td><strong>MCP</strong></td><td><code>.mcp.json</code></td><td><code>~/.claude.json</code></td></tr>
+    <tr><td><strong>コマンド</strong></td><td><code>.claude/commands/</code></td><td><code>~/.claude/commands/</code></td></tr>
+  </table>
+</div></div></div>
+</div>
+
+<!-- ==================== TAB 8: クイズ ==================== -->
+<div class="domain-section" id="tab8">
+<div class="domain-header">
+  <h2 class="domain-title">クイズ</h2>
+  <p class="domain-subtitle">15問の理解度確認クイズ。全トピックをカバーしています。</p>
+</div>
+
+<!-- Q1: Core - Master Loop -->
+<div class="quiz-q" data-correct="b"><p class="q-text">Q1. Claude Code のマスターループで、ツール実行後に次のイテレーションに進むために必要な処理は？</p>
+<input type="radio" name="q1" id="q1a" value="a"><label for="q1a">A) ツール結果をログファイルに保存する</label>
+<input type="radio" name="q1" id="q1b" value="b"><label for="q1b">B) ツール結果を会話履歴に追加してモデルに再送信する</label>
+<input type="radio" name="q1" id="q1c" value="c"><label for="q1c">C) ツール結果をユーザーに表示して入力を待つ</label>
+<input type="radio" name="q1" id="q1d" value="d"><label for="q1d">D) ツール結果を要約してシステムプロンプトに追加する</label>
+<div class="explanation correct"><strong>正解: B</strong> — ツール結果は会話履歴に追加し、モデルに再送信する必要があります。これにより、モデルが新しい情報に基づいて次のアクションを判断できます。</div></div>
+
+<!-- Q2: Core - Tools -->
+<div class="quiz-q" data-correct="c"><p class="q-text">Q2. Claude Code のコアツールとして正しくないものはどれか？</p>
+<input type="radio" name="q2" id="q2a" value="a"><label for="q2a">A) Bash - シェルコマンド実行</label>
+<input type="radio" name="q2" id="q2b" value="b"><label for="q2b">B) Glob - ファイルパターンマッチ</label>
+<input type="radio" name="q2" id="q2c" value="c"><label for="q2c">C) Deploy - デプロイメント実行</label>
+<input type="radio" name="q2" id="q2d" value="d"><label for="q2d">D) Task - サブエージェント生成</label>
+<div class="explanation correct"><strong>正解: C</strong> — Deploy はコアツールではありません。8つのコアツールは Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite です。デプロイは Bash ツール経由で実行します。</div></div>
+
+<!-- Q3: Core - stop_reason -->
+<div class="quiz-q" data-correct="a"><p class="q-text">Q3. エージェントループの終了条件として最も信頼できるのはどれか？</p>
+<input type="radio" name="q3" id="q3a" value="a"><label for="q3a">A) stop_reason が "end_turn" であること</label>
+<input type="radio" name="q3" id="q3b" value="b"><label for="q3b">B) レスポンスの最初のブロックが text 型であること</label>
+<input type="radio" name="q3" id="q3c" value="c"><label for="q3c">C) レスポンスに「完了しました」というテキストが含まれること</label>
+<input type="radio" name="q3" id="q3d" value="d"><label for="q3d">D) ループが10回以上実行されたこと</label>
+<div class="explanation correct"><strong>正解: A</strong> — <code>stop_reason == "end_turn"</code> のみが信頼できる終了条件です。テキストブロックの存在はツール呼び出しと共存しうるため判定に使えません。自然言語やイテレーション回数も不適切です。</div></div>
+
+<!-- Q4: Config - CLAUDE.md -->
+<div class="quiz-q" data-correct="d"><p class="q-text">Q4. チームメンバーがプロジェクトの CLAUDE.md に書かれた規約に従わない。最も可能性の高い原因は？</p>
+<input type="radio" name="q4" id="q4a" value="a"><label for="q4a">A) Claude Code のバージョンが古い</label>
+<input type="radio" name="q4" id="q4b" value="b"><label for="q4b">B) CLAUDE.md のファイルサイズが大きすぎる</label>
+<input type="radio" name="q4" id="q4c" value="c"><label for="q4c">C) settings.json のパーミッションが不足</label>
+<input type="radio" name="q4" id="q4d" value="d"><label for="q4d">D) ~/.claude/CLAUDE.md の個人設定がプロジェクト設定を上書きしている</label>
+<div class="explanation correct"><strong>正解: D</strong> — CLAUDE.md は3レベルの階層で読み込まれます。ユーザーレベル（~/.claude/CLAUDE.md）の設定がプロジェクトレベルの設定と矛盾している場合、予期しない動作の原因になります。<code>/memory</code> コマンドでデバッグしましょう。</div></div>
+
+<!-- Q5: Config - Path rules -->
+<div class="quiz-q" data-correct="b"><p class="q-text">Q5. テストファイル（*.test.ts）にのみ特定のルールを適用したい場合、最適な方法は？</p>
+<input type="radio" name="q5" id="q5a" value="a"><label for="q5a">A) CLAUDE.md に「テストファイルでは...」と記述する</label>
+<input type="radio" name="q5" id="q5b" value="b"><label for="q5b">B) .claude/rules/ にフロントマターで globs パターンを指定したファイルを作成する</label>
+<input type="radio" name="q5" id="q5c" value="c"><label for="q5c">C) 各テストディレクトリに CLAUDE.md を配置する</label>
+<input type="radio" name="q5" id="q5d" value="d"><label for="q5d">D) settings.json でツールのフィルタを設定する</label>
+<div class="explanation correct"><strong>正解: B</strong> — <code>.claude/rules/</code> ディレクトリにマークダウンファイルを作成し、フロントマターで <code>globs: **/*.test.ts</code> を指定するのが最適です。パス固有のルールを明確かつ管理しやすい形で定義できます。</div></div>
+
+<!-- Q6: Agents - When to use -->
+<div class="quiz-q" data-correct="c"><p class="q-text">Q6. セキュリティ監査を自動化したい。Read と Grep のみ使い、書き込みは禁止したい場合、最適な機能は？</p>
+<input type="radio" name="q6" id="q6a" value="a"><label for="q6a">A) コマンドを作成して /security-audit で呼び出す</label>
+<input type="radio" name="q6" id="q6b" value="b"><label for="q6b">B) スキルとして定義し context: fork を指定する</label>
+<input type="radio" name="q6" id="q6c" value="c"><label for="q6c">C) エージェントとして定義し tools に Read と Grep のみ指定する</label>
+<input type="radio" name="q6" id="q6d" value="d"><label for="q6d">D) フックで Write と Bash をブロックする</label>
+<div class="explanation correct"><strong>正解: C</strong> — エージェントのフロントマターで <code>tools: [Read, Grep]</code> を指定すれば、そのエージェントは読み取りツールのみ使用可能になります。特定の役割と制限付きツールセットの組み合わせはエージェントの典型的な使用例です。</div></div>
+
+<!-- Q7: Skills - frontmatter -->
+<div class="quiz-q" data-correct="a"><p class="q-text">Q7. スキルの SKILL.md で <code>context: fork</code> を指定する主な目的は？</p>
+<input type="radio" name="q7" id="q7a" value="a"><label for="q7a">A) 冗長な出力をサブエージェントに隔離し、メイン会話をクリーンに保つ</label>
+<input type="radio" name="q7" id="q7b" value="b"><label for="q7b">B) スキルの実行速度を向上させる</label>
+<input type="radio" name="q7" id="q7c" value="c"><label for="q7c">C) Git のブランチを自動的に fork する</label>
+<input type="radio" name="q7" id="q7d" value="d"><label for="q7d">D) スキルをセッション間で永続化する</label>
+<div class="explanation correct"><strong>正解: A</strong> — <code>context: fork</code> はスキル実行をサブエージェント内で行い、冗長な出力がメインの会話コンテキストに流れ込むのを防ぎます。メインのコンテキストウィンドウを保護する重要な機能です。</div></div>
+
+<!-- Q8: MCP - Configuration -->
+<div class="quiz-q" data-correct="b"><p class="q-text">Q8. プロジェクト固有の MCP サーバーを設定するファイルはどれか？</p>
+<input type="radio" name="q8" id="q8a" value="a"><label for="q8a">A) ~/.claude.json</label>
+<input type="radio" name="q8" id="q8b" value="b"><label for="q8b">B) .mcp.json（プロジェクトルート）</label>
+<input type="radio" name="q8" id="q8c" value="c"><label for="q8c">C) .claude/settings.json</label>
+<input type="radio" name="q8" id="q8d" value="d"><label for="q8d">D) .claude/mcp-servers.json</label>
+<div class="explanation correct"><strong>正解: B</strong> — プロジェクト固有の MCP サーバーは <code>.mcp.json</code> で設定します。<code>~/.claude.json</code> は全プロジェクト共通のユーザーレベル設定です。</div></div>
+
+<!-- Q9: MCP - tool_choice -->
+<div class="quiz-q" data-correct="d"><p class="q-text">Q9. tool_choice を "any" に設定した場合の動作はどれか？</p>
+<input type="radio" name="q9" id="q9a" value="a"><label for="q9a">A) モデルがツール使用を完全にスキップする</label>
+<input type="radio" name="q9" id="q9b" value="b"><label for="q9b">B) 特定のツールのみ使用可能になる</label>
+<input type="radio" name="q9" id="q9c" value="c"><label for="q9c">C) ツール呼び出しが無効化される</label>
+<input type="radio" name="q9" id="q9d" value="d"><label for="q9d">D) モデルは必ず何かのツールを呼び出す</label>
+<div class="explanation correct"><strong>正解: D</strong> — <code>tool_choice: "any"</code> はモデルに何らかのツールの使用を強制します。<code>"auto"</code>（デフォルト）はモデルが自由に判断、特定ツール名の指定はそのツールを強制します。</div></div>
+
+<!-- Q10: Workflows - Plan Mode -->
+<div class="quiz-q" data-correct="c"><p class="q-text">Q10. Plan Mode で実行できない操作はどれか？</p>
+<input type="radio" name="q10" id="q10a" value="a"><label for="q10a">A) ファイルの読み取り</label>
+<input type="radio" name="q10" id="q10b" value="b"><label for="q10b">B) コードベースの検索</label>
+<input type="radio" name="q10" id="q10c" value="c"><label for="q10c">C) ファイルの編集・書き込み</label>
+<input type="radio" name="q10" id="q10d" value="d"><label for="q10d">D) ディレクトリ構造の確認</label>
+<div class="explanation correct"><strong>正解: C</strong> — Plan Mode は読み取り専用モードです。ファイルの読み取りや検索は可能ですが、書き込み（Edit, Write）や Bash コマンドの実行はできません。計画・調査フェーズに適しています。</div></div>
+
+<!-- Q11: Workflows - CI/CD -->
+<div class="quiz-q" data-correct="a"><p class="q-text">Q11. CI/CD パイプラインで Claude Code を非対話モードで実行するフラグは？</p>
+<input type="radio" name="q11" id="q11a" value="a"><label for="q11a">A) -p</label>
+<input type="radio" name="q11" id="q11b" value="b"><label for="q11b">B) --ci</label>
+<input type="radio" name="q11" id="q11c" value="c"><label for="q11c">C) --non-interactive</label>
+<input type="radio" name="q11" id="q11d" value="d"><label for="q11d">D) --batch</label>
+<div class="explanation correct"><strong>正解: A</strong> — <code>-p</code> フラグ（パイプモード）で非対話実行できます。<code>--output-format json</code> と組み合わせると構造化出力も取得可能です。</div></div>
+
+<!-- Q12: Security - Hooks -->
+<div class="quiz-q" data-correct="b"><p class="q-text">Q12. Bash ツールで <code>rm -rf /</code> のような危険なコマンドをブロックしたい。最適な方法は？</p>
+<input type="radio" name="q12" id="q12a" value="a"><label for="q12a">A) CLAUDE.md に「rm -rf は使わないで」と記述する</label>
+<input type="radio" name="q12" id="q12b" value="b"><label for="q12b">B) PreToolUse フックで危険なコマンドパターンを検出しブロックする</label>
+<input type="radio" name="q12" id="q12c" value="c"><label for="q12c">C) Bash ツールのパーミッションを完全に無効化する</label>
+<input type="radio" name="q12" id="q12d" value="d"><label for="q12d">D) PostToolUse フックで実行結果をロールバックする</label>
+<div class="explanation correct"><strong>正解: B</strong> — PreToolUse フックでコマンドを実行<em>前</em>に検査し、危険なパターンをブロックするのが最適です。CLAUDE.md の指示はモデルが無視する可能性があり、PostToolUse では実行後で手遅れです。</div></div>
+
+<!-- Q13: Security - MCP vetting -->
+<div class="quiz-q" data-correct="d"><p class="q-text">Q13. 新しい MCP サーバーを導入する際、最も重要なセキュリティ確認事項は？</p>
+<input type="radio" name="q13" id="q13a" value="a"><label for="q13a">A) npm のダウンロード数が多いこと</label>
+<input type="radio" name="q13" id="q13b" value="b"><label for="q13b">B) 最新バージョンであること</label>
+<input type="radio" name="q13" id="q13c" value="c"><label for="q13c">C) TypeScript で書かれていること</label>
+<input type="radio" name="q13" id="q13d" value="d"><label for="q13d">D) ソースコードを確認し、ツール定義に不要な権限がないか検証すること</label>
+<div class="explanation correct"><strong>正解: D</strong> — ソースコードの確認とツール定義の検証が最も重要です。ダウンロード数は人気の指標であってセキュリティの保証ではありません。MCP ラグプル攻撃に備え、バージョンを固定し自動更新を避けることも重要です。</div></div>
+
+<!-- Q14: Context - Compaction -->
+<div class="quiz-q" data-correct="c"><p class="q-text">Q14. コンテキストウィンドウの使用率が 80% に達した。推奨されるアクションは？</p>
+<input type="radio" name="q14" id="q14a" value="a"><label for="q14a">A) 何もせず作業を継続する</label>
+<input type="radio" name="q14" id="q14b" value="b"><label for="q14b">B) /clear でセッションをリセットする</label>
+<input type="radio" name="q14" id="q14c" value="c"><label for="q14c">C) /compact で会話履歴を圧縮する</label>
+<input type="radio" name="q14" id="q14d" value="d"><label for="q14d">D) 新しいファイルの読み込みを避ける</label>
+<div class="explanation correct"><strong>正解: C</strong> — 70-90% の範囲では <code>/compact</code> で会話履歴を要約・圧縮するのが推奨です。90% を超えたら <code>/clear</code> を検討しますが、80% の段階では圧縮で十分です。</div></div>
+
+<!-- Q15: Context - Summarization -->
+<div class="quiz-q" data-correct="b"><p class="q-text">Q15. サブエージェント（Task ツール）がメインのコンテキストを節約できる理由は？</p>
+<input type="radio" name="q15" id="q15a" value="a"><label for="q15a">A) サブエージェントはより小さいモデルを使用するため</label>
+<input type="radio" name="q15" id="q15b" value="b"><label for="q15b">B) サブエージェントは独自のコンテキストで作業し、結果のみ要約して返すため</label>
+<input type="radio" name="q15" id="q15c" value="c"><label for="q15c">C) サブエージェントはキャッシュを共有するため</label>
+<input type="radio" name="q15" id="q15d" value="d"><label for="q15d">D) サブエージェントはツールを使用しないため</label>
+<div class="explanation correct"><strong>正解: B</strong> — サブエージェントは独自のコンテキストウィンドウで作業し、完了後に結果を要約してメインエージェントに返します。そのため、メインのコンテキストは要約分しか消費されません。</div></div>
+
+<button class="quiz-submit" onclick="scoreQuiz()">採点する</button>
+<div class="score-display" id="scoreDisplay">
+  <div class="score-num" id="scoreNum"></div>
+  <div class="score-label">正解数</div>
+  <div class="score-msg" id="scoreMsg"></div>
+</div>
+
+<div class="checklist-section">
+<h3>学習チェックリスト</h3>
+<ul class="checklist" id="checklist">
+  <li onclick="this.classList.toggle('checked'); updateProgress();">マスターループと stop_reason による終了制御を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">8つのコアツールの名前と用途を把握した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">200K トークンバジェットの構造を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">サブエージェント（Task）の分離原則を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">CLAUDE.md の3レベル階層を把握した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">.claude/ フォルダの構造を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">.claude/rules/ の glob パターンルールを理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">エージェント、スキル、コマンド、フックの違いを把握した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">MCP の基本概念と設定方法を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">.mcp.json と ~/.claude.json の使い分けを理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">Plan Mode と通常モードの切り替えを理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">-p フラグによる CI/CD 統合を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">デュアルインスタンスパターンを理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">脅威カテゴリ（インジェクション、流出、ラグプル）を把握した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">PreToolUse/PostToolUse フックの使い方を理解した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">コンテキスト使用率の閾値と対処法を把握した</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">主要スラッシュコマンドを覚えた</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">キーボードショートカットを覚えた</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">ファイル参照構文（@path, @agent, !command）を覚えた</li>
+  <li onclick="this.classList.toggle('checked'); updateProgress();">クイズで 12/15 以上取れた</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+  Claude Code 完全ガイド（日本語版） | <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">公式ドキュメント</a> | <a href="https://claude.ai" target="_blank">Claude</a>
+</div>
+
+<script>
+function showTab(idx){document.querySelectorAll('.domain-section').forEach((s,i)=>s.classList.toggle('active',i===idx));document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));window.scrollTo({top:0,behavior:'smooth'});}
+function toggleTask(el){if(event.target.closest('.task-body'))return;el.classList.toggle('open');}
+function scoreQuiz(){const qs=document.querySelectorAll('.quiz-q');let c=0;qs.forEach(q=>{const a=q.dataset.correct,s=q.querySelector('input:checked'),e=q.querySelector('.explanation');if(s){e.style.display='block';e.className=s.value===a?'explanation correct':'explanation wrong';if(s.value===a)c++;}});const d=document.getElementById('scoreDisplay');d.style.display='block';document.getElementById('scoreNum').textContent=c+' / '+qs.length;const p=Math.round(c/qs.length*100);document.getElementById('scoreMsg').textContent=p>=80?'素晴らしい！Claude Code をしっかり理解しています。':'もう一度各セクションを復習して再挑戦しましょう。';d.scrollIntoView({behavior:'smooth'});}
+function updateProgress(){const items=document.querySelectorAll('.checklist li'),checked=document.querySelectorAll('.checklist li.checked'),pct=Math.round(checked.length/items.length*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressText').textContent=checked.length+' / '+items.length;localStorage.setItem('claude-code-guide-progress',JSON.stringify(Array.from(items).map(li=>li.classList.contains('checked'))));}
+(function(){const s=localStorage.getItem('claude-code-guide-progress');if(s){const st=JSON.parse(s);document.querySelectorAll('.checklist li').forEach((li,i)=>{if(st[i])li.classList.add('checked');});updateProgress();}})();
+</script>
+</body>
+</html>
